@@ -78,8 +78,12 @@ namespace gr {
       // fill it with random bytes
       int len = 48;
 
+      //std::vector<unsigned char> vec2(payload_BPSK, payload_BPSK+3);
+      //std::vector<unsigned char> vec4(payload_QPSK, payload_QPSK+3);
       std::vector<unsigned char> vec8(payload_8QAM, payload_8QAM+3);
+      vec8.insert(vec8.end(), payload_8QAM, payload_8QAM+3);
       std::vector<unsigned char> vec16(payload_16QAM, payload_16QAM+8);
+      //std::vector<unsigned char> vec32(payload_32QAM, payload_32QAM+8);
       std::vector<unsigned char> vec64(payload_64QAM, payload_64QAM+len);
 
       //for (int i=0; i<len; i++)
@@ -87,10 +91,10 @@ namespace gr {
       //  vec[i] = ((unsigned char) 191);
 
       // send the vector
-      pmt::pmt_t vecpmt8(pmt::make_blob(&vec8[0], 3));
+      pmt::pmt_t vecpmt8(pmt::make_blob(&vec8[0], vec8.size()));
       pmt::pmt_t pdu8(pmt::cons(pmt::PMT_NIL, vecpmt8));
 
-      pmt::pmt_t vecpmt16(pmt::make_blob(&vec16[0], 8));
+      pmt::pmt_t vecpmt16(pmt::make_blob(&vec16[0], vec16.size()));
       pmt::pmt_t pdu16(pmt::cons(pmt::PMT_NIL, vecpmt16));
 
       pmt::pmt_t vecpmt64(pmt::make_blob(&vec64[0], len));

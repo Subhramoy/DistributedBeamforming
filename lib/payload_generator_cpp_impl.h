@@ -48,16 +48,18 @@ namespace gr {
            gr_vector_const_void_star &input_items,
            gr_vector_void_star &output_items);
     };
-
+    
+    // 48 Bytes of data containing 64 different 6-bit symbols
     const unsigned char payload_64QAM[] = {0, 16, 131, 16, 81, 135, 32, 146,
                                     139, 48, 211, 143, 65, 20, 147, 81,
                                     85, 151, 97, 150, 155, 113, 215, 159,
                                     130, 24, 163, 146, 89,167, 162, 154,
                                     171, 178, 219, 175, 195, 28, 179, 211,
                                     93, 183, 227, 158, 187, 243, 223, 191};
-
+    // 8 Bytes of data containing 16 different 4-bit symbols
      const unsigned char payload_16QAM[] = {1, 35, 69, 103, 137, 171, 205, 239};
 
+    // 3 Bytes of data containing 8 different 3-bit symbols
      const unsigned char payload_8QAM[] = {5, 57, 119};
 
 
