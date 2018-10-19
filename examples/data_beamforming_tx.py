@@ -3,7 +3,7 @@
 ##################################################
 # GNU Radio Python Flow Graph
 # Title: Data Beamforming Tx
-# Generated: Fri Oct 19 12:28:39 2018
+# Generated: Fri Oct 19 16:23:32 2018
 ##################################################
 
 if __name__ == '__main__':
@@ -63,9 +63,13 @@ class data_beamforming_tx(gr.top_block, Qt.QWidget):
         # Variables
         ##################################################
 
-        self.hdr_const = hdr_const = digital.constellation_8psk().base()
+        self.payload_8QAM = payload_8QAM = digital.constellation_8psk().base()
 
-        self.hdr_const.gen_soft_dec_lut(8)
+        self.payload_8QAM.gen_soft_dec_lut(8)
+
+        self.payload_16QAM = payload_16QAM = digital.constellation_16qam().base()
+
+        self.payload_16QAM.gen_soft_dec_lut(8)
 
         ##################################################
         # Blocks
@@ -193,10 +197,15 @@ class data_beamforming_tx(gr.top_block, Qt.QWidget):
 
         self._qtgui_const_sink_x_0_win = sip.wrapinstance(self.qtgui_const_sink_x_0.pyqwidget(), Qt.QWidget)
         self.top_grid_layout.addWidget(self._qtgui_const_sink_x_0_win)
-        self.digital_chunks_to_symbols_xx_0_0 = digital.chunks_to_symbols_bc((hdr_const.points()), 1)
+        self.digital_chunks_to_symbols_xx_0_0_0 = digital.chunks_to_symbols_bc((payload_16QAM.points()), 1)
+        self.digital_chunks_to_symbols_xx_0_0 = digital.chunks_to_symbols_bc((payload_8QAM.points()), 1)
+        self.digital_burst_shaper_xx_0 = digital.burst_shaper_cc((firdes.window(firdes.WIN_HANN, 50, 0)), 10, 10, False, 'packet_len')
+        (self.digital_burst_shaper_xx_0).set_block_alias("burst_shaper0")
         self.blocks_throttle_0 = blocks.throttle(gr.sizeof_gr_complex*1, 1000,True)
+        self.blocks_tagged_stream_mux_0 = blocks.tagged_stream_mux(gr.sizeof_gr_complex*1, 'packet_len', 0)
+        self.blocks_repack_bits_bb_0_0 = blocks.repack_bits_bb(8, 3, 'packet_len', False, gr.GR_MSB_FIRST)
         self.blocks_repack_bits_bb_0 = blocks.repack_bits_bb(8, 3, 'packet_len', False, gr.GR_MSB_FIRST)
-        self.blocks_random_pdu_0 = blocks.random_pdu(15, 150, chr(0xff), 1)
+        self.blocks_pdu_to_tagged_stream_0_0 = blocks.pdu_to_tagged_stream(blocks.byte_t, 'packet_len')
         self.blocks_pdu_to_tagged_stream_0 = blocks.pdu_to_tagged_stream(blocks.byte_t, 'packet_len')
         self.blocks_message_strobe_0 = blocks.message_strobe(pmt.PMT_T, 200)
         self.blocks_message_debug_0 = blocks.message_debug()
@@ -207,27 +216,38 @@ class data_beamforming_tx(gr.top_block, Qt.QWidget):
         ##################################################
         # Connections
         ##################################################
-        self.msg_connect((self.beamforming_payload_generator_cpp_0, '8QAM_pdu'), (self.blocks_message_debug_0, 'print_pdu'))
+        self.msg_connect((self.beamforming_payload_generator_cpp_0, '64QAM_pdu'), (self.blocks_message_debug_0, 'print_pdu'))
         self.msg_connect((self.beamforming_payload_generator_cpp_0, '8QAM_pdu'), (self.blocks_pdu_to_tagged_stream_0, 'pdus'))
+        self.msg_connect((self.beamforming_payload_generator_cpp_0, '16QAM_pdu'), (self.blocks_pdu_to_tagged_stream_0_0, 'pdus'))
         self.msg_connect((self.blocks_message_strobe_0, 'strobe'), (self.beamforming_payload_generator_cpp_0, 'generate'))
-        self.msg_connect((self.blocks_message_strobe_0, 'strobe'), (self.blocks_random_pdu_0, 'generate'))
         self.connect((self.blocks_pdu_to_tagged_stream_0, 0), (self.blocks_repack_bits_bb_0, 0))
+        self.connect((self.blocks_pdu_to_tagged_stream_0_0, 0), (self.blocks_repack_bits_bb_0_0, 0))
         self.connect((self.blocks_repack_bits_bb_0, 0), (self.digital_chunks_to_symbols_xx_0_0, 0))
         self.connect((self.blocks_repack_bits_bb_0, 0), (self.qtgui_number_sink_0, 0))
+        self.connect((self.blocks_repack_bits_bb_0_0, 0), (self.digital_chunks_to_symbols_xx_0_0_0, 0))
+        self.connect((self.blocks_tagged_stream_mux_0, 0), (self.digital_burst_shaper_xx_0, 0))
         self.connect((self.blocks_throttle_0, 0), (self.qtgui_const_sink_x_0, 0))
         self.connect((self.blocks_throttle_0, 0), (self.qtgui_time_sink_x_0, 0))
-        self.connect((self.digital_chunks_to_symbols_xx_0_0, 0), (self.blocks_throttle_0, 0))
+        self.connect((self.digital_burst_shaper_xx_0, 0), (self.blocks_throttle_0, 0))
+        self.connect((self.digital_chunks_to_symbols_xx_0_0, 0), (self.blocks_tagged_stream_mux_0, 1))
+        self.connect((self.digital_chunks_to_symbols_xx_0_0_0, 0), (self.blocks_tagged_stream_mux_0, 0))
 
     def closeEvent(self, event):
         self.settings = Qt.QSettings("GNU Radio", "data_beamforming_tx")
         self.settings.setValue("geometry", self.saveGeometry())
         event.accept()
 
-    def get_hdr_const(self):
-        return self.hdr_const
+    def get_payload_8QAM(self):
+        return self.payload_8QAM
 
-    def set_hdr_const(self, hdr_const):
-        self.hdr_const = hdr_const
+    def set_payload_8QAM(self, payload_8QAM):
+        self.payload_8QAM = payload_8QAM
+
+    def get_payload_16QAM(self):
+        return self.payload_16QAM
+
+    def set_payload_16QAM(self, payload_16QAM):
+        self.payload_16QAM = payload_16QAM
 
 
 def main(top_block_cls=data_beamforming_tx, options=None):
