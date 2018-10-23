@@ -42,7 +42,7 @@ class qa_payload_generator_cpp (gr_unittest.TestCase):
         # check data
     def test_002_t (self):
         # set up fg
-        self.tb.payload = beamforming.payload_generator_cpp("dummyPath", 16)
+        self.tb.payload = beamforming.payload_generator_cpp("dummyPath", 1)
         self.tb.blocks_message_strobe_ = blocks.message_strobe(pmt.PMT_T, 2000)
         self.tb.msg_connect((self.tb.blocks_message_strobe_, 'strobe'), (self.tb.payload, 'generate'))
         self.tb.run ()

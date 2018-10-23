@@ -38,7 +38,7 @@ class qa_payloadSource (gr_unittest.TestCase):
 
     def test_002_t (self):
         # set up fg
-        self.tb.payload = payloadSource("filePath", 16)
+        self.tb.payload = payloadSource("filePath", 1)
         self.tb.blocks_message_strobe_ = blocks.message_strobe(pmt.PMT_T, 2000)
         self.tb.msg_connect((self.tb.blocks_message_strobe_, 'strobe'), (self.tb.payload, 'generate'))
         self.tb.run ()

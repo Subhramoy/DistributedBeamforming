@@ -3,7 +3,7 @@
 ##################################################
 # GNU Radio Python Flow Graph
 # Title: Data Beamforming Tx
-# Generated: Fri Oct 19 17:32:29 2018
+# Generated: Tue Oct 23 17:56:05 2018
 ##################################################
 
 if __name__ == '__main__':
@@ -17,6 +17,7 @@ if __name__ == '__main__':
             print "Warning: failed to XInitThreads()"
 
 from PyQt4 import Qt
+from gnuradio import analog
 from gnuradio import blocks
 from gnuradio import digital
 from gnuradio import eng_notation
@@ -64,6 +65,12 @@ class data_beamforming_tx(gr.top_block, Qt.QWidget):
         ##################################################
         # Variables
         ##################################################
+        self.subcarrier_size = subcarrier_size = 19
+        self.q_8QAM = q_8QAM = digital.constellation_rect(([-1-1j, -1+0j, -1+1j, 0-1j, 0+1j, 1+-1j, 1+0j, 1+1j ]), ([0, 1, 2, 3, 4, 5, 6, 7]), 4, 3, 3, 1, 1).base()
+
+        self.payload_QPSK = payload_QPSK = digital.constellation_qpsk().base()
+
+        self.payload_QPSK.gen_soft_dec_lut(8)
 
         self.payload_8QAM = payload_8QAM = digital.constellation_8psk().base()
 
@@ -72,31 +79,41 @@ class data_beamforming_tx(gr.top_block, Qt.QWidget):
         self.payload_16QAM = payload_16QAM = digital.constellation_16qam().base()
 
         self.payload_16QAM.gen_soft_dec_lut(8)
+        self.num_active_mod = num_active_mod = 6
+        self.QPSK = QPSK = digital.constellation_rect(([-1-1j, -1+1j, 1+1j, 1-1j]), ([0, 1, 2, 3]), 4, 2, 2, 1, 1).base()
+        self.N_edge_zeros = N_edge_zeros = 3
+        self.N_center_zeros = N_center_zeros = 11
+        self.NFFT = NFFT = 256
 
         ##################################################
         # Blocks
         ##################################################
-        self.qtgui_time_sink_x_0_0 = qtgui.time_sink_c(
-        	100, #size
-        	1000, #samp_rate
+        self.zero_padding_0_0_2_0 = analog.sig_source_c(0, analog.GR_CONST_WAVE, 0, 0, 0)
+        self.zero_padding_0_0_2 = analog.sig_source_c(0, analog.GR_CONST_WAVE, 0, 0, 0)
+        self.zero_padding_0_0_1 = analog.sig_source_c(0, analog.GR_CONST_WAVE, 0, 0, 0)
+        self.zero_padding_0 = analog.sig_source_c(0, analog.GR_CONST_WAVE, 0, 0, 0)
+        self.zero_padding = analog.sig_source_c(0, analog.GR_CONST_WAVE, 0, 0, 0)
+        self.qtgui_time_sink_x_0_0_1_1 = qtgui.time_sink_c(
+        	2000, #size
+        	200000, #samp_rate
         	"", #name
         	1 #number of inputs
         )
-        self.qtgui_time_sink_x_0_0.set_update_time(0.10)
-        self.qtgui_time_sink_x_0_0.set_y_axis(-1, 1)
+        self.qtgui_time_sink_x_0_0_1_1.set_update_time(0.10)
+        self.qtgui_time_sink_x_0_0_1_1.set_y_axis(-1, 1)
 
-        self.qtgui_time_sink_x_0_0.set_y_label('Amplitude', "")
+        self.qtgui_time_sink_x_0_0_1_1.set_y_label('Amplitude', "")
 
-        self.qtgui_time_sink_x_0_0.enable_tags(-1, True)
-        self.qtgui_time_sink_x_0_0.set_trigger_mode(qtgui.TRIG_MODE_FREE, qtgui.TRIG_SLOPE_POS, 0.0, 0, 0, "")
-        self.qtgui_time_sink_x_0_0.enable_autoscale(False)
-        self.qtgui_time_sink_x_0_0.enable_grid(False)
-        self.qtgui_time_sink_x_0_0.enable_axis_labels(True)
-        self.qtgui_time_sink_x_0_0.enable_control_panel(False)
-        self.qtgui_time_sink_x_0_0.enable_stem_plot(False)
+        self.qtgui_time_sink_x_0_0_1_1.enable_tags(-1, True)
+        self.qtgui_time_sink_x_0_0_1_1.set_trigger_mode(qtgui.TRIG_MODE_FREE, qtgui.TRIG_SLOPE_POS, 0.0, 0, 0, "")
+        self.qtgui_time_sink_x_0_0_1_1.enable_autoscale(False)
+        self.qtgui_time_sink_x_0_0_1_1.enable_grid(False)
+        self.qtgui_time_sink_x_0_0_1_1.enable_axis_labels(True)
+        self.qtgui_time_sink_x_0_0_1_1.enable_control_panel(False)
+        self.qtgui_time_sink_x_0_0_1_1.enable_stem_plot(False)
 
         if not True:
-          self.qtgui_time_sink_x_0_0.disable_legend()
+          self.qtgui_time_sink_x_0_0_1_1.disable_legend()
 
         labels = ['', '', '', '', '',
                   '', '', '', '', '']
@@ -114,40 +131,40 @@ class data_beamforming_tx(gr.top_block, Qt.QWidget):
         for i in xrange(2):
             if len(labels[i]) == 0:
                 if(i % 2 == 0):
-                    self.qtgui_time_sink_x_0_0.set_line_label(i, "Re{{Data {0}}}".format(i/2))
+                    self.qtgui_time_sink_x_0_0_1_1.set_line_label(i, "Re{{Data {0}}}".format(i/2))
                 else:
-                    self.qtgui_time_sink_x_0_0.set_line_label(i, "Im{{Data {0}}}".format(i/2))
+                    self.qtgui_time_sink_x_0_0_1_1.set_line_label(i, "Im{{Data {0}}}".format(i/2))
             else:
-                self.qtgui_time_sink_x_0_0.set_line_label(i, labels[i])
-            self.qtgui_time_sink_x_0_0.set_line_width(i, widths[i])
-            self.qtgui_time_sink_x_0_0.set_line_color(i, colors[i])
-            self.qtgui_time_sink_x_0_0.set_line_style(i, styles[i])
-            self.qtgui_time_sink_x_0_0.set_line_marker(i, markers[i])
-            self.qtgui_time_sink_x_0_0.set_line_alpha(i, alphas[i])
+                self.qtgui_time_sink_x_0_0_1_1.set_line_label(i, labels[i])
+            self.qtgui_time_sink_x_0_0_1_1.set_line_width(i, widths[i])
+            self.qtgui_time_sink_x_0_0_1_1.set_line_color(i, colors[i])
+            self.qtgui_time_sink_x_0_0_1_1.set_line_style(i, styles[i])
+            self.qtgui_time_sink_x_0_0_1_1.set_line_marker(i, markers[i])
+            self.qtgui_time_sink_x_0_0_1_1.set_line_alpha(i, alphas[i])
 
-        self._qtgui_time_sink_x_0_0_win = sip.wrapinstance(self.qtgui_time_sink_x_0_0.pyqwidget(), Qt.QWidget)
-        self.top_grid_layout.addWidget(self._qtgui_time_sink_x_0_0_win)
-        self.qtgui_time_sink_x_0 = qtgui.time_sink_c(
-        	100, #size
+        self._qtgui_time_sink_x_0_0_1_1_win = sip.wrapinstance(self.qtgui_time_sink_x_0_0_1_1.pyqwidget(), Qt.QWidget)
+        self.top_grid_layout.addWidget(self._qtgui_time_sink_x_0_0_1_1_win)
+        self.qtgui_time_sink_x_0_0_1_0 = qtgui.time_sink_c(
+        	2000, #size
         	1000, #samp_rate
         	"", #name
         	1 #number of inputs
         )
-        self.qtgui_time_sink_x_0.set_update_time(0.10)
-        self.qtgui_time_sink_x_0.set_y_axis(-1, 1)
+        self.qtgui_time_sink_x_0_0_1_0.set_update_time(0.10)
+        self.qtgui_time_sink_x_0_0_1_0.set_y_axis(-1, 1)
 
-        self.qtgui_time_sink_x_0.set_y_label('Amplitude', "")
+        self.qtgui_time_sink_x_0_0_1_0.set_y_label('Amplitude', "")
 
-        self.qtgui_time_sink_x_0.enable_tags(-1, True)
-        self.qtgui_time_sink_x_0.set_trigger_mode(qtgui.TRIG_MODE_FREE, qtgui.TRIG_SLOPE_POS, 0.0, 0, 0, "")
-        self.qtgui_time_sink_x_0.enable_autoscale(False)
-        self.qtgui_time_sink_x_0.enable_grid(False)
-        self.qtgui_time_sink_x_0.enable_axis_labels(True)
-        self.qtgui_time_sink_x_0.enable_control_panel(False)
-        self.qtgui_time_sink_x_0.enable_stem_plot(False)
+        self.qtgui_time_sink_x_0_0_1_0.enable_tags(-1, True)
+        self.qtgui_time_sink_x_0_0_1_0.set_trigger_mode(qtgui.TRIG_MODE_FREE, qtgui.TRIG_SLOPE_POS, 0.0, 0, 0, "")
+        self.qtgui_time_sink_x_0_0_1_0.enable_autoscale(False)
+        self.qtgui_time_sink_x_0_0_1_0.enable_grid(False)
+        self.qtgui_time_sink_x_0_0_1_0.enable_axis_labels(True)
+        self.qtgui_time_sink_x_0_0_1_0.enable_control_panel(False)
+        self.qtgui_time_sink_x_0_0_1_0.enable_stem_plot(False)
 
         if not True:
-          self.qtgui_time_sink_x_0.disable_legend()
+          self.qtgui_time_sink_x_0_0_1_0.disable_legend()
 
         labels = ['', '', '', '', '',
                   '', '', '', '', '']
@@ -165,50 +182,62 @@ class data_beamforming_tx(gr.top_block, Qt.QWidget):
         for i in xrange(2):
             if len(labels[i]) == 0:
                 if(i % 2 == 0):
-                    self.qtgui_time_sink_x_0.set_line_label(i, "Re{{Data {0}}}".format(i/2))
+                    self.qtgui_time_sink_x_0_0_1_0.set_line_label(i, "Re{{Data {0}}}".format(i/2))
                 else:
-                    self.qtgui_time_sink_x_0.set_line_label(i, "Im{{Data {0}}}".format(i/2))
+                    self.qtgui_time_sink_x_0_0_1_0.set_line_label(i, "Im{{Data {0}}}".format(i/2))
             else:
-                self.qtgui_time_sink_x_0.set_line_label(i, labels[i])
-            self.qtgui_time_sink_x_0.set_line_width(i, widths[i])
-            self.qtgui_time_sink_x_0.set_line_color(i, colors[i])
-            self.qtgui_time_sink_x_0.set_line_style(i, styles[i])
-            self.qtgui_time_sink_x_0.set_line_marker(i, markers[i])
-            self.qtgui_time_sink_x_0.set_line_alpha(i, alphas[i])
+                self.qtgui_time_sink_x_0_0_1_0.set_line_label(i, labels[i])
+            self.qtgui_time_sink_x_0_0_1_0.set_line_width(i, widths[i])
+            self.qtgui_time_sink_x_0_0_1_0.set_line_color(i, colors[i])
+            self.qtgui_time_sink_x_0_0_1_0.set_line_style(i, styles[i])
+            self.qtgui_time_sink_x_0_0_1_0.set_line_marker(i, markers[i])
+            self.qtgui_time_sink_x_0_0_1_0.set_line_alpha(i, alphas[i])
 
-        self._qtgui_time_sink_x_0_win = sip.wrapinstance(self.qtgui_time_sink_x_0.pyqwidget(), Qt.QWidget)
-        self.top_grid_layout.addWidget(self._qtgui_time_sink_x_0_win)
-        self.qtgui_number_sink_0 = qtgui.number_sink(
-            gr.sizeof_char,
-            0,
-            qtgui.NUM_GRAPH_HORIZ,
-            1
+        self._qtgui_time_sink_x_0_0_1_0_win = sip.wrapinstance(self.qtgui_time_sink_x_0_0_1_0.pyqwidget(), Qt.QWidget)
+        self.top_grid_layout.addWidget(self._qtgui_time_sink_x_0_0_1_0_win)
+        self.qtgui_freq_sink_x_0 = qtgui.freq_sink_c(
+        	NFFT, #size
+        	firdes.WIN_BLACKMAN_hARRIS, #wintype
+        	900000000, #fc
+        	200000, #bw
+        	"", #name
+        	1 #number of inputs
         )
-        self.qtgui_number_sink_0.set_update_time(0.010)
-        self.qtgui_number_sink_0.set_title("")
+        self.qtgui_freq_sink_x_0.set_update_time(0.10)
+        self.qtgui_freq_sink_x_0.set_y_axis(-140, 10)
+        self.qtgui_freq_sink_x_0.set_y_label('Relative Gain', 'dB')
+        self.qtgui_freq_sink_x_0.set_trigger_mode(qtgui.TRIG_MODE_FREE, 0.0, 0, "")
+        self.qtgui_freq_sink_x_0.enable_autoscale(False)
+        self.qtgui_freq_sink_x_0.enable_grid(False)
+        self.qtgui_freq_sink_x_0.set_fft_average(1.0)
+        self.qtgui_freq_sink_x_0.enable_axis_labels(True)
+        self.qtgui_freq_sink_x_0.enable_control_panel(False)
+
+        if not True:
+          self.qtgui_freq_sink_x_0.disable_legend()
+
+        if "complex" == "float" or "complex" == "msg_float":
+          self.qtgui_freq_sink_x_0.set_plot_pos_half(not True)
 
         labels = ['', '', '', '', '',
                   '', '', '', '', '']
-        units = ['', '', '', '', '',
-                 '', '', '', '', '']
-        colors = [("black", "black"), ("black", "black"), ("black", "black"), ("black", "black"), ("black", "black"),
-                  ("black", "black"), ("black", "black"), ("black", "black"), ("black", "black"), ("black", "black")]
-        factor = [1, 1, 1, 1, 1,
+        widths = [1, 1, 1, 1, 1,
                   1, 1, 1, 1, 1]
+        colors = ["blue", "red", "green", "black", "cyan",
+                  "magenta", "yellow", "dark red", "dark green", "dark blue"]
+        alphas = [1.0, 1.0, 1.0, 1.0, 1.0,
+                  1.0, 1.0, 1.0, 1.0, 1.0]
         for i in xrange(1):
-            self.qtgui_number_sink_0.set_min(i, -1)
-            self.qtgui_number_sink_0.set_max(i, 1)
-            self.qtgui_number_sink_0.set_color(i, colors[i][0], colors[i][1])
             if len(labels[i]) == 0:
-                self.qtgui_number_sink_0.set_label(i, "Data {0}".format(i))
+                self.qtgui_freq_sink_x_0.set_line_label(i, "Data {0}".format(i))
             else:
-                self.qtgui_number_sink_0.set_label(i, labels[i])
-            self.qtgui_number_sink_0.set_unit(i, units[i])
-            self.qtgui_number_sink_0.set_factor(i, factor[i])
+                self.qtgui_freq_sink_x_0.set_line_label(i, labels[i])
+            self.qtgui_freq_sink_x_0.set_line_width(i, widths[i])
+            self.qtgui_freq_sink_x_0.set_line_color(i, colors[i])
+            self.qtgui_freq_sink_x_0.set_line_alpha(i, alphas[i])
 
-        self.qtgui_number_sink_0.enable_autoscale(False)
-        self._qtgui_number_sink_0_win = sip.wrapinstance(self.qtgui_number_sink_0.pyqwidget(), Qt.QWidget)
-        self.top_grid_layout.addWidget(self._qtgui_number_sink_0_win)
+        self._qtgui_freq_sink_x_0_win = sip.wrapinstance(self.qtgui_freq_sink_x_0.pyqwidget(), Qt.QWidget)
+        self.top_grid_layout.addWidget(self._qtgui_freq_sink_x_0_win)
         self.qtgui_const_sink_x_0_0 = qtgui.const_sink_c(
         	100, #size
         	"", #name
@@ -250,97 +279,105 @@ class data_beamforming_tx(gr.top_block, Qt.QWidget):
 
         self._qtgui_const_sink_x_0_0_win = sip.wrapinstance(self.qtgui_const_sink_x_0_0.pyqwidget(), Qt.QWidget)
         self.top_grid_layout.addWidget(self._qtgui_const_sink_x_0_0_win)
-        self.qtgui_const_sink_x_0 = qtgui.const_sink_c(
-        	100, #size
-        	"", #name
-        	1 #number of inputs
-        )
-        self.qtgui_const_sink_x_0.set_update_time(0.10)
-        self.qtgui_const_sink_x_0.set_y_axis(-2, 2)
-        self.qtgui_const_sink_x_0.set_x_axis(-2, 2)
-        self.qtgui_const_sink_x_0.set_trigger_mode(qtgui.TRIG_MODE_FREE, qtgui.TRIG_SLOPE_POS, 0.0, 0, "")
-        self.qtgui_const_sink_x_0.enable_autoscale(False)
-        self.qtgui_const_sink_x_0.enable_grid(False)
-        self.qtgui_const_sink_x_0.enable_axis_labels(True)
-
-        if not True:
-          self.qtgui_const_sink_x_0.disable_legend()
-
-        labels = ['', '', '', '', '',
-                  '', '', '', '', '']
-        widths = [1, 1, 1, 1, 1,
-                  1, 1, 1, 1, 1]
-        colors = ["blue", "red", "red", "red", "red",
-                  "red", "red", "red", "red", "red"]
-        styles = [0, 0, 0, 0, 0,
-                  0, 0, 0, 0, 0]
-        markers = [0, 0, 0, 0, 0,
-                   0, 0, 0, 0, 0]
-        alphas = [1.0, 1.0, 1.0, 1.0, 1.0,
-                  1.0, 1.0, 1.0, 1.0, 1.0]
-        for i in xrange(1):
-            if len(labels[i]) == 0:
-                self.qtgui_const_sink_x_0.set_line_label(i, "Data {0}".format(i))
-            else:
-                self.qtgui_const_sink_x_0.set_line_label(i, labels[i])
-            self.qtgui_const_sink_x_0.set_line_width(i, widths[i])
-            self.qtgui_const_sink_x_0.set_line_color(i, colors[i])
-            self.qtgui_const_sink_x_0.set_line_style(i, styles[i])
-            self.qtgui_const_sink_x_0.set_line_marker(i, markers[i])
-            self.qtgui_const_sink_x_0.set_line_alpha(i, alphas[i])
-
-        self._qtgui_const_sink_x_0_win = sip.wrapinstance(self.qtgui_const_sink_x_0.pyqwidget(), Qt.QWidget)
-        self.top_grid_layout.addWidget(self._qtgui_const_sink_x_0_win)
-        self.fft_vxx_0 = fft.fft_vcc(16, False, (window.blackmanharris(16)), True, 1)
+        self.fft_vxx_0 = fft.fft_vcc(NFFT, False, (window.blackman(NFFT)), True, 1)
+        self.digital_chunks_to_symbols_xx_0_0_1 = digital.chunks_to_symbols_bc((payload_QPSK.points()), 1)
         self.digital_chunks_to_symbols_xx_0_0_0 = digital.chunks_to_symbols_bc((payload_16QAM.points()), 1)
         self.digital_chunks_to_symbols_xx_0_0 = digital.chunks_to_symbols_bc((payload_8QAM.points()), 1)
-        self.digital_burst_shaper_xx_0 = digital.burst_shaper_cc((firdes.window(firdes.WIN_HANN, 50, 0)), 10, 10, False, 'packet_len')
-        (self.digital_burst_shaper_xx_0).set_block_alias("burst_shaper0")
-        self.blocks_vector_to_stream_0 = blocks.vector_to_stream(gr.sizeof_gr_complex*1, 16)
-        self.blocks_throttle_0 = blocks.throttle(gr.sizeof_gr_complex*1, 1000,True)
-        self.blocks_tagged_stream_mux_0 = blocks.tagged_stream_mux(gr.sizeof_gr_complex*1, 'packet_len', 0)
-        self.blocks_stream_to_vector_0 = blocks.stream_to_vector(gr.sizeof_gr_complex*1, 16)
-        self.blocks_stream_mux_0 = blocks.stream_mux(gr.sizeof_gr_complex*1, (1, 1))
+        self.blocks_vector_to_stream_0 = blocks.vector_to_stream(gr.sizeof_gr_complex*1, NFFT)
+        self.blocks_throttle_0 = blocks.throttle(gr.sizeof_gr_complex*1, 10000,True)
+        self.blocks_tagged_stream_mux_0 = blocks.tagged_stream_mux(gr.sizeof_gr_complex*1, "sym_len", 0)
+        self.blocks_tag_debug_0 = blocks.tag_debug(gr.sizeof_gr_complex*1, 'payload_tag', "sym_len"); self.blocks_tag_debug_0.set_display(True)
+        self.blocks_stream_to_vector_0 = blocks.stream_to_vector(gr.sizeof_gr_complex*1, NFFT)
+        self.blocks_stream_to_tagged_stream_0_1 = blocks.stream_to_tagged_stream(gr.sizeof_gr_complex, 1, N_center_zeros, "sym_len")
+        self.blocks_stream_to_tagged_stream_0_0 = blocks.stream_to_tagged_stream(gr.sizeof_gr_complex, 1, N_edge_zeros, "sym_len")
+        self.blocks_stream_to_tagged_stream_0 = blocks.stream_to_tagged_stream(gr.sizeof_gr_complex, 1, subcarrier_size * num_active_mod, "sym_len")
+        self.blocks_stream_mux_0_0 = blocks.stream_mux(gr.sizeof_gr_complex*1, (1, 1))
+        self.blocks_stream_mux_0 = blocks.stream_mux(gr.sizeof_gr_complex*1, (1, 1, 1, 1, 1, 1))
+        self.blocks_repeat_0_0_0 = blocks.repeat(gr.sizeof_gr_complex*1, N_center_zeros)
+        self.blocks_repeat_0_0 = blocks.repeat(gr.sizeof_gr_complex*1, N_edge_zeros)
+        self.blocks_repeat_0 = blocks.repeat(gr.sizeof_gr_complex*1, subcarrier_size)
+        self.blocks_repack_bits_bb_0_1 = blocks.repack_bits_bb(8, 2, 'packet_len', False, gr.GR_MSB_FIRST)
         self.blocks_repack_bits_bb_0_0 = blocks.repack_bits_bb(8, 4, 'packet_len', False, gr.GR_MSB_FIRST)
         self.blocks_repack_bits_bb_0 = blocks.repack_bits_bb(8, 3, 'packet_len', False, gr.GR_MSB_FIRST)
+        self.blocks_pdu_to_tagged_stream_0_1 = blocks.pdu_to_tagged_stream(blocks.byte_t, 'packet_len')
         self.blocks_pdu_to_tagged_stream_0_0 = blocks.pdu_to_tagged_stream(blocks.byte_t, 'packet_len')
         self.blocks_pdu_to_tagged_stream_0 = blocks.pdu_to_tagged_stream(blocks.byte_t, 'packet_len')
+        self.blocks_multiply_const_vxx_0 = blocks.multiply_const_vcc((0.2, ))
         self.blocks_message_strobe_0 = blocks.message_strobe(pmt.PMT_T, 200)
         self.blocks_message_debug_0 = blocks.message_debug()
-        self.beamforming_payload_generator_cpp_0 = beamforming.payload_generator_cpp('dummy_path', 8)
+        self.beamforming_payload_generator_cpp_0 = beamforming.payload_generator_cpp('dummy_path', 1)
 
 
 
         ##################################################
         # Connections
         ##################################################
-        self.msg_connect((self.beamforming_payload_generator_cpp_0, '64QAM_pdu'), (self.blocks_message_debug_0, 'print_pdu'))
         self.msg_connect((self.beamforming_payload_generator_cpp_0, '8QAM_pdu'), (self.blocks_pdu_to_tagged_stream_0, 'pdus'))
         self.msg_connect((self.beamforming_payload_generator_cpp_0, '16QAM_pdu'), (self.blocks_pdu_to_tagged_stream_0_0, 'pdus'))
+        self.msg_connect((self.beamforming_payload_generator_cpp_0, 'QPSK_pdu'), (self.blocks_pdu_to_tagged_stream_0_1, 'pdus'))
         self.msg_connect((self.blocks_message_strobe_0, 'strobe'), (self.beamforming_payload_generator_cpp_0, 'generate'))
+        self.connect((self.blocks_multiply_const_vxx_0, 0), (self.qtgui_freq_sink_x_0, 0))
+        self.connect((self.blocks_multiply_const_vxx_0, 0), (self.qtgui_time_sink_x_0_0_1_1, 0))
         self.connect((self.blocks_pdu_to_tagged_stream_0, 0), (self.blocks_repack_bits_bb_0, 0))
         self.connect((self.blocks_pdu_to_tagged_stream_0_0, 0), (self.blocks_repack_bits_bb_0_0, 0))
+        self.connect((self.blocks_pdu_to_tagged_stream_0_1, 0), (self.blocks_repack_bits_bb_0_1, 0))
         self.connect((self.blocks_repack_bits_bb_0, 0), (self.digital_chunks_to_symbols_xx_0_0, 0))
-        self.connect((self.blocks_repack_bits_bb_0, 0), (self.qtgui_number_sink_0, 0))
         self.connect((self.blocks_repack_bits_bb_0_0, 0), (self.digital_chunks_to_symbols_xx_0_0_0, 0))
-        self.connect((self.blocks_stream_mux_0, 0), (self.qtgui_const_sink_x_0_0, 0))
-        self.connect((self.blocks_stream_mux_0, 0), (self.qtgui_time_sink_x_0_0, 0))
+        self.connect((self.blocks_repack_bits_bb_0_1, 0), (self.digital_chunks_to_symbols_xx_0_0_1, 0))
+        self.connect((self.blocks_repeat_0, 0), (self.blocks_stream_to_tagged_stream_0, 0))
+        self.connect((self.blocks_repeat_0, 0), (self.qtgui_time_sink_x_0_0_1_0, 0))
+        self.connect((self.blocks_repeat_0_0, 0), (self.blocks_stream_to_tagged_stream_0_0, 0))
+        self.connect((self.blocks_repeat_0_0_0, 0), (self.blocks_stream_to_tagged_stream_0_1, 0))
+        self.connect((self.blocks_stream_mux_0, 0), (self.blocks_repeat_0, 0))
+        self.connect((self.blocks_stream_mux_0_0, 0), (self.qtgui_const_sink_x_0_0, 0))
+        self.connect((self.blocks_stream_to_tagged_stream_0, 0), (self.blocks_tagged_stream_mux_0, 1))
+        self.connect((self.blocks_stream_to_tagged_stream_0, 0), (self.blocks_tagged_stream_mux_0, 3))
+        self.connect((self.blocks_stream_to_tagged_stream_0_0, 0), (self.blocks_tagged_stream_mux_0, 0))
+        self.connect((self.blocks_stream_to_tagged_stream_0_0, 0), (self.blocks_tagged_stream_mux_0, 5))
+        self.connect((self.blocks_stream_to_tagged_stream_0_1, 0), (self.blocks_tagged_stream_mux_0, 2))
+        self.connect((self.blocks_stream_to_tagged_stream_0_1, 0), (self.blocks_tagged_stream_mux_0, 4))
         self.connect((self.blocks_stream_to_vector_0, 0), (self.fft_vxx_0, 0))
-        self.connect((self.blocks_tagged_stream_mux_0, 0), (self.digital_burst_shaper_xx_0, 0))
-        self.connect((self.blocks_throttle_0, 0), (self.qtgui_time_sink_x_0, 0))
-        self.connect((self.blocks_vector_to_stream_0, 0), (self.qtgui_const_sink_x_0, 0))
-        self.connect((self.digital_burst_shaper_xx_0, 0), (self.blocks_throttle_0, 0))
-        self.connect((self.digital_chunks_to_symbols_xx_0_0, 0), (self.blocks_stream_mux_0, 1))
-        self.connect((self.digital_chunks_to_symbols_xx_0_0, 0), (self.blocks_tagged_stream_mux_0, 1))
-        self.connect((self.digital_chunks_to_symbols_xx_0_0_0, 0), (self.blocks_stream_mux_0, 0))
-        self.connect((self.digital_chunks_to_symbols_xx_0_0_0, 0), (self.blocks_stream_to_vector_0, 0))
-        self.connect((self.digital_chunks_to_symbols_xx_0_0_0, 0), (self.blocks_tagged_stream_mux_0, 0))
+        self.connect((self.blocks_tagged_stream_mux_0, 0), (self.blocks_tag_debug_0, 0))
+        self.connect((self.blocks_tagged_stream_mux_0, 0), (self.blocks_throttle_0, 0))
+        self.connect((self.blocks_throttle_0, 0), (self.blocks_stream_to_vector_0, 0))
+        self.connect((self.blocks_vector_to_stream_0, 0), (self.blocks_multiply_const_vxx_0, 0))
+        self.connect((self.digital_chunks_to_symbols_xx_0_0, 0), (self.blocks_stream_mux_0, 3))
+        self.connect((self.digital_chunks_to_symbols_xx_0_0_0, 0), (self.blocks_stream_mux_0_0, 0))
+        self.connect((self.digital_chunks_to_symbols_xx_0_0_1, 0), (self.blocks_stream_mux_0_0, 1))
         self.connect((self.fft_vxx_0, 0), (self.blocks_vector_to_stream_0, 0))
+        self.connect((self.zero_padding, 0), (self.blocks_repeat_0_0, 0))
+        self.connect((self.zero_padding_0, 0), (self.blocks_repeat_0_0_0, 0))
+        self.connect((self.zero_padding_0_0_1, 0), (self.blocks_stream_mux_0, 5))
+        self.connect((self.zero_padding_0_0_1, 0), (self.blocks_stream_mux_0, 4))
+        self.connect((self.zero_padding_0_0_2, 0), (self.blocks_stream_mux_0, 0))
+        self.connect((self.zero_padding_0_0_2_0, 0), (self.blocks_stream_mux_0, 1))
+        self.connect((self.zero_padding_0_0_2_0, 0), (self.blocks_stream_mux_0, 2))
 
     def closeEvent(self, event):
         self.settings = Qt.QSettings("GNU Radio", "data_beamforming_tx")
         self.settings.setValue("geometry", self.saveGeometry())
         event.accept()
+
+    def get_subcarrier_size(self):
+        return self.subcarrier_size
+
+    def set_subcarrier_size(self, subcarrier_size):
+        self.subcarrier_size = subcarrier_size
+        self.blocks_stream_to_tagged_stream_0.set_packet_len(self.subcarrier_size * self.num_active_mod)
+        self.blocks_stream_to_tagged_stream_0.set_packet_len_pmt(self.subcarrier_size * self.num_active_mod)
+        self.blocks_repeat_0.set_interpolation(self.subcarrier_size)
+
+    def get_q_8QAM(self):
+        return self.q_8QAM
+
+    def set_q_8QAM(self, q_8QAM):
+        self.q_8QAM = q_8QAM
+
+    def get_payload_QPSK(self):
+        return self.payload_QPSK
+
+    def set_payload_QPSK(self, payload_QPSK):
+        self.payload_QPSK = payload_QPSK
 
     def get_payload_8QAM(self):
         return self.payload_8QAM
@@ -353,6 +390,44 @@ class data_beamforming_tx(gr.top_block, Qt.QWidget):
 
     def set_payload_16QAM(self, payload_16QAM):
         self.payload_16QAM = payload_16QAM
+
+    def get_num_active_mod(self):
+        return self.num_active_mod
+
+    def set_num_active_mod(self, num_active_mod):
+        self.num_active_mod = num_active_mod
+        self.blocks_stream_to_tagged_stream_0.set_packet_len(self.subcarrier_size * self.num_active_mod)
+        self.blocks_stream_to_tagged_stream_0.set_packet_len_pmt(self.subcarrier_size * self.num_active_mod)
+
+    def get_QPSK(self):
+        return self.QPSK
+
+    def set_QPSK(self, QPSK):
+        self.QPSK = QPSK
+
+    def get_N_edge_zeros(self):
+        return self.N_edge_zeros
+
+    def set_N_edge_zeros(self, N_edge_zeros):
+        self.N_edge_zeros = N_edge_zeros
+        self.blocks_stream_to_tagged_stream_0_0.set_packet_len(self.N_edge_zeros)
+        self.blocks_stream_to_tagged_stream_0_0.set_packet_len_pmt(self.N_edge_zeros)
+        self.blocks_repeat_0_0.set_interpolation(self.N_edge_zeros)
+
+    def get_N_center_zeros(self):
+        return self.N_center_zeros
+
+    def set_N_center_zeros(self, N_center_zeros):
+        self.N_center_zeros = N_center_zeros
+        self.blocks_stream_to_tagged_stream_0_1.set_packet_len(self.N_center_zeros)
+        self.blocks_stream_to_tagged_stream_0_1.set_packet_len_pmt(self.N_center_zeros)
+        self.blocks_repeat_0_0_0.set_interpolation(self.N_center_zeros)
+
+    def get_NFFT(self):
+        return self.NFFT
+
+    def set_NFFT(self, NFFT):
+        self.NFFT = NFFT
 
 
 def main(top_block_cls=data_beamforming_tx, options=None):

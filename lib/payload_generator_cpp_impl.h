@@ -29,11 +29,13 @@ namespace gr {
     class payload_generator_cpp_impl : public payload_generator_cpp
     {
      private:
-      // Nothing to declare in this block.
+      void initialize_mod_information();
+      int payload_size_multiplier = 1;
+      std::vector <struct modulation*> mods;
 
 
      public:
-      payload_generator_cpp_impl(std::string file_path ,  int size);
+      payload_generator_cpp_impl(std::string file_path ,  int size = 1);
       ~payload_generator_cpp_impl();
 
       // Created function to calculate payload
@@ -48,7 +50,16 @@ namespace gr {
            gr_vector_const_void_star &input_items,
            gr_vector_void_star &output_items);
     };
-    
+
+
+    struct modulation {
+      std::string name;
+      int number_of_symbols;
+      const unsigned char* payload_ptr;
+    };
+
+
+
     // 48 Bytes of data containing 64 different 6-bit symbols
     const unsigned char payload_64QAM[] = {0, 16, 131, 16, 81, 135, 32, 146,
                                     139, 48, 211, 143, 65, 20, 147, 81,
@@ -56,13 +67,23 @@ namespace gr {
                                     130, 24, 163, 146, 89,167, 162, 154,
                                     171, 178, 219, 175, 195, 28, 179, 211,
                                     93, 183, 227, 158, 187, 243, 223, 191};
+
+
+
+    // 20 Bytes of data containing 32 different 5-bit symbols
+     const unsigned char payload_32QAM[] = {0, 68, 50, 20, 199, 66, 84, 182,
+                                            53, 207, 132, 101, 58, 86, 215, 198,
+                                            117, 190, 119, 223 };
+
     // 8 Bytes of data containing 16 different 4-bit symbols
      const unsigned char payload_16QAM[] = {1, 35, 69, 103, 137, 171, 205, 239};
+
 
     // 3 Bytes of data containing 8 different 3-bit symbols
      const unsigned char payload_8QAM[] = {5, 57, 119};
 
-
+     // 1 Bytes of data containing 4 different 2-bit symbols
+      const unsigned char payload_QPSK[] = {27};
 
 
   } // namespace beamforming
