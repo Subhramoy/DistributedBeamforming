@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+<block>
+  <name>CSI_feedback_adapter_py</name>
+  <key>beamforming_CSI_feedback_adapter_py</key>
+  <category>[beamforming]</category>
+  <import>import beamforming</import>
+  <make>beamforming.CSI_feedback_adapter_py($file_path)</make>
+  <param>
+    <name>CSI File</name>
+    <key>file_path</key>
+    <value>dummy_path</value>
+    <type>string</type>
+  </param>
+  <source>
+    <name>beamweight</name>
+    <type>message</type>
+    <optional>1</optional>
+  </source>
+</block>

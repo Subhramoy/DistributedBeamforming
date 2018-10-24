@@ -34,6 +34,9 @@ except ImportError:
 from payloadSource import payloadSource
 from matlab_file_payload_py import matlab_file_payload_py
 
+from CSI_feedback_adapter_py import CSI_feedback_adapter_py
+
+
 
 
 #

@@ -33,7 +33,9 @@ GR_PYTHON_INSTALL(
     FILES
     __init__.py
     payloadSource.py
-    matlab_file_payload_py.py DESTINATION ${GR_PYTHON_DIR}/beamforming
+    matlab_file_payload_py.py
+    CSI_feedback_adapter_py.py
+    DESTINATION ${GR_PYTHON_DIR}/beamforming
 )
 
 ########################################################################
@@ -46,3 +48,4 @@ set(GR_TEST_PYTHON_DIRS ${CMAKE_BINARY_DIR}/swig)
 GR_ADD_TEST(qa_payloadSource ${PYTHON_EXECUTABLE} ${CMAKE_CURRENT_SOURCE_DIR}/qa_payloadSource.py)
 GR_ADD_TEST(qa_payload_generator_cpp ${PYTHON_EXECUTABLE} ${CMAKE_CURRENT_SOURCE_DIR}/qa_payload_generator_cpp.py)
 GR_ADD_TEST(qa_matlab_file_payload_py ${PYTHON_EXECUTABLE} ${CMAKE_CURRENT_SOURCE_DIR}/qa_matlab_file_payload_py.py)
+GR_ADD_TEST(qa_CSI_feedback_adapter_py ${PYTHON_EXECUTABLE} ${CMAKE_CURRENT_SOURCE_DIR}/qa_CSI_feedback_adapter_py.py)
