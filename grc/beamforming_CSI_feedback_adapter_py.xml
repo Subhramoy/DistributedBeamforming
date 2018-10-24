@@ -11,6 +11,11 @@
     <value>dummy_path</value>
     <type>string</type>
   </param>
+  <sink>
+    <name>read_file</name>
+    <type>message</type>
+    <optional>1</optional>
+  </sink>
   <source>
     <name>beamweight</name>
     <type>message</type>

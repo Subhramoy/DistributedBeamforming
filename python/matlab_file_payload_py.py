@@ -22,6 +22,7 @@
 import numpy
 from gnuradio import gr
 
+
 class matlab_file_payload_py(gr.basic_block):
     """
     docstring for block matlab_file_payload_py
@@ -34,58 +35,49 @@ class matlab_file_payload_py(gr.basic_block):
     bmwght_temp = []
     bmfrm_pyld = []
     beamform_payload = []
-    beamweights =[]
+    beamweights = []
 
     counter = 0
 
     def __init__(self, file_path):
         gr.basic_block.__init__(self,
-            name="matlab_file_payload_py",
-            in_sig=None,
-            out_sig=[numpy.complex64])
+                                name="matlab_file_payload_py",
+                                in_sig=None,
+                                out_sig=[numpy.complex64])
 
-        file_path = "/home/gokhan/gnu-radio/gr-beamforming/examples/data"
+        file_path = "/home/gokhan/gnu-radio/gr-beamforming/examples/data/"
 
-        ##Real part of the payload read from 'payload_real.txt' file
-        with open( file_path +'/payload_real.txt', 'r') as f:
+        # Real part of the payload read from 'payload_real.txt' file
+        with open(file_path + 'payload_real.txt', 'r') as f:
             pay_real = [line.strip() for line in f]
 
         length = (len(pay_real))
 
-        ##Imaginary part of the payload read from 'payload_imag.txt' file
-        with open(file_path + '/payload_imag.txt', 'r') as f1:
+        # Imaginary part of the payload read from 'payload_imag.txt' file
+        with open(file_path + 'payload_imag.txt', 'r') as f1:
             pay_imag = [line.strip() for line in f1]
 
-        ##Reconstructing the payload in complex format
-        for ii in range (length):
+        # Reconstructing the payload in complex format
+        for ii in range(length):
             data_p_c = complex(float(pay_real[ii]), float(pay_imag[ii]))
             data = numpy.complex64(data_p_c)
             self.payload.append(data)
 
-
-
-
-
     def forecast(self, noutput_items, ninput_items_required):
         print("This function should not be called")
-        #setup size of input_items[i] for work call
+        # setup size of input_items[i] for work call
         for i in range(len(ninput_items_required)):
             ninput_items_required[i] = noutput_items
 
-
     def general_work(self, input_items, output_items):
 
-        #print("Function CALLED without any input\n")
-
-        #consume(0, len(input_items[0]))
-        #self.consume_each(len(input_items[0]))
-
+        # print("Function CALLED without any input\n")
 
         if (self.counter == len(self.payload)):
             self.counter = 0
 
         data_send = self.payload[self.counter]
-        self.counter = self.counter+1
+        self.counter = self.counter + 1
 
         output_items[0][:] = data_send
         return len(output_items[0])

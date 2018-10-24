@@ -22,5 +22,5 @@ install(FILES
     beamforming_payload_generator_cpp.xml
     beamforming_matlab_file_payload_py.xml
     beamforming_CSI_feedback_adapter_py.xml
-    DESTINATION share/gnuradio/grc/blocks
+    beamforming_multiply_by_variable_py_cc.xml DESTINATION share/gnuradio/grc/blocks
 )

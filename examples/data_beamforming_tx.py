@@ -3,7 +3,7 @@
 ##################################################
 # GNU Radio Python Flow Graph
 # Title: Data Beamforming Tx
-# Generated: Wed Oct 24 11:42:12 2018
+# Generated: Wed Oct 24 15:56:01 2018
 ##################################################
 
 if __name__ == '__main__':
@@ -28,7 +28,9 @@ from gnuradio.eng_option import eng_option
 from gnuradio.fft import window
 from gnuradio.filter import firdes
 from optparse import OptionParser
+import beamforming
 import numpy
+import pmt
 import sip
 import sys
 from gnuradio import qtgui
@@ -249,7 +251,9 @@ class data_beamforming_tx(gr.top_block, Qt.QWidget):
         self.blocks_repack_bits_bb_0_0 = blocks.repack_bits_bb(8, 4, 'packet_len', False, gr.GR_MSB_FIRST)
         self.blocks_repack_bits_bb_0 = blocks.repack_bits_bb(8, 3, 'packet_len', False, gr.GR_MSB_FIRST)
         self.blocks_multiply_const_vxx_0 = blocks.multiply_const_vcc((0.2, ))
+        self.blocks_message_strobe_0_0 = blocks.message_strobe(pmt.PMT_T, 2000)
         self.blocks_message_debug_0 = blocks.message_debug()
+        self.beamforming_payload_generator_cpp_1 = beamforming.payload_generator_cpp('dummy_path', 8)
         self.analog_random_source_x_0 = blocks.vector_source_b(map(int, numpy.random.randint(0, 255, 1000)), True)
 
 
@@ -257,6 +261,7 @@ class data_beamforming_tx(gr.top_block, Qt.QWidget):
         ##################################################
         # Connections
         ##################################################
+        self.msg_connect((self.blocks_message_strobe_0_0, 'strobe'), (self.beamforming_payload_generator_cpp_1, 'generate'))
         self.connect((self.analog_random_source_x_0, 0), (self.blocks_stream_to_tagged_stream_1, 0))
         self.connect((self.blocks_multiply_const_vxx_0, 0), (self.qtgui_freq_sink_x_0_0, 0))
         self.connect((self.blocks_multiply_const_vxx_0, 0), (self.qtgui_time_sink_x_0_0_1_1, 0))

@@ -3,7 +3,7 @@
 ##################################################
 # GNU Radio Python Flow Graph
 # Title: Csi Feedback Tx
-# Generated: Wed Oct 24 12:36:18 2018
+# Generated: Wed Oct 24 17:09:02 2018
 ##################################################
 
 if __name__ == '__main__':
@@ -17,7 +17,7 @@ if __name__ == '__main__':
             print "Warning: failed to XInitThreads()"
 
 from PyQt4 import Qt
-from gnuradio import analog
+from gnuradio import blocks
 from gnuradio import eng_notation
 from gnuradio import gr
 from gnuradio import qtgui
@@ -25,6 +25,7 @@ from gnuradio.eng_option import eng_option
 from gnuradio.filter import firdes
 from optparse import OptionParser
 import beamforming
+import pmt
 import sip
 import sys
 from gnuradio import qtgui
@@ -210,19 +211,24 @@ class CSI_feedback_tx(gr.top_block, Qt.QWidget):
 
         self._qtgui_freq_sink_x_0_win = sip.wrapinstance(self.qtgui_freq_sink_x_0.pyqwidget(), Qt.QWidget)
         self.top_grid_layout.addWidget(self._qtgui_freq_sink_x_0_win)
-        self.beamforming_multiply_by_variable_py_cc_0 = beamforming.multiply_by_variable_py_cc()
+        self.blocks_throttle_0 = blocks.throttle(gr.sizeof_gr_complex*1, samp_rate,True)
+        self.blocks_message_strobe_0 = blocks.message_strobe(pmt.PMT_T, 20000)
+        self.beamforming_multiply_by_variable_py_cc_1 = beamforming.multiply_by_variable_py_cc()
         self.beamforming_matlab_file_payload_py_0 = beamforming.matlab_file_payload_py('dummy_path')
-        self.analog_const_source_x_0 = analog.sig_source_c(0, analog.GR_CONST_WAVE, 0, 0, 1.1+9.1j)
+        self.beamforming_CSI_feedback_adapter_py_0 = beamforming.CSI_feedback_adapter_py('/home/gokhan/gnu-radio/gr-beamforming/examples/data/')
 
 
 
         ##################################################
         # Connections
         ##################################################
-        self.connect((self.analog_const_source_x_0, 0), (self.beamforming_multiply_by_variable_py_cc_0, 0))
+        self.msg_connect((self.beamforming_CSI_feedback_adapter_py_0, 'beamweight'), (self.beamforming_multiply_by_variable_py_cc_1, 'beamweight'))
+        self.msg_connect((self.blocks_message_strobe_0, 'strobe'), (self.beamforming_CSI_feedback_adapter_py_0, 'read_file'))
+        self.connect((self.beamforming_matlab_file_payload_py_0, 0), (self.blocks_throttle_0, 0))
         self.connect((self.beamforming_matlab_file_payload_py_0, 0), (self.qtgui_freq_sink_x_0, 0))
         self.connect((self.beamforming_matlab_file_payload_py_0, 0), (self.qtgui_time_sink_x_0, 0))
-        self.connect((self.beamforming_multiply_by_variable_py_cc_0, 0), (self.qtgui_time_sink_x_0_0, 0))
+        self.connect((self.beamforming_multiply_by_variable_py_cc_1, 0), (self.qtgui_time_sink_x_0_0, 0))
+        self.connect((self.blocks_throttle_0, 0), (self.beamforming_multiply_by_variable_py_cc_1, 0))
 
     def closeEvent(self, event):
         self.settings = Qt.QSettings("GNU Radio", "CSI_feedback_tx")
@@ -237,6 +243,7 @@ class CSI_feedback_tx(gr.top_block, Qt.QWidget):
         self.qtgui_time_sink_x_0_0.set_samp_rate(self.samp_rate)
         self.qtgui_time_sink_x_0.set_samp_rate(self.samp_rate)
         self.qtgui_freq_sink_x_0.set_frequency_range(900000000, self.samp_rate)
+        self.blocks_throttle_0.set_sample_rate(self.samp_rate)
 
 
 def main(top_block_cls=CSI_feedback_tx, options=None):
