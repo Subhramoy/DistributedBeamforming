@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+<block>
+  <name>matlab_file_payload_py</name>
+  <key>beamforming_matlab_file_payload_py</key>
+  <category>[beamforming]</category>
+  <import>import beamforming</import>
+  <make>beamforming.matlab_file_payload_py($file_path)</make>
+  <param>
+        <name>Payload File</name>
+        <key>file_path</key>
+        <value>dummy_path</value>
+        <type>string</type>
+  </param>
+  <source>
+        <name>payload</name>
+        <type>complex</type>
+        <vlen>1</vlen>
+  </source>
+</block>

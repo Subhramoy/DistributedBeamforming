@@ -19,5 +19,6 @@
 # Boston, MA 02110-1301, USA.
 install(FILES
     beamforming_payloadSource.xml
-    beamforming_payload_generator_cpp.xml DESTINATION share/gnuradio/grc/blocks
+    beamforming_payload_generator_cpp.xml
+    beamforming_matlab_file_payload_py.xml DESTINATION share/gnuradio/grc/blocks
 )

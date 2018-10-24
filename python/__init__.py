@@ -32,6 +32,7 @@ except ImportError:
 
 # import any pure python here
 from payloadSource import payloadSource
+from matlab_file_payload_py import matlab_file_payload_py
 
 
 
