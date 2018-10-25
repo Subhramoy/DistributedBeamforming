@@ -3,7 +3,7 @@
 ##################################################
 # GNU Radio Python Flow Graph
 # Title: Data Beamforming Tx
-# Generated: Wed Oct 24 15:56:01 2018
+# Generated: Thu Oct 25 18:08:32 2018
 ##################################################
 
 if __name__ == '__main__':
@@ -29,7 +29,7 @@ from gnuradio.fft import window
 from gnuradio.filter import firdes
 from optparse import OptionParser
 import beamforming
-import numpy
+import cons_config  # embedded python module
 import pmt
 import sip
 import sys
@@ -66,29 +66,10 @@ class data_beamforming_tx(gr.top_block, Qt.QWidget):
         ##################################################
         # Variables
         ##################################################
-        self.sync_word2 = sync_word2 = [0, 0, 0, 0, 0, 0, -1, -1, -1, -1, 1, 1, -1, -1, -1, 1, -1, 1, 1, 1, 1, 1, -1, -1, -1, -1, -1, 1, -1, -1, 1, -1, 0, 1, -1, 1, 1, 1, -1, 1, 1, 1, -1, 1, 1, 1, 1, -1, 1, -1, -1, -1, 1, -1, 1, -1, -1, -1, -1, 0, 0, 0, 0, 0]
-        self.sync_word1 = sync_word1 = [0., 0., 0., 0., 0., 0., 0., 1.41421356, 0., -1.41421356, 0., 1.41421356, 0., -1.41421356, 0., -1.41421356, 0., -1.41421356, 0., 1.41421356, 0., -1.41421356, 0., 1.41421356, 0., -1.41421356, 0., -1.41421356, 0., -1.41421356, 0., -1.41421356, 0., 1.41421356, 0., -1.41421356, 0., 1.41421356, 0., 1.41421356, 0., 1.41421356, 0., -1.41421356, 0., 1.41421356, 0., 1.41421356, 0., 1.41421356, 0., -1.41421356, 0., 1.41421356, 0., 1.41421356, 0., 1.41421356, 0., 0., 0., 0., 0., 0.]
-        self.subcarrier_size = subcarrier_size = 1
-        self.q_8QAM = q_8QAM = digital.constellation_rect(([-1-1j, -1+0j, -1+1j, 0-1j, 0+1j, 1+-1j, 1+0j, 1+1j ]), ([0, 1, 2, 3, 4, 5, 6, 7]), 4, 3, 3, 1, 1).base()
-        self.pilot_symbols = pilot_symbols = ((1, 1, 1, -1,),)
-        self.pilot_carriers = pilot_carriers = (  range(-20, -7) + range(-6, 0) + range(1, 7) + range(8, 21) + range(22, 27), )
-
-        self.payload_QPSK = payload_QPSK = digital.constellation_qpsk().base()
-
-        self.payload_QPSK.gen_soft_dec_lut(8)
-
-        self.payload_8QAM = payload_8QAM = digital.constellation_8psk().base()
-
-        self.payload_8QAM.gen_soft_dec_lut(8)
-
-        self.payload_16QAM = payload_16QAM = digital.constellation_16qam().base()
-
-        self.payload_16QAM.gen_soft_dec_lut(8)
-        self.occupied_carriers = occupied_carriers = (range(-26, -21) ,)
+        self.subcarrier_size = subcarrier_size = 19
         self.num_active_mod = num_active_mod = 6
-        self.QPSK = QPSK = digital.constellation_rect(([-1-1j, -1+1j, 1+1j, 1-1j]), ([0, 1, 2, 3]), 4, 2, 2, 1, 1).base()
-        self.N_edge_zeros = N_edge_zeros = 1
-        self.N_center_zeros = N_center_zeros = 1
+        self.N_edge_zeros = N_edge_zeros = 3
+        self.N_center_zeros = N_center_zeros = 11
         self.NFFT = NFFT = 256
 
         ##################################################
@@ -190,56 +171,58 @@ class data_beamforming_tx(gr.top_block, Qt.QWidget):
 
         self._qtgui_freq_sink_x_0_0_win = sip.wrapinstance(self.qtgui_freq_sink_x_0_0.pyqwidget(), Qt.QWidget)
         self.top_grid_layout.addWidget(self._qtgui_freq_sink_x_0_0_win)
-        self.qtgui_const_sink_x_0 = qtgui.const_sink_c(
+        self.qtgui_const_sink_x_0_0 = qtgui.const_sink_c(
         	1024, #size
         	"", #name
-        	1 #number of inputs
+        	6 #number of inputs
         )
-        self.qtgui_const_sink_x_0.set_update_time(0.10)
-        self.qtgui_const_sink_x_0.set_y_axis(-2, 2)
-        self.qtgui_const_sink_x_0.set_x_axis(-2, 2)
-        self.qtgui_const_sink_x_0.set_trigger_mode(qtgui.TRIG_MODE_FREE, qtgui.TRIG_SLOPE_POS, 0.0, 0, "")
-        self.qtgui_const_sink_x_0.enable_autoscale(False)
-        self.qtgui_const_sink_x_0.enable_grid(False)
-        self.qtgui_const_sink_x_0.enable_axis_labels(True)
+        self.qtgui_const_sink_x_0_0.set_update_time(0.10)
+        self.qtgui_const_sink_x_0_0.set_y_axis(-2, 2)
+        self.qtgui_const_sink_x_0_0.set_x_axis(-2, 2)
+        self.qtgui_const_sink_x_0_0.set_trigger_mode(qtgui.TRIG_MODE_FREE, qtgui.TRIG_SLOPE_POS, 0.0, 0, "")
+        self.qtgui_const_sink_x_0_0.enable_autoscale(False)
+        self.qtgui_const_sink_x_0_0.enable_grid(False)
+        self.qtgui_const_sink_x_0_0.enable_axis_labels(True)
 
         if not True:
-          self.qtgui_const_sink_x_0.disable_legend()
+          self.qtgui_const_sink_x_0_0.disable_legend()
 
         labels = ['', '', '', '', '',
                   '', '', '', '', '']
         widths = [1, 1, 1, 1, 1,
                   1, 1, 1, 1, 1]
-        colors = ["blue", "red", "red", "red", "red",
-                  "red", "red", "red", "red", "red"]
+        colors = ["blue", "red", "green", "magenta", "yellow",
+                  "Dark Blue", "red", "red", "red", "red"]
         styles = [0, 0, 0, 0, 0,
                   0, 0, 0, 0, 0]
-        markers = [0, 0, 0, 0, 0,
-                   0, 0, 0, 0, 0]
+        markers = [0, 3, 2, 4, 7,
+                   6, 0, 0, 0, 0]
         alphas = [1.0, 1.0, 1.0, 1.0, 1.0,
                   1.0, 1.0, 1.0, 1.0, 1.0]
-        for i in xrange(1):
+        for i in xrange(6):
             if len(labels[i]) == 0:
-                self.qtgui_const_sink_x_0.set_line_label(i, "Data {0}".format(i))
+                self.qtgui_const_sink_x_0_0.set_line_label(i, "Data {0}".format(i))
             else:
-                self.qtgui_const_sink_x_0.set_line_label(i, labels[i])
-            self.qtgui_const_sink_x_0.set_line_width(i, widths[i])
-            self.qtgui_const_sink_x_0.set_line_color(i, colors[i])
-            self.qtgui_const_sink_x_0.set_line_style(i, styles[i])
-            self.qtgui_const_sink_x_0.set_line_marker(i, markers[i])
-            self.qtgui_const_sink_x_0.set_line_alpha(i, alphas[i])
+                self.qtgui_const_sink_x_0_0.set_line_label(i, labels[i])
+            self.qtgui_const_sink_x_0_0.set_line_width(i, widths[i])
+            self.qtgui_const_sink_x_0_0.set_line_color(i, colors[i])
+            self.qtgui_const_sink_x_0_0.set_line_style(i, styles[i])
+            self.qtgui_const_sink_x_0_0.set_line_marker(i, markers[i])
+            self.qtgui_const_sink_x_0_0.set_line_alpha(i, alphas[i])
 
-        self._qtgui_const_sink_x_0_win = sip.wrapinstance(self.qtgui_const_sink_x_0.pyqwidget(), Qt.QWidget)
-        self.top_grid_layout.addWidget(self._qtgui_const_sink_x_0_win)
+        self._qtgui_const_sink_x_0_0_win = sip.wrapinstance(self.qtgui_const_sink_x_0_0.pyqwidget(), Qt.QWidget)
+        self.top_grid_layout.addWidget(self._qtgui_const_sink_x_0_0_win)
         self.fft_vxx_0 = fft.fft_vcc(NFFT, False, (()), False, 1)
-        self.digital_chunks_to_symbols_xx_0_0_1 = digital.chunks_to_symbols_bc((payload_QPSK.points()), 1)
-        self.digital_chunks_to_symbols_xx_0_0_0 = digital.chunks_to_symbols_bc((payload_16QAM.points()), 1)
-        self.digital_chunks_to_symbols_xx_0_0 = digital.chunks_to_symbols_bc((payload_8QAM.points()), 1)
+        self.digital_chunks_to_symbols_xx_0_0_1_0_1 = digital.chunks_to_symbols_bc((cons_config.get_points("64QAM")), 1)
+        self.digital_chunks_to_symbols_xx_0_0_1_0_0 = digital.chunks_to_symbols_bc((cons_config.get_points("32QAM")), 1)
+        self.digital_chunks_to_symbols_xx_0_0_1_0 = digital.chunks_to_symbols_bc((cons_config.get_points("BPSK")), 1)
+        self.digital_chunks_to_symbols_xx_0_0_1 = digital.chunks_to_symbols_bc((cons_config.get_points("QPSK")), 1)
+        self.digital_chunks_to_symbols_xx_0_0_0 = digital.chunks_to_symbols_bc((cons_config.get_points("16QAM")), 1)
+        self.digital_chunks_to_symbols_xx_0_0 = digital.chunks_to_symbols_bc((cons_config.get_points("8QAM")), 1)
         self.blocks_vector_to_stream_0 = blocks.vector_to_stream(gr.sizeof_gr_complex*1, NFFT)
         self.blocks_throttle_0 = blocks.throttle(gr.sizeof_gr_complex*1, 100000,True)
         self.blocks_tagged_stream_mux_0 = blocks.tagged_stream_mux(gr.sizeof_gr_complex*1, "sym_len", 0)
         self.blocks_stream_to_vector_0 = blocks.stream_to_vector(gr.sizeof_gr_complex*1, NFFT)
-        self.blocks_stream_to_tagged_stream_1 = blocks.stream_to_tagged_stream(gr.sizeof_char, 1, 64, "packet_len")
         self.blocks_stream_to_tagged_stream_0_1 = blocks.stream_to_tagged_stream(gr.sizeof_gr_complex, 1, N_center_zeros, "sym_len")
         self.blocks_stream_to_tagged_stream_0_0 = blocks.stream_to_tagged_stream(gr.sizeof_gr_complex, 1, N_edge_zeros, "sym_len")
         self.blocks_stream_to_tagged_stream_0 = blocks.stream_to_tagged_stream(gr.sizeof_gr_complex, 1, subcarrier_size * num_active_mod, "sym_len")
@@ -247,27 +230,53 @@ class data_beamforming_tx(gr.top_block, Qt.QWidget):
         self.blocks_repeat_0_0_0 = blocks.repeat(gr.sizeof_gr_complex*1, N_center_zeros)
         self.blocks_repeat_0_0 = blocks.repeat(gr.sizeof_gr_complex*1, N_edge_zeros)
         self.blocks_repeat_0 = blocks.repeat(gr.sizeof_gr_complex*1, subcarrier_size)
+        self.blocks_repack_bits_bb_0_1_1_0 = blocks.repack_bits_bb(8, 6, 'packet_len', False, gr.GR_MSB_FIRST)
+        self.blocks_repack_bits_bb_0_1_1 = blocks.repack_bits_bb(8, 5, 'packet_len', False, gr.GR_MSB_FIRST)
+        self.blocks_repack_bits_bb_0_1_0 = blocks.repack_bits_bb(8, 1, 'packet_len', False, gr.GR_MSB_FIRST)
         self.blocks_repack_bits_bb_0_1 = blocks.repack_bits_bb(8, 2, 'packet_len', False, gr.GR_MSB_FIRST)
         self.blocks_repack_bits_bb_0_0 = blocks.repack_bits_bb(8, 4, 'packet_len', False, gr.GR_MSB_FIRST)
         self.blocks_repack_bits_bb_0 = blocks.repack_bits_bb(8, 3, 'packet_len', False, gr.GR_MSB_FIRST)
+        self.blocks_pdu_to_tagged_stream_0_1_2 = blocks.pdu_to_tagged_stream(blocks.byte_t, 'packet_len')
+        self.blocks_pdu_to_tagged_stream_0_1_1 = blocks.pdu_to_tagged_stream(blocks.byte_t, 'packet_len')
+        self.blocks_pdu_to_tagged_stream_0_1_0 = blocks.pdu_to_tagged_stream(blocks.byte_t, 'packet_len')
+        self.blocks_pdu_to_tagged_stream_0_1 = blocks.pdu_to_tagged_stream(blocks.byte_t, 'packet_len')
+        self.blocks_pdu_to_tagged_stream_0_0 = blocks.pdu_to_tagged_stream(blocks.byte_t, 'packet_len')
+        self.blocks_pdu_to_tagged_stream_0 = blocks.pdu_to_tagged_stream(blocks.byte_t, 'packet_len')
         self.blocks_multiply_const_vxx_0 = blocks.multiply_const_vcc((0.2, ))
-        self.blocks_message_strobe_0_0 = blocks.message_strobe(pmt.PMT_T, 2000)
-        self.blocks_message_debug_0 = blocks.message_debug()
-        self.beamforming_payload_generator_cpp_1 = beamforming.payload_generator_cpp('dummy_path', 8)
-        self.analog_random_source_x_0 = blocks.vector_source_b(map(int, numpy.random.randint(0, 255, 1000)), True)
+        self.blocks_message_strobe_0 = blocks.message_strobe(pmt.PMT_T, 200)
+        self.beamforming_payload_generator_cpp_0 = beamforming.payload_generator_cpp('dummy_path', 1)
+        self.beamforming_multiply_by_variable_py_cc_1 = beamforming.multiply_by_variable_py_cc()
+        self.beamforming_CSI_feedback_adapter_py_0 = beamforming.CSI_feedback_adapter_py('/home/gokhan/gnu-radio/gr-beamforming/examples/data/')
 
 
 
         ##################################################
         # Connections
         ##################################################
-        self.msg_connect((self.blocks_message_strobe_0_0, 'strobe'), (self.beamforming_payload_generator_cpp_1, 'generate'))
-        self.connect((self.analog_random_source_x_0, 0), (self.blocks_stream_to_tagged_stream_1, 0))
-        self.connect((self.blocks_multiply_const_vxx_0, 0), (self.qtgui_freq_sink_x_0_0, 0))
-        self.connect((self.blocks_multiply_const_vxx_0, 0), (self.qtgui_time_sink_x_0_0_1_1, 0))
+        self.msg_connect((self.beamforming_CSI_feedback_adapter_py_0, 'beamweight'), (self.beamforming_multiply_by_variable_py_cc_1, 'beamweight'))
+        self.msg_connect((self.beamforming_payload_generator_cpp_0, '8QAM_pdu'), (self.blocks_pdu_to_tagged_stream_0, 'pdus'))
+        self.msg_connect((self.beamforming_payload_generator_cpp_0, '16QAM_pdu'), (self.blocks_pdu_to_tagged_stream_0_0, 'pdus'))
+        self.msg_connect((self.beamforming_payload_generator_cpp_0, 'QPSK_pdu'), (self.blocks_pdu_to_tagged_stream_0_1, 'pdus'))
+        self.msg_connect((self.beamforming_payload_generator_cpp_0, 'BPSK_pdu'), (self.blocks_pdu_to_tagged_stream_0_1_0, 'pdus'))
+        self.msg_connect((self.beamforming_payload_generator_cpp_0, '32QAM_pdu'), (self.blocks_pdu_to_tagged_stream_0_1_1, 'pdus'))
+        self.msg_connect((self.beamforming_payload_generator_cpp_0, '64QAM_pdu'), (self.blocks_pdu_to_tagged_stream_0_1_2, 'pdus'))
+        self.msg_connect((self.blocks_message_strobe_0, 'strobe'), (self.beamforming_CSI_feedback_adapter_py_0, 'read_file'))
+        self.msg_connect((self.blocks_message_strobe_0, 'strobe'), (self.beamforming_payload_generator_cpp_0, 'generate'))
+        self.connect((self.beamforming_multiply_by_variable_py_cc_1, 0), (self.qtgui_freq_sink_x_0_0, 0))
+        self.connect((self.beamforming_multiply_by_variable_py_cc_1, 0), (self.qtgui_time_sink_x_0_0_1_1, 0))
+        self.connect((self.blocks_multiply_const_vxx_0, 0), (self.beamforming_multiply_by_variable_py_cc_1, 0))
+        self.connect((self.blocks_pdu_to_tagged_stream_0, 0), (self.blocks_repack_bits_bb_0, 0))
+        self.connect((self.blocks_pdu_to_tagged_stream_0_0, 0), (self.blocks_repack_bits_bb_0_0, 0))
+        self.connect((self.blocks_pdu_to_tagged_stream_0_1, 0), (self.blocks_repack_bits_bb_0_1, 0))
+        self.connect((self.blocks_pdu_to_tagged_stream_0_1_0, 0), (self.blocks_repack_bits_bb_0_1_0, 0))
+        self.connect((self.blocks_pdu_to_tagged_stream_0_1_1, 0), (self.blocks_repack_bits_bb_0_1_1, 0))
+        self.connect((self.blocks_pdu_to_tagged_stream_0_1_2, 0), (self.blocks_repack_bits_bb_0_1_1_0, 0))
         self.connect((self.blocks_repack_bits_bb_0, 0), (self.digital_chunks_to_symbols_xx_0_0, 0))
         self.connect((self.blocks_repack_bits_bb_0_0, 0), (self.digital_chunks_to_symbols_xx_0_0_0, 0))
         self.connect((self.blocks_repack_bits_bb_0_1, 0), (self.digital_chunks_to_symbols_xx_0_0_1, 0))
+        self.connect((self.blocks_repack_bits_bb_0_1_0, 0), (self.digital_chunks_to_symbols_xx_0_0_1_0, 0))
+        self.connect((self.blocks_repack_bits_bb_0_1_1, 0), (self.digital_chunks_to_symbols_xx_0_0_1_0_0, 0))
+        self.connect((self.blocks_repack_bits_bb_0_1_1_0, 0), (self.digital_chunks_to_symbols_xx_0_0_1_0_1, 0))
         self.connect((self.blocks_repeat_0, 0), (self.blocks_stream_to_tagged_stream_0, 0))
         self.connect((self.blocks_repeat_0_0, 0), (self.blocks_stream_to_tagged_stream_0_0, 0))
         self.connect((self.blocks_repeat_0_0_0, 0), (self.blocks_stream_to_tagged_stream_0_1, 0))
@@ -278,20 +287,22 @@ class data_beamforming_tx(gr.top_block, Qt.QWidget):
         self.connect((self.blocks_stream_to_tagged_stream_0_0, 0), (self.blocks_tagged_stream_mux_0, 5))
         self.connect((self.blocks_stream_to_tagged_stream_0_1, 0), (self.blocks_tagged_stream_mux_0, 2))
         self.connect((self.blocks_stream_to_tagged_stream_0_1, 0), (self.blocks_tagged_stream_mux_0, 4))
-        self.connect((self.blocks_stream_to_tagged_stream_1, 0), (self.blocks_repack_bits_bb_0, 0))
-        self.connect((self.blocks_stream_to_tagged_stream_1, 0), (self.blocks_repack_bits_bb_0_0, 0))
-        self.connect((self.blocks_stream_to_tagged_stream_1, 0), (self.blocks_repack_bits_bb_0_1, 0))
         self.connect((self.blocks_stream_to_vector_0, 0), (self.fft_vxx_0, 0))
         self.connect((self.blocks_tagged_stream_mux_0, 0), (self.blocks_throttle_0, 0))
         self.connect((self.blocks_throttle_0, 0), (self.blocks_stream_to_vector_0, 0))
         self.connect((self.blocks_vector_to_stream_0, 0), (self.blocks_multiply_const_vxx_0, 0))
-        self.connect((self.digital_chunks_to_symbols_xx_0_0, 0), (self.blocks_stream_mux_0, 0))
         self.connect((self.digital_chunks_to_symbols_xx_0_0, 0), (self.blocks_stream_mux_0, 3))
-        self.connect((self.digital_chunks_to_symbols_xx_0_0_0, 0), (self.blocks_stream_mux_0, 1))
+        self.connect((self.digital_chunks_to_symbols_xx_0_0, 0), (self.qtgui_const_sink_x_0_0, 3))
         self.connect((self.digital_chunks_to_symbols_xx_0_0_0, 0), (self.blocks_stream_mux_0, 2))
-        self.connect((self.digital_chunks_to_symbols_xx_0_0_0, 0), (self.qtgui_const_sink_x_0, 0))
+        self.connect((self.digital_chunks_to_symbols_xx_0_0_0, 0), (self.qtgui_const_sink_x_0_0, 2))
         self.connect((self.digital_chunks_to_symbols_xx_0_0_1, 0), (self.blocks_stream_mux_0, 4))
-        self.connect((self.digital_chunks_to_symbols_xx_0_0_1, 0), (self.blocks_stream_mux_0, 5))
+        self.connect((self.digital_chunks_to_symbols_xx_0_0_1, 0), (self.qtgui_const_sink_x_0_0, 4))
+        self.connect((self.digital_chunks_to_symbols_xx_0_0_1_0, 0), (self.blocks_stream_mux_0, 5))
+        self.connect((self.digital_chunks_to_symbols_xx_0_0_1_0, 0), (self.qtgui_const_sink_x_0_0, 5))
+        self.connect((self.digital_chunks_to_symbols_xx_0_0_1_0_0, 0), (self.blocks_stream_mux_0, 1))
+        self.connect((self.digital_chunks_to_symbols_xx_0_0_1_0_0, 0), (self.qtgui_const_sink_x_0_0, 1))
+        self.connect((self.digital_chunks_to_symbols_xx_0_0_1_0_1, 0), (self.blocks_stream_mux_0, 0))
+        self.connect((self.digital_chunks_to_symbols_xx_0_0_1_0_1, 0), (self.qtgui_const_sink_x_0_0, 0))
         self.connect((self.fft_vxx_0, 0), (self.blocks_vector_to_stream_0, 0))
         self.connect((self.zero_padding, 0), (self.blocks_repeat_0_0, 0))
         self.connect((self.zero_padding_0, 0), (self.blocks_repeat_0_0_0, 0))
@@ -300,18 +311,6 @@ class data_beamforming_tx(gr.top_block, Qt.QWidget):
         self.settings = Qt.QSettings("GNU Radio", "data_beamforming_tx")
         self.settings.setValue("geometry", self.saveGeometry())
         event.accept()
-
-    def get_sync_word2(self):
-        return self.sync_word2
-
-    def set_sync_word2(self, sync_word2):
-        self.sync_word2 = sync_word2
-
-    def get_sync_word1(self):
-        return self.sync_word1
-
-    def set_sync_word1(self, sync_word1):
-        self.sync_word1 = sync_word1
 
     def get_subcarrier_size(self):
         return self.subcarrier_size
@@ -322,48 +321,6 @@ class data_beamforming_tx(gr.top_block, Qt.QWidget):
         self.blocks_stream_to_tagged_stream_0.set_packet_len_pmt(self.subcarrier_size * self.num_active_mod)
         self.blocks_repeat_0.set_interpolation(self.subcarrier_size)
 
-    def get_q_8QAM(self):
-        return self.q_8QAM
-
-    def set_q_8QAM(self, q_8QAM):
-        self.q_8QAM = q_8QAM
-
-    def get_pilot_symbols(self):
-        return self.pilot_symbols
-
-    def set_pilot_symbols(self, pilot_symbols):
-        self.pilot_symbols = pilot_symbols
-
-    def get_pilot_carriers(self):
-        return self.pilot_carriers
-
-    def set_pilot_carriers(self, pilot_carriers):
-        self.pilot_carriers = pilot_carriers
-
-    def get_payload_QPSK(self):
-        return self.payload_QPSK
-
-    def set_payload_QPSK(self, payload_QPSK):
-        self.payload_QPSK = payload_QPSK
-
-    def get_payload_8QAM(self):
-        return self.payload_8QAM
-
-    def set_payload_8QAM(self, payload_8QAM):
-        self.payload_8QAM = payload_8QAM
-
-    def get_payload_16QAM(self):
-        return self.payload_16QAM
-
-    def set_payload_16QAM(self, payload_16QAM):
-        self.payload_16QAM = payload_16QAM
-
-    def get_occupied_carriers(self):
-        return self.occupied_carriers
-
-    def set_occupied_carriers(self, occupied_carriers):
-        self.occupied_carriers = occupied_carriers
-
     def get_num_active_mod(self):
         return self.num_active_mod
 
@@ -371,12 +328,6 @@ class data_beamforming_tx(gr.top_block, Qt.QWidget):
         self.num_active_mod = num_active_mod
         self.blocks_stream_to_tagged_stream_0.set_packet_len(self.subcarrier_size * self.num_active_mod)
         self.blocks_stream_to_tagged_stream_0.set_packet_len_pmt(self.subcarrier_size * self.num_active_mod)
-
-    def get_QPSK(self):
-        return self.QPSK
-
-    def set_QPSK(self, QPSK):
-        self.QPSK = QPSK
 
     def get_N_edge_zeros(self):
         return self.N_edge_zeros

@@ -57,7 +57,7 @@ namespace gr {
       message_port_register_out(pmt::mp("16QAM_pdu"));
       message_port_register_out(pmt::mp("8QAM_pdu"));
       message_port_register_out(pmt::mp("QPSK_pdu"));
-      message_port_register_out(pmt::mp("BSPK_pdu"));
+      message_port_register_out(pmt::mp("BPSK_pdu"));
 
 
       set_msg_handler(pmt::mp("generate"), boost::bind(&payload_generator_cpp_impl::generate_pdu, this, _1));
@@ -86,13 +86,13 @@ namespace gr {
 
       std::cout<< "Generate_pdu handler called" <<std::endl;
 
-
-
       for(int i = 0; i < this->mods.size(); i++) {
         modulation* m = this->mods[i];
 
         // Calculating data size in bytes
         int size_in_bytes = m->number_of_symbols * (std::log(m->number_of_symbols)/std::log(2)) / 8 ;
+        if(m->name == "BPSK" ) // Ugly coding to solve BPSK
+          size_in_bytes = 8;
 
         std::cout << "Parsing the data for "
                   << m->name << " modulation:: Containing "
@@ -125,31 +125,6 @@ namespace gr {
         message_port_pub( pmt::mp(m->name + "_pdu"), pdu);
       }
 
-
-
-      //std::vector<unsigned char> vec2(payload_BPSK, payload_BPSK+3);
-      //std::vector<unsigned char> vec4(payload_QPSK, payload_QPSK+3);
-//      std::vector<unsigned char> vec8(payload_8QAM, payload_8QAM+3);
-//
-//      std::vector<unsigned char> vec16(payload_16QAM, payload_16QAM+8);
-      //std::vector<unsigned char> vec32(payload_32QAM, payload_32QAM+8);
-
-
-
-
-      // send the vector
-//      pmt::pmt_t vecpmt8(pmt::make_blob(&vec8[0], vec8.size()));
-
-
-//      pmt::pmt_t pdu8(pmt::cons(pmt::PMT_NIL, vecpmt8));
-
-//      pmt::pmt_t vecpmt16(pmt::make_blob(&vec16[0], vec16.size()));
-//      pmt::pmt_t pdu16(pmt::cons(pmt::PMT_NIL, vecpmt16));
-
-
-
-//      message_port_pub( pmt::mp("8QAM_pdu"), pdu8);
-//      message_port_pub( pmt::mp("16QAM_pdu"), pdu16);
 
     }
 
@@ -235,10 +210,10 @@ namespace gr {
 
 
       // BPSK
-      struct modulation* mod_bpsk = new struct modulation;
+     struct modulation* mod_bpsk = new struct modulation;
       mod_bpsk->name = "BPSK";
-//      mod_bpsk->number_of_symbols = 2;
-      mod_bpsk->number_of_symbols = 8;
+//    mod_bpsk->number_of_symbols = 2;
+      mod_bpsk->number_of_symbols = 64;
       mod_bpsk->payload_ptr = payload_BPSK;
       this->mods.push_back(mod_bpsk);
 
