@@ -85,6 +85,8 @@ namespace gr {
      // 1 Bytes of data containing 4 different 2-bit symbols
       const unsigned char payload_QPSK[] = {27};
 
+      // 1 Bytes of data containing 2 different 1-bit symbols 4 times
+      const unsigned char payload_BPSK[] = {85};
 
   } // namespace beamforming
 } // namespace gr

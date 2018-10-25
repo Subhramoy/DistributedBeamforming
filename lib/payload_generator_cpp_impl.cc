@@ -235,11 +235,12 @@ namespace gr {
 
 
       // BPSK
-//      struct modulation* mod_bpsk = new struct modulation;
-//      mod_bpsk->name = "BPSK";
+      struct modulation* mod_bpsk = new struct modulation;
+      mod_bpsk->name = "BPSK";
 //      mod_bpsk->number_of_symbols = 2;
-//      mod_bpsk->payload_ptr = payload_bpsk;
-//      this->mods.push_back(mod_bpsk);
+      mod_bpsk->number_of_symbols = 8;
+      mod_bpsk->payload_ptr = payload_BPSK;
+      this->mods.push_back(mod_bpsk);
 
 
     }

@@ -3,7 +3,7 @@
 ##################################################
 # GNU Radio Python Flow Graph
 # Title: Csi Feedback Tx
-# Generated: Wed Oct 24 17:09:02 2018
+# Generated: Wed Oct 24 17:39:56 2018
 ##################################################
 
 if __name__ == '__main__':
@@ -212,7 +212,7 @@ class CSI_feedback_tx(gr.top_block, Qt.QWidget):
         self._qtgui_freq_sink_x_0_win = sip.wrapinstance(self.qtgui_freq_sink_x_0.pyqwidget(), Qt.QWidget)
         self.top_grid_layout.addWidget(self._qtgui_freq_sink_x_0_win)
         self.blocks_throttle_0 = blocks.throttle(gr.sizeof_gr_complex*1, samp_rate,True)
-        self.blocks_message_strobe_0 = blocks.message_strobe(pmt.PMT_T, 20000)
+        self.blocks_message_strobe_0 = blocks.message_strobe(pmt.PMT_T, 200)
         self.beamforming_multiply_by_variable_py_cc_1 = beamforming.multiply_by_variable_py_cc()
         self.beamforming_matlab_file_payload_py_0 = beamforming.matlab_file_payload_py('dummy_path')
         self.beamforming_CSI_feedback_adapter_py_0 = beamforming.CSI_feedback_adapter_py('/home/gokhan/gnu-radio/gr-beamforming/examples/data/')
