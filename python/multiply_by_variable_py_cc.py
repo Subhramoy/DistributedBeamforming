@@ -49,7 +49,7 @@ class multiply_by_variable_py_cc(gr.sync_block):
         in0 = input_items[0]
         out = output_items[0]
         # <+signal processing here+>
-        print("Input:{} Weight:{} Output:{} \n".format(in0, self.multiple, in0*self.multiple))
+        # print("Input:{} Weight:{} Output:{} \n".format(in0, self.multiple, in0*self.multiple))
 
         out[:] = in0*self.multiple
         return len(output_items[0])

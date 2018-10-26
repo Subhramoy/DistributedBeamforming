@@ -8,7 +8,7 @@
   <param>
         <name>Payload File</name>
         <key>file_path</key>
-        <value>dummy_path</value>
+        <value>"./data"</value>
         <type>string</type>
   </param>
   <source>

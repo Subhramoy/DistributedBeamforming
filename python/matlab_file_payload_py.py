@@ -39,22 +39,23 @@ class matlab_file_payload_py(gr.basic_block):
 
     counter = 0
 
+    file_path = ""
+
     def __init__(self, file_path):
         gr.basic_block.__init__(self,
                                 name="matlab_file_payload_py",
                                 in_sig=None,
                                 out_sig=[numpy.complex64])
-
-        file_path = "/home/gokhan/gnu-radio/gr-beamforming/examples/data/"
+        self.file_path = file_path
 
         # Real part of the payload read from 'payload_real.txt' file
-        with open(file_path + 'payload_real.txt', 'r') as f:
+        with open( self.file_path + '_real.txt', 'r') as f:
             pay_real = [line.strip() for line in f]
 
         length = (len(pay_real))
 
         # Imaginary part of the payload read from 'payload_imag.txt' file
-        with open(file_path + 'payload_imag.txt', 'r') as f1:
+        with open(self.file_path + '_imag.txt', 'r') as f1:
             pay_imag = [line.strip() for line in f1]
 
         # Reconstructing the payload in complex format

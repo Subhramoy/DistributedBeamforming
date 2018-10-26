@@ -47,7 +47,7 @@ def get_points(modulation_name):
 
 
     index = switcher.get(modulation_name)
-    print(index)
+    # print(index)
     # return modulations[index].get("sym_map"), modulations[index].get("cons_points")
     return modulations[index].get("cons_points")
 

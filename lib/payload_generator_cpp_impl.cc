@@ -84,7 +84,7 @@ namespace gr {
     {
 
 
-      std::cout<< "Generate_pdu handler called" <<std::endl;
+      // std::cout<< "Generate_pdu handler called" <<std::endl;
 
       for(int i = 0; i < this->mods.size(); i++) {
         modulation* m = this->mods[i];
@@ -94,10 +94,12 @@ namespace gr {
         if(m->name == "BPSK" ) // Ugly coding to solve BPSK
           size_in_bytes = 8;
 
+        /*
         std::cout << "Parsing the data for "
                   << m->name << " modulation:: Containing "
                   << size_in_bytes << " bytes"
                   << std::endl;
+        */
 
         // Create the vector with the byte stream
         std::vector<unsigned char> t_vec( m->payload_ptr, m->payload_ptr+size_in_bytes);
@@ -111,12 +113,13 @@ namespace gr {
             t_vec.insert(t_vec.end(), m->payload_ptr,  m->payload_ptr+size_in_bytes);
         }
 
-
+        /*
         std::cout << "Creating binary for "
                   << m->name
                   << " modulation:: Containing "
                   << t_vec.size() << " bytes"
                   << std::endl;
+        */
 
         pmt::pmt_t vec_pmt(pmt::make_blob(&t_vec[0], t_vec.size()));
         pmt::pmt_t pdu(pmt::cons(pmt::PMT_NIL, vec_pmt));
