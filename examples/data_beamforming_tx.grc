@@ -298,7 +298,7 @@
     </param>
     <param>
       <key>_enabled</key>
-      <value>True</value>
+      <value>1</value>
     </param>
     <param>
       <key>_coordinate</key>
@@ -470,7 +470,7 @@
     </param>
     <param>
       <key>_enabled</key>
-      <value>1</value>
+      <value>0</value>
     </param>
     <param>
       <key>file</key>
@@ -578,7 +578,7 @@
     </param>
     <param>
       <key>period</key>
-      <value>10000</value>
+      <value>200</value>
     </param>
   </block>
   <block>
@@ -4664,7 +4664,7 @@ def get_points(modulation_name):
     </param>
     <param>
       <key>_enabled</key>
-      <value>1</value>
+      <value>0</value>
     </param>
     <param>
       <key>_coordinate</key>
@@ -4826,7 +4826,7 @@ def get_points(modulation_name):
     </param>
     <param>
       <key>_enabled</key>
-      <value>1</value>
+      <value>0</value>
     </param>
     <param>
       <key>_coordinate</key>

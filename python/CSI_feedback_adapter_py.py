@@ -23,6 +23,8 @@ import struct
 import pmt
 import numpy
 import sys
+import math
+import cmath
 from gnuradio import gr
 
 class CSI_feedback_adapter_py(gr.basic_block):
@@ -34,11 +36,16 @@ class CSI_feedback_adapter_py(gr.basic_block):
     channel_est_antennas = []
     file_path = ""
 
-    def __init__(self, file_path):
+    numTxAntennas = 1
+    beamweights =[]
+
+    def __init__(self, file_path, number_of_Tx_Antennas):
         gr.basic_block.__init__(self,
             name="CSI_feedback_adapter_py",
             in_sig=None,
             out_sig=None)
+
+        self.numTxAntennas = number_of_Tx_Antennas
 
         # Input message port
         self.message_port_register_in(pmt.intern("read_file"))
@@ -67,7 +74,22 @@ class CSI_feedback_adapter_py(gr.basic_block):
         # self.channel_est = [real, imaginary]
         channel_est_complex = complex(real, imaginary)
 
-        weight = pmt.from_complex(channel_est_complex)
+        # Since I have only 1 Tx radio now, I'm assuming channel estimation values for each antenna to be same
+        for i in range (self.numTxAntennas):
+            self.channel_est_antennas.append(channel_est_complex)
+
+        # Creating absolute value of channel estimation and then performing phase correction
+        abs_channel_est_antennas = map(abs, self.channel_est_antennas)
+        phase_correction = [x/y for x, y in zip( self.channel_est_antennas, abs_channel_est_antennas)]
+
+        # Create a list of ones corresponding to number of tx antennas. They do it matlab, not sure why
+        for i in range (numTxAntennas):
+            self.beamweights.append(1)
+
+        # Calculating the beamweights
+        new_beamweights = [a/b for a, b in zip(self.beamweights, phase_correction)]
+
+        weight = pmt.from_complex(new_beamweights)
         self.message_port_pub(pmt.intern("beamweight"), weight)
 
     def forecast(self, noutput_items, ninput_items_required):

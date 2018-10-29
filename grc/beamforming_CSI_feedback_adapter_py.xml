@@ -11,6 +11,12 @@
     <value>dummy_path</value>
     <type>string</type>
   </param>
+  <param>
+    <name>Number of Tx Antennas</name>
+    <key>number_of_Tx_Antennas</key>
+    <value>1</value>
+    <type>int</type>
+  </param>
   <sink>
     <name>read_file</name>
     <type>message</type>
