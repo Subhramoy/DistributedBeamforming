@@ -384,7 +384,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(1557, 1109)</value>
+      <value>(1621, 1109)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -470,11 +470,11 @@
     </param>
     <param>
       <key>_enabled</key>
-      <value>0</value>
+      <value>1</value>
     </param>
     <param>
       <key>file</key>
-      <value>/home/gokhan/gnu-radio/gr-beamforming/examples/modOut.bin</value>
+      <value>/home/gokhan/gnu-radio/gr-beamforming/examples/payload.bin</value>
     </param>
     <param>
       <key>_coordinate</key>
@@ -578,7 +578,7 @@
     </param>
     <param>
       <key>period</key>
-      <value>200</value>
+      <value>10000</value>
     </param>
   </block>
   <block>
@@ -589,11 +589,11 @@
     </param>
     <param>
       <key>comment</key>
-      <value></value>
+      <value>Multiply with (-1/NFFT)</value>
     </param>
     <param>
       <key>const</key>
-      <value>1</value>
+      <value>-390625e-8</value>
     </param>
     <param>
       <key>affinity</key>
@@ -605,7 +605,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(1312, 1152)</value>
+      <value>(1258, 1152)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -1288,7 +1288,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(650, 832)</value>
+      <value>(800, 832)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -1763,7 +1763,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(544, 1152)</value>
+      <value>(480, 1152)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -1788,6 +1788,61 @@
     <param>
       <key>num_items</key>
       <value>NFFT</value>
+    </param>
+    <param>
+      <key>vlen</key>
+      <value>1</value>
+    </param>
+  </block>
+  <block>
+    <key>blocks_tag_gate</key>
+    <param>
+      <key>alias</key>
+      <value></value>
+    </param>
+    <param>
+      <key>comment</key>
+      <value></value>
+    </param>
+    <param>
+      <key>affinity</key>
+      <value></value>
+    </param>
+    <param>
+      <key>_enabled</key>
+      <value>True</value>
+    </param>
+    <param>
+      <key>_coordinate</key>
+      <value>(565, 821)</value>
+    </param>
+    <param>
+      <key>_rotation</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>id</key>
+      <value>blocks_tag_gate_0</value>
+    </param>
+    <param>
+      <key>type</key>
+      <value>complex</value>
+    </param>
+    <param>
+      <key>maxoutbuf</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>minoutbuf</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>propagate_tags</key>
+      <value>False</value>
+    </param>
+    <param>
+      <key>single_key</key>
+      <value>"packet_len"</value>
     </param>
     <param>
       <key>vlen</key>
@@ -1842,61 +1897,6 @@
     </param>
   </block>
   <block>
-    <key>blocks_throttle</key>
-    <param>
-      <key>alias</key>
-      <value></value>
-    </param>
-    <param>
-      <key>comment</key>
-      <value></value>
-    </param>
-    <param>
-      <key>affinity</key>
-      <value></value>
-    </param>
-    <param>
-      <key>_enabled</key>
-      <value>True</value>
-    </param>
-    <param>
-      <key>_coordinate</key>
-      <value>(320, 1152)</value>
-    </param>
-    <param>
-      <key>_rotation</key>
-      <value>0</value>
-    </param>
-    <param>
-      <key>id</key>
-      <value>blocks_throttle_0</value>
-    </param>
-    <param>
-      <key>ignoretag</key>
-      <value>True</value>
-    </param>
-    <param>
-      <key>maxoutbuf</key>
-      <value>0</value>
-    </param>
-    <param>
-      <key>minoutbuf</key>
-      <value>0</value>
-    </param>
-    <param>
-      <key>samples_per_second</key>
-      <value>100000</value>
-    </param>
-    <param>
-      <key>type</key>
-      <value>complex</value>
-    </param>
-    <param>
-      <key>vlen</key>
-      <value>1</value>
-    </param>
-  </block>
-  <block>
     <key>blocks_vector_to_stream</key>
     <param>
       <key>alias</key>
@@ -1916,7 +1916,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(1098, 1152)</value>
+      <value>(1034, 1152)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -2413,7 +2413,7 @@ def get_points(modulation_name):
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(821, 1120)</value>
+      <value>(768, 1120)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -3796,7 +3796,7 @@ def get_points(modulation_name):
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(1834, 944)</value>
+      <value>(1856, 922)</value>
     </param>
     <param>
       <key>gui_hint</key>
@@ -4072,7 +4072,7 @@ def get_points(modulation_name):
     </param>
     <param>
       <key>srate</key>
-      <value>100000</value>
+      <value>400e3</value>
     </param>
     <param>
       <key>stemplot</key>
@@ -4641,7 +4641,7 @@ def get_points(modulation_name):
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(1866, 1130)</value>
+      <value>(1898, 1130)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -4664,11 +4664,11 @@ def get_points(modulation_name):
     </param>
     <param>
       <key>_enabled</key>
-      <value>0</value>
+      <value>1</value>
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(1749, 42)</value>
+      <value>(1632, 1226)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -4826,7 +4826,7 @@ def get_points(modulation_name):
     </param>
     <param>
       <key>_enabled</key>
-      <value>0</value>
+      <value>1</value>
     </param>
     <param>
       <key>_coordinate</key>
@@ -5247,6 +5247,12 @@ def get_points(modulation_name):
     <sink_key>0</sink_key>
   </connection>
   <connection>
+    <source_block_id>blocks_multiply_const_vxx_0</source_block_id>
+    <sink_block_id>virtual_sink_0_0_0_1_0_0</sink_block_id>
+    <source_key>0</source_key>
+    <sink_key>0</sink_key>
+  </connection>
+  <connection>
     <source_block_id>blocks_pdu_to_tagged_stream_0</source_block_id>
     <sink_block_id>blocks_repack_bits_bb_0</sink_block_id>
     <source_key>0</source_key>
@@ -5374,7 +5380,7 @@ def get_points(modulation_name):
   </connection>
   <connection>
     <source_block_id>blocks_stream_mux_0</source_block_id>
-    <sink_block_id>blocks_repeat_0</sink_block_id>
+    <sink_block_id>blocks_tag_gate_0</sink_block_id>
     <source_key>0</source_key>
     <sink_key>0</sink_key>
   </connection>
@@ -5409,16 +5415,16 @@ def get_points(modulation_name):
     <sink_key>0</sink_key>
   </connection>
   <connection>
+    <source_block_id>blocks_tag_gate_0</source_block_id>
+    <sink_block_id>blocks_repeat_0</sink_block_id>
+    <source_key>0</source_key>
+    <sink_key>0</sink_key>
+  </connection>
+  <connection>
     <source_block_id>blocks_tagged_stream_to_pdu_0</source_block_id>
     <sink_block_id>blocks_message_debug_0</sink_block_id>
     <source_key>pdus</source_key>
     <sink_key>print_pdu</sink_key>
-  </connection>
-  <connection>
-    <source_block_id>blocks_throttle_0</source_block_id>
-    <sink_block_id>blocks_stream_to_vector_0</sink_block_id>
-    <source_key>0</source_key>
-    <sink_key>0</sink_key>
   </connection>
   <connection>
     <source_block_id>blocks_vector_to_stream_0</source_block_id>
@@ -5499,12 +5505,6 @@ def get_points(modulation_name):
     <sink_key>0</sink_key>
   </connection>
   <connection>
-    <source_block_id>digital_chunks_to_symbols_xx_0_0_1_0_1</source_block_id>
-    <sink_block_id>virtual_sink_0_0_0_1_0_0</sink_block_id>
-    <source_key>0</source_key>
-    <sink_key>0</sink_key>
-  </connection>
-  <connection>
     <source_block_id>fft_vxx_0</source_block_id>
     <sink_block_id>blocks_vector_to_stream_0</sink_block_id>
     <source_key>0</source_key>
@@ -5518,7 +5518,7 @@ def get_points(modulation_name):
   </connection>
   <connection>
     <source_block_id>virtual_source_0_0</source_block_id>
-    <sink_block_id>blocks_throttle_0</sink_block_id>
+    <sink_block_id>blocks_stream_to_vector_0</sink_block_id>
     <source_key>0</source_key>
     <sink_key>0</sink_key>
   </connection>

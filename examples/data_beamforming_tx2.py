@@ -3,7 +3,7 @@
 ##################################################
 # GNU Radio Python Flow Graph
 # Title: Data Beamforming Tx2
-# Generated: Mon Oct 29 11:06:35 2018
+# Generated: Mon Oct 29 12:36:02 2018
 ##################################################
 
 if __name__ == '__main__':
@@ -82,7 +82,7 @@ class data_beamforming_tx2(gr.top_block, Qt.QWidget):
         self.qtgui_time_sink_x_0_0_1_1_0 = qtgui.time_sink_c(
         	1024*64, #size
         	100000, #samp_rate
-        	"Time Plot", #name
+        	'Tx Signal', #name
         	1 #number of inputs
         )
         self.qtgui_time_sink_x_0_0_1_1_0.set_update_time(0.10)
@@ -132,8 +132,8 @@ class data_beamforming_tx2(gr.top_block, Qt.QWidget):
         self.top_grid_layout.addWidget(self._qtgui_time_sink_x_0_0_1_1_0_win)
         self.qtgui_time_sink_x_0_0_1_1 = qtgui.time_sink_c(
         	1024*64, #size
-        	100000, #samp_rate
-        	"Time Plot", #name
+        	NFFT*64, #samp_rate
+        	'Payload', #name
         	1 #number of inputs
         )
         self.qtgui_time_sink_x_0_0_1_1.set_update_time(0.10)
@@ -143,7 +143,7 @@ class data_beamforming_tx2(gr.top_block, Qt.QWidget):
 
         self.qtgui_time_sink_x_0_0_1_1.enable_tags(-1, True)
         self.qtgui_time_sink_x_0_0_1_1.set_trigger_mode(qtgui.TRIG_MODE_FREE, qtgui.TRIG_SLOPE_POS, 0.0, 0, 0, "")
-        self.qtgui_time_sink_x_0_0_1_1.enable_autoscale(True)
+        self.qtgui_time_sink_x_0_0_1_1.enable_autoscale(False)
         self.qtgui_time_sink_x_0_0_1_1.enable_grid(False)
         self.qtgui_time_sink_x_0_0_1_1.enable_axis_labels(True)
         self.qtgui_time_sink_x_0_0_1_1.enable_control_panel(False)
@@ -186,7 +186,7 @@ class data_beamforming_tx2(gr.top_block, Qt.QWidget):
         	firdes.WIN_BLACKMAN_hARRIS, #wintype
         	900e6, #fc
         	400000, #bw
-        	'FFT Plot', #name
+        	'Tx Signal', #name
         	1 #number of inputs
         )
         self.qtgui_freq_sink_x_0_0_0.set_update_time(0.10)
@@ -224,6 +224,49 @@ class data_beamforming_tx2(gr.top_block, Qt.QWidget):
 
         self._qtgui_freq_sink_x_0_0_0_win = sip.wrapinstance(self.qtgui_freq_sink_x_0_0_0.pyqwidget(), Qt.QWidget)
         self.top_grid_layout.addWidget(self._qtgui_freq_sink_x_0_0_0_win)
+        self.qtgui_freq_sink_x_0_0 = qtgui.freq_sink_c(
+        	NFFT*4, #size
+        	firdes.WIN_FLATTOP, #wintype
+        	900000000, #fc
+        	200e3, #bw
+        	'Payload', #name
+        	1 #number of inputs
+        )
+        self.qtgui_freq_sink_x_0_0.set_update_time(0.10)
+        self.qtgui_freq_sink_x_0_0.set_y_axis(-140, 10)
+        self.qtgui_freq_sink_x_0_0.set_y_label('Relative Gain', 'dB')
+        self.qtgui_freq_sink_x_0_0.set_trigger_mode(qtgui.TRIG_MODE_FREE, 0.0, 0, "")
+        self.qtgui_freq_sink_x_0_0.enable_autoscale(False)
+        self.qtgui_freq_sink_x_0_0.enable_grid(False)
+        self.qtgui_freq_sink_x_0_0.set_fft_average(1.0)
+        self.qtgui_freq_sink_x_0_0.enable_axis_labels(True)
+        self.qtgui_freq_sink_x_0_0.enable_control_panel(False)
+
+        if not True:
+          self.qtgui_freq_sink_x_0_0.disable_legend()
+
+        if "complex" == "float" or "complex" == "msg_float":
+          self.qtgui_freq_sink_x_0_0.set_plot_pos_half(not True)
+
+        labels = ['', '', '', '', '',
+                  '', '', '', '', '']
+        widths = [1, 1, 1, 1, 1,
+                  1, 1, 1, 1, 1]
+        colors = ["blue", "red", "green", "black", "cyan",
+                  "magenta", "yellow", "dark red", "dark green", "dark blue"]
+        alphas = [1.0, 1.0, 1.0, 1.0, 1.0,
+                  1.0, 1.0, 1.0, 1.0, 1.0]
+        for i in xrange(1):
+            if len(labels[i]) == 0:
+                self.qtgui_freq_sink_x_0_0.set_line_label(i, "Data {0}".format(i))
+            else:
+                self.qtgui_freq_sink_x_0_0.set_line_label(i, labels[i])
+            self.qtgui_freq_sink_x_0_0.set_line_width(i, widths[i])
+            self.qtgui_freq_sink_x_0_0.set_line_color(i, colors[i])
+            self.qtgui_freq_sink_x_0_0.set_line_alpha(i, alphas[i])
+
+        self._qtgui_freq_sink_x_0_0_win = sip.wrapinstance(self.qtgui_freq_sink_x_0_0.pyqwidget(), Qt.QWidget)
+        self.top_grid_layout.addWidget(self._qtgui_freq_sink_x_0_0_win)
         self.fft_vxx_0 = fft.fft_vcc(NFFT, False, (()), True, 2)
         self.digital_chunks_to_symbols_xx_0_0_1_0_1 = digital.chunks_to_symbols_bc((cons_config.get_points("64QAM")), 1)
         self.digital_chunks_to_symbols_xx_0_0_1_0_0 = digital.chunks_to_symbols_bc((cons_config.get_points("32QAM")), 1)
@@ -234,14 +277,13 @@ class data_beamforming_tx2(gr.top_block, Qt.QWidget):
         self.blocks_vector_to_stream_0 = blocks.vector_to_stream(gr.sizeof_gr_complex*1, NFFT)
         self.blocks_throttle_0 = blocks.throttle(gr.sizeof_gr_complex*1, 100000,True)
         self.blocks_stream_to_vector_0 = blocks.stream_to_vector(gr.sizeof_gr_complex*1, NFFT)
-        self.blocks_stream_mux_1_0 = blocks.stream_mux(gr.sizeof_gr_complex*1, (N_edge_zeros, subcarrier_size, NFFT -num_active_mod - N_edge_zeros))
+        self.blocks_stream_mux_1_0 = blocks.stream_mux(gr.sizeof_gr_complex*1, (N_edge_zeros, subcarrier_size*num_active_mod, NFFT -num_active_mod - N_edge_zeros))
         self.blocks_stream_mux_1 = blocks.stream_mux(gr.sizeof_gr_complex*1, (trainingSignal_size, 400, NFFT * 64 , 100))
         self.blocks_stream_mux_0 = blocks.stream_mux(gr.sizeof_gr_complex*1, (1, 1, 1, 1, 1, 1))
         self.blocks_repeat_0_0_0_1_0 = blocks.repeat(gr.sizeof_gr_complex*1, 400 * numTxAntennas)
         self.blocks_repeat_0_0_0_1 = blocks.repeat(gr.sizeof_gr_complex*1, 100 * numTxAntennas)
         self.blocks_repeat_0_0_0 = blocks.repeat(gr.sizeof_gr_complex*1, NFFT - N_edge_zeros -num_active_mod)
         self.blocks_repeat_0_0 = blocks.repeat(gr.sizeof_gr_complex*1, N_edge_zeros)
-        self.blocks_repeat_0 = blocks.repeat(gr.sizeof_gr_complex*1, subcarrier_size)
         self.blocks_repack_bits_bb_0_1_1_0 = blocks.repack_bits_bb(8, 6, 'packet_len', False, gr.GR_MSB_FIRST)
         self.blocks_repack_bits_bb_0_1_1 = blocks.repack_bits_bb(8, 5, 'packet_len', False, gr.GR_MSB_FIRST)
         self.blocks_repack_bits_bb_0_1_0 = blocks.repack_bits_bb(8, 1, 'packet_len', False, gr.GR_MSB_FIRST)
@@ -276,6 +318,7 @@ class data_beamforming_tx2(gr.top_block, Qt.QWidget):
         self.msg_connect((self.blocks_message_strobe_0, 'strobe'), (self.beamforming_payload_generator_cpp_0, 'generate'))
         self.connect((self.beamforming_matlab_file_payload_py_0, 0), (self.blocks_stream_mux_1, 0))
         self.connect((self.beamforming_multiply_by_variable_py_cc_1, 0), (self.blocks_stream_mux_1, 2))
+        self.connect((self.beamforming_multiply_by_variable_py_cc_1, 0), (self.qtgui_freq_sink_x_0_0, 0))
         self.connect((self.beamforming_multiply_by_variable_py_cc_1, 0), (self.qtgui_time_sink_x_0_0_1_1, 0))
         self.connect((self.blocks_multiply_const_vxx_0, 0), (self.beamforming_multiply_by_variable_py_cc_1, 0))
         self.connect((self.blocks_pdu_to_tagged_stream_0, 0), (self.blocks_repack_bits_bb_0, 0))
@@ -290,12 +333,11 @@ class data_beamforming_tx2(gr.top_block, Qt.QWidget):
         self.connect((self.blocks_repack_bits_bb_0_1_0, 0), (self.digital_chunks_to_symbols_xx_0_0_1_0, 0))
         self.connect((self.blocks_repack_bits_bb_0_1_1, 0), (self.digital_chunks_to_symbols_xx_0_0_1_0_0, 0))
         self.connect((self.blocks_repack_bits_bb_0_1_1_0, 0), (self.digital_chunks_to_symbols_xx_0_0_1_0_1, 0))
-        self.connect((self.blocks_repeat_0, 0), (self.blocks_stream_mux_1_0, 1))
         self.connect((self.blocks_repeat_0_0, 0), (self.blocks_stream_mux_1_0, 0))
         self.connect((self.blocks_repeat_0_0_0, 0), (self.blocks_stream_mux_1_0, 2))
         self.connect((self.blocks_repeat_0_0_0_1, 0), (self.blocks_stream_mux_1, 3))
         self.connect((self.blocks_repeat_0_0_0_1_0, 0), (self.blocks_stream_mux_1, 1))
-        self.connect((self.blocks_stream_mux_0, 0), (self.blocks_repeat_0, 0))
+        self.connect((self.blocks_stream_mux_0, 0), (self.blocks_stream_mux_1_0, 1))
         self.connect((self.blocks_stream_mux_1, 0), (self.qtgui_freq_sink_x_0_0_0, 0))
         self.connect((self.blocks_stream_mux_1, 0), (self.qtgui_time_sink_x_0_0_1_1_0, 0))
         self.connect((self.blocks_stream_mux_1_0, 0), (self.blocks_throttle_0, 0))
@@ -330,7 +372,6 @@ class data_beamforming_tx2(gr.top_block, Qt.QWidget):
 
     def set_subcarrier_size(self, subcarrier_size):
         self.subcarrier_size = subcarrier_size
-        self.blocks_repeat_0.set_interpolation(self.subcarrier_size)
 
     def get_num_active_mod(self):
         return self.num_active_mod
@@ -360,6 +401,7 @@ class data_beamforming_tx2(gr.top_block, Qt.QWidget):
 
     def set_NFFT(self, NFFT):
         self.NFFT = NFFT
+        self.qtgui_time_sink_x_0_0_1_1.set_samp_rate(self.NFFT*64)
         self.blocks_repeat_0_0_0.set_interpolation(self.NFFT - self.N_edge_zeros -self.num_active_mod)
 
 

@@ -566,7 +566,7 @@
     </param>
     <param>
       <key>const</key>
-      <value>1</value>
+      <value>((-1)/NFFT)</value>
     </param>
     <param>
       <key>affinity</key>
@@ -1261,57 +1261,6 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(650, 832)</value>
-    </param>
-    <param>
-      <key>_rotation</key>
-      <value>0</value>
-    </param>
-    <param>
-      <key>id</key>
-      <value>blocks_repeat_0</value>
-    </param>
-    <param>
-      <key>interp</key>
-      <value>subcarrier_size</value>
-    </param>
-    <param>
-      <key>maxoutbuf</key>
-      <value>0</value>
-    </param>
-    <param>
-      <key>minoutbuf</key>
-      <value>0</value>
-    </param>
-    <param>
-      <key>type</key>
-      <value>complex</value>
-    </param>
-    <param>
-      <key>vlen</key>
-      <value>1</value>
-    </param>
-  </block>
-  <block>
-    <key>blocks_repeat</key>
-    <param>
-      <key>alias</key>
-      <value></value>
-    </param>
-    <param>
-      <key>comment</key>
-      <value></value>
-    </param>
-    <param>
-      <key>affinity</key>
-      <value></value>
-    </param>
-    <param>
-      <key>_enabled</key>
-      <value>True</value>
-    </param>
-    <param>
-      <key>_coordinate</key>
       <value>(650, 704)</value>
     </param>
     <param>
@@ -1638,7 +1587,7 @@
     </param>
     <param>
       <key>lengths</key>
-      <value>N_edge_zeros, subcarrier_size, NFFT -num_active_mod - N_edge_zeros</value>
+      <value>N_edge_zeros, subcarrier_size*num_active_mod, NFFT -num_active_mod - N_edge_zeros</value>
     </param>
     <param>
       <key>maxoutbuf</key>
@@ -2772,7 +2721,7 @@ def get_points(modulation_name):
     <key>qtgui_freq_sink_x</key>
     <param>
       <key>autoscale</key>
-      <value>True</value>
+      <value>False</value>
     </param>
     <param>
       <key>average</key>
@@ -2784,7 +2733,7 @@ def get_points(modulation_name):
     </param>
     <param>
       <key>bw</key>
-      <value>200000</value>
+      <value>200e3</value>
     </param>
     <param>
       <key>alias</key>
@@ -2808,11 +2757,11 @@ def get_points(modulation_name):
     </param>
     <param>
       <key>_enabled</key>
-      <value>0</value>
+      <value>1</value>
     </param>
     <param>
       <key>fftsize</key>
-      <value>NFFT*16</value>
+      <value>NFFT*4</value>
     </param>
     <param>
       <key>_coordinate</key>
@@ -3008,7 +2957,7 @@ def get_points(modulation_name):
     </param>
     <param>
       <key>name</key>
-      <value>FFT Plot</value>
+      <value>Payload</value>
     </param>
     <param>
       <key>nconnections</key>
@@ -3307,7 +3256,7 @@ def get_points(modulation_name):
     </param>
     <param>
       <key>name</key>
-      <value>FFT Plot</value>
+      <value>Tx Signal</value>
     </param>
     <param>
       <key>nconnections</key>
@@ -3737,7 +3686,7 @@ def get_points(modulation_name):
     <key>qtgui_time_sink_x</key>
     <param>
       <key>autoscale</key>
-      <value>True</value>
+      <value>False</value>
     </param>
     <param>
       <key>axislabels</key>
@@ -4033,7 +3982,7 @@ def get_points(modulation_name):
     </param>
     <param>
       <key>name</key>
-      <value>"Time Plot"</value>
+      <value>Payload</value>
     </param>
     <param>
       <key>nconnections</key>
@@ -4045,7 +3994,7 @@ def get_points(modulation_name):
     </param>
     <param>
       <key>srate</key>
-      <value>100000</value>
+      <value>NFFT*64</value>
     </param>
     <param>
       <key>stemplot</key>
@@ -4400,7 +4349,7 @@ def get_points(modulation_name):
     </param>
     <param>
       <key>name</key>
-      <value>"Time Plot"</value>
+      <value>Tx Signal</value>
     </param>
     <param>
       <key>nconnections</key>
@@ -5245,18 +5194,6 @@ def get_points(modulation_name):
     <sink_key>0</sink_key>
   </connection>
   <connection>
-    <source_block_id>blocks_repeat_0</source_block_id>
-    <sink_block_id>blocks_stream_mux_1_0</sink_block_id>
-    <source_key>0</source_key>
-    <sink_key>1</sink_key>
-  </connection>
-  <connection>
-    <source_block_id>blocks_repeat_0</source_block_id>
-    <sink_block_id>qtgui_time_sink_x_0_0_1_0</sink_block_id>
-    <source_key>0</source_key>
-    <sink_key>0</sink_key>
-  </connection>
-  <connection>
     <source_block_id>blocks_repeat_0_0</source_block_id>
     <sink_block_id>blocks_stream_mux_1_0</sink_block_id>
     <source_key>0</source_key>
@@ -5282,9 +5219,9 @@ def get_points(modulation_name):
   </connection>
   <connection>
     <source_block_id>blocks_stream_mux_0</source_block_id>
-    <sink_block_id>blocks_repeat_0</sink_block_id>
+    <sink_block_id>blocks_stream_mux_1_0</sink_block_id>
     <source_key>0</source_key>
-    <sink_key>0</sink_key>
+    <sink_key>1</sink_key>
   </connection>
   <connection>
     <source_block_id>blocks_stream_mux_1</source_block_id>

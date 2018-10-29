@@ -3,7 +3,7 @@
 ##################################################
 # GNU Radio Python Flow Graph
 # Title: Data Beamforming Tx
-# Generated: Mon Oct 29 09:57:07 2018
+# Generated: Mon Oct 29 17:08:53 2018
 ##################################################
 
 if __name__ == '__main__':
@@ -134,7 +134,7 @@ class data_beamforming_tx(gr.top_block, Qt.QWidget):
         self.top_grid_layout.addWidget(self._qtgui_time_sink_x_0_0_1_1_0_win)
         self.qtgui_time_sink_x_0_0_1_1 = qtgui.time_sink_c(
         	1024, #size
-        	100000, #samp_rate
+        	400e3, #samp_rate
         	"Time Plot", #name
         	1 #number of inputs
         )
@@ -234,7 +234,8 @@ class data_beamforming_tx(gr.top_block, Qt.QWidget):
         self.digital_chunks_to_symbols_xx_0_0_0 = digital.chunks_to_symbols_bc((cons_config.get_points("16QAM")), 1)
         self.digital_chunks_to_symbols_xx_0_0 = digital.chunks_to_symbols_bc((cons_config.get_points("8QAM")), 1)
         self.blocks_vector_to_stream_0 = blocks.vector_to_stream(gr.sizeof_gr_complex*1, NFFT)
-        self.blocks_throttle_0 = blocks.throttle(gr.sizeof_gr_complex*1, 100000,True)
+        self.blocks_tag_gate_0 = blocks.tag_gate(gr.sizeof_gr_complex * 1, False)
+        self.blocks_tag_gate_0.set_single_key("packet_len")
         self.blocks_stream_to_vector_0 = blocks.stream_to_vector(gr.sizeof_gr_complex*1, NFFT)
         self.blocks_stream_mux_1_0 = blocks.stream_mux(gr.sizeof_gr_complex*1, (N_edge_zeros, num_active_mod*subcarrier_size,N_center_zeros, num_active_mod*subcarrier_size, N_center_zeros, N_edge_zeros))
         self.blocks_stream_mux_1 = blocks.stream_mux(gr.sizeof_gr_complex*1, (trainingSignal_size, 400, NFFT * 64 , 100))
@@ -256,8 +257,10 @@ class data_beamforming_tx(gr.top_block, Qt.QWidget):
         self.blocks_pdu_to_tagged_stream_0_1 = blocks.pdu_to_tagged_stream(blocks.byte_t, 'packet_len')
         self.blocks_pdu_to_tagged_stream_0_0 = blocks.pdu_to_tagged_stream(blocks.byte_t, 'packet_len')
         self.blocks_pdu_to_tagged_stream_0 = blocks.pdu_to_tagged_stream(blocks.byte_t, 'packet_len')
-        self.blocks_multiply_const_vxx_0 = blocks.multiply_const_vcc((1, ))
-        self.blocks_message_strobe_0 = blocks.message_strobe(pmt.PMT_T, 200)
+        self.blocks_multiply_const_vxx_0 = blocks.multiply_const_vcc((-390625e-8, ))
+        self.blocks_message_strobe_0 = blocks.message_strobe(pmt.PMT_T, 10000)
+        self.blocks_file_sink_0 = blocks.file_sink(gr.sizeof_gr_complex*1, '/home/gokhan/gnu-radio/gr-beamforming/examples/payload.bin', False)
+        self.blocks_file_sink_0.set_unbuffered(False)
         self.beamforming_payload_generator_cpp_0 = beamforming.payload_generator_cpp('currently_not_used', 1)
         self.beamforming_multiply_by_variable_py_cc_1 = beamforming.multiply_by_variable_py_cc()
         self.beamforming_matlab_file_payload_py_0 = beamforming.matlab_file_payload_py('/home/gokhan/gnu-radio/gr-beamforming/examples/data/trainingSig1')
@@ -280,6 +283,7 @@ class data_beamforming_tx(gr.top_block, Qt.QWidget):
         self.connect((self.beamforming_multiply_by_variable_py_cc_1, 0), (self.blocks_stream_mux_1, 2))
         self.connect((self.beamforming_multiply_by_variable_py_cc_1, 0), (self.qtgui_time_sink_x_0_0_1_1, 0))
         self.connect((self.blocks_multiply_const_vxx_0, 0), (self.beamforming_multiply_by_variable_py_cc_1, 0))
+        self.connect((self.blocks_multiply_const_vxx_0, 0), (self.blocks_file_sink_0, 0))
         self.connect((self.blocks_pdu_to_tagged_stream_0, 0), (self.blocks_repack_bits_bb_0, 0))
         self.connect((self.blocks_pdu_to_tagged_stream_0_0, 0), (self.blocks_repack_bits_bb_0_0, 0))
         self.connect((self.blocks_pdu_to_tagged_stream_0_1, 0), (self.blocks_repack_bits_bb_0_1, 0))
@@ -300,12 +304,12 @@ class data_beamforming_tx(gr.top_block, Qt.QWidget):
         self.connect((self.blocks_repeat_0_0_0, 0), (self.blocks_stream_mux_1_0, 4))
         self.connect((self.blocks_repeat_0_0_0_1, 0), (self.blocks_stream_mux_1, 3))
         self.connect((self.blocks_repeat_0_0_0_1_0, 0), (self.blocks_stream_mux_1, 1))
-        self.connect((self.blocks_stream_mux_0, 0), (self.blocks_repeat_0, 0))
+        self.connect((self.blocks_stream_mux_0, 0), (self.blocks_tag_gate_0, 0))
         self.connect((self.blocks_stream_mux_1, 0), (self.qtgui_freq_sink_x_0_0_0, 0))
         self.connect((self.blocks_stream_mux_1, 0), (self.qtgui_time_sink_x_0_0_1_1_0, 0))
-        self.connect((self.blocks_stream_mux_1_0, 0), (self.blocks_throttle_0, 0))
+        self.connect((self.blocks_stream_mux_1_0, 0), (self.blocks_stream_to_vector_0, 0))
         self.connect((self.blocks_stream_to_vector_0, 0), (self.fft_vxx_0, 0))
-        self.connect((self.blocks_throttle_0, 0), (self.blocks_stream_to_vector_0, 0))
+        self.connect((self.blocks_tag_gate_0, 0), (self.blocks_repeat_0, 0))
         self.connect((self.blocks_vector_to_stream_0, 0), (self.blocks_multiply_const_vxx_0, 0))
         self.connect((self.digital_chunks_to_symbols_xx_0_0, 0), (self.blocks_stream_mux_0, 3))
         self.connect((self.digital_chunks_to_symbols_xx_0_0_0, 0), (self.blocks_stream_mux_0, 2))
