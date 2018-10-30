@@ -4,7 +4,7 @@
   <key>beamforming_CSI_feedback_adapter_py</key>
   <category>[beamforming]</category>
   <import>import beamforming</import>
-  <make>beamforming.CSI_feedback_adapter_py($file_path)</make>
+  <make>beamforming.CSI_feedback_adapter_py($file_path, $number_of_tx_antennas)</make>
   <param>
     <name>CSI File</name>
     <key>file_path</key>
@@ -13,7 +13,7 @@
   </param>
   <param>
     <name>Number of Tx Antennas</name>
-    <key>number_of_Tx_Antennas</key>
+    <key>number_of_tx_antennas</key>
     <value>1</value>
     <type>int</type>
   </param>

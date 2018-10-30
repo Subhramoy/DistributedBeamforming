@@ -39,13 +39,13 @@ class CSI_feedback_adapter_py(gr.basic_block):
     numTxAntennas = 1
     beamweights =[]
 
-    def __init__(self, file_path, number_of_Tx_Antennas):
+    def __init__(self, file_path, number_of_tx_antennas):
         gr.basic_block.__init__(self,
             name="CSI_feedback_adapter_py",
             in_sig=None,
             out_sig=None)
 
-        self.numTxAntennas = number_of_Tx_Antennas
+        self.numTxAntennas = number_of_tx_antennas
 
         # Input message port
         self.message_port_register_in(pmt.intern("read_file"))
@@ -61,7 +61,7 @@ class CSI_feedback_adapter_py(gr.basic_block):
         # First 8 bytes of binary file 'weights_tx2.bin' contain real values
         # Second 8 bytes of binary file 'weights_tx2.bin' contain imaginary values
         # Third 8 bytes of binary file 'weights_tx2.bin' contain the time correction value.
-        sbet_file = open(self.file_path + 'weights_tx2.bin')
+        sbet_file = open(self.file_path)
         sbet_data = sbet_file.read()
         real = struct.unpack('d', sbet_data[0:self.binary_byte_read])[0]
         # print(real)

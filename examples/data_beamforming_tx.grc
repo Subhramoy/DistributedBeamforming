@@ -286,7 +286,7 @@
     </param>
     <param>
       <key>file_path</key>
-      <value>/home/gokhan/gnu-radio/gr-beamforming/examples/data/</value>
+      <value>/home/gokhan/gnu-radio/gr-beamforming/examples/data/weights_tx2.bin</value>
     </param>
     <param>
       <key>comment</key>
@@ -298,11 +298,11 @@
     </param>
     <param>
       <key>_enabled</key>
-      <value>1</value>
+      <value>True</value>
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(1098, 1034)</value>
+      <value>(1237, 1024)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -319,6 +319,10 @@
     <param>
       <key>minoutbuf</key>
       <value>0</value>
+    </param>
+    <param>
+      <key>number_of_tx_antennas</key>
+      <value>1</value>
     </param>
   </block>
   <block>

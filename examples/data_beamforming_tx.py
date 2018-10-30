@@ -3,7 +3,7 @@
 ##################################################
 # GNU Radio Python Flow Graph
 # Title: Data Beamforming Tx
-# Generated: Mon Oct 29 17:22:23 2018
+# Generated: Tue Oct 30 09:15:35 2018
 ##################################################
 
 if __name__ == '__main__':
@@ -262,7 +262,7 @@ class data_beamforming_tx(gr.top_block, Qt.QWidget):
         self.beamforming_payload_generator_cpp_0 = beamforming.payload_generator_cpp('currently_not_used', 1)
         self.beamforming_multiply_by_variable_py_cc_1 = beamforming.multiply_by_variable_py_cc()
         self.beamforming_matlab_file_payload_py_0 = beamforming.matlab_file_payload_py('/home/gokhan/gnu-radio/gr-beamforming/examples/data/trainingSig1')
-        self.beamforming_CSI_feedback_adapter_py_0 = beamforming.CSI_feedback_adapter_py('/home/gokhan/gnu-radio/gr-beamforming/examples/data/')
+        self.beamforming_CSI_feedback_adapter_py_0 = beamforming.CSI_feedback_adapter_py('/home/gokhan/gnu-radio/gr-beamforming/examples/data/weights_tx2.bin', 1)
 
 
 
