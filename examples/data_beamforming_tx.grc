@@ -388,7 +388,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(1621, 1109)</value>
+      <value>(1578, 1109)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -474,11 +474,11 @@
     </param>
     <param>
       <key>_enabled</key>
-      <value>0</value>
+      <value>1</value>
     </param>
     <param>
       <key>file</key>
-      <value>/home/gokhan/gnu-radio/gr-beamforming/examples/payload.bin</value>
+      <value>/home/gokhan/gnu-radio/gr-beamforming/examples/payload-afterWeight.bin</value>
     </param>
     <param>
       <key>_coordinate</key>
@@ -498,7 +498,7 @@
     </param>
     <param>
       <key>unbuffered</key>
-      <value>False</value>
+      <value>True</value>
     </param>
     <param>
       <key>vlen</key>
@@ -609,7 +609,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(1258, 1152)</value>
+      <value>(1269, 1152)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -4668,11 +4668,11 @@ def get_points(modulation_name):
     </param>
     <param>
       <key>_enabled</key>
-      <value>0</value>
+      <value>1</value>
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(1632, 1226)</value>
+      <value>(1888, 1344)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -4830,7 +4830,7 @@ def get_points(modulation_name):
     </param>
     <param>
       <key>_enabled</key>
-      <value>0</value>
+      <value>1</value>
     </param>
     <param>
       <key>_coordinate</key>
@@ -5203,6 +5203,12 @@ def get_points(modulation_name):
     <sink_key>0</sink_key>
   </connection>
   <connection>
+    <source_block_id>beamforming_multiply_by_variable_py_cc_1</source_block_id>
+    <sink_block_id>virtual_sink_0_0_0_1_0_0</sink_block_id>
+    <source_key>0</source_key>
+    <sink_key>0</sink_key>
+  </connection>
+  <connection>
     <source_block_id>beamforming_payload_generator_cpp_0</source_block_id>
     <sink_block_id>blocks_pdu_to_tagged_stream_0_0</sink_block_id>
     <source_key>16QAM_pdu</source_key>
@@ -5240,6 +5246,12 @@ def get_points(modulation_name):
   </connection>
   <connection>
     <source_block_id>blocks_message_strobe_0</source_block_id>
+    <sink_block_id>beamforming_CSI_feedback_adapter_py_0</sink_block_id>
+    <source_key>strobe</source_key>
+    <sink_key>read_file</sink_key>
+  </connection>
+  <connection>
+    <source_block_id>blocks_message_strobe_0</source_block_id>
     <sink_block_id>beamforming_payload_generator_cpp_0</sink_block_id>
     <source_key>strobe</source_key>
     <sink_key>generate</sink_key>
@@ -5247,12 +5259,6 @@ def get_points(modulation_name):
   <connection>
     <source_block_id>blocks_multiply_const_vxx_0</source_block_id>
     <sink_block_id>beamforming_multiply_by_variable_py_cc_1</sink_block_id>
-    <source_key>0</source_key>
-    <sink_key>0</sink_key>
-  </connection>
-  <connection>
-    <source_block_id>blocks_multiply_const_vxx_0</source_block_id>
-    <sink_block_id>virtual_sink_0_0_0_1_0_0</sink_block_id>
     <source_key>0</source_key>
     <sink_key>0</sink_key>
   </connection>

@@ -73,23 +73,14 @@ class CSI_feedback_adapter_py(gr.basic_block):
         # Reconstructing channel estimation value in complex format
         # self.channel_est = [real, imaginary]
         channel_est_complex = complex(real, imaginary)
+        abs_channel_est_antennas = abs(channel_est_complex)
+        phase_correction = channel_est_complex / abs_channel_est_antennas
 
-        # Since I have only 1 Tx radio now, I'm assuming channel estimation values for each antenna to be same
-        for i in range (self.numTxAntennas):
-            self.channel_est_antennas.append(channel_est_complex)
+        beamweight = 1/phase_correction
 
-        # Creating absolute value of channel estimation and then performing phase correction
-        abs_channel_est_antennas = map(abs, self.channel_est_antennas)
-        phase_correction = [x/y for x, y in zip( self.channel_est_antennas, abs_channel_est_antennas)]
+        # print(beamweight)
 
-        # Create a list of ones corresponding to number of tx antennas. They do it matlab, not sure why
-        for i in range (numTxAntennas):
-            self.beamweights.append(1)
-
-        # Calculating the beamweights
-        new_beamweights = [a/b for a, b in zip(self.beamweights, phase_correction)]
-
-        weight = pmt.from_complex(new_beamweights)
+        weight = pmt.from_complex(beamweight)
         self.message_port_pub(pmt.intern("beamweight"), weight)
 
     def forecast(self, noutput_items, ninput_items_required):

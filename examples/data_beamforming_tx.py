@@ -3,7 +3,7 @@
 ##################################################
 # GNU Radio Python Flow Graph
 # Title: Data Beamforming Tx
-# Generated: Tue Oct 30 09:15:35 2018
+# Generated: Mon Nov 19 12:15:15 2018
 ##################################################
 
 if __name__ == '__main__':
@@ -259,6 +259,8 @@ class data_beamforming_tx(gr.top_block, Qt.QWidget):
         self.blocks_pdu_to_tagged_stream_0 = blocks.pdu_to_tagged_stream(blocks.byte_t, 'packet_len')
         self.blocks_multiply_const_vxx_0 = blocks.multiply_const_vcc((-390625e-8, ))
         self.blocks_message_strobe_0 = blocks.message_strobe(pmt.PMT_T, 200)
+        self.blocks_file_sink_0 = blocks.file_sink(gr.sizeof_gr_complex*1, '/home/gokhan/gnu-radio/gr-beamforming/examples/payload-afterWeight.bin', False)
+        self.blocks_file_sink_0.set_unbuffered(True)
         self.beamforming_payload_generator_cpp_0 = beamforming.payload_generator_cpp('currently_not_used', 1)
         self.beamforming_multiply_by_variable_py_cc_1 = beamforming.multiply_by_variable_py_cc()
         self.beamforming_matlab_file_payload_py_0 = beamforming.matlab_file_payload_py('/home/gokhan/gnu-radio/gr-beamforming/examples/data/trainingSig1')
@@ -276,8 +278,10 @@ class data_beamforming_tx(gr.top_block, Qt.QWidget):
         self.msg_connect((self.beamforming_payload_generator_cpp_0, 'BPSK_pdu'), (self.blocks_pdu_to_tagged_stream_0_1_0, 'pdus'))
         self.msg_connect((self.beamforming_payload_generator_cpp_0, '32QAM_pdu'), (self.blocks_pdu_to_tagged_stream_0_1_1, 'pdus'))
         self.msg_connect((self.beamforming_payload_generator_cpp_0, '64QAM_pdu'), (self.blocks_pdu_to_tagged_stream_0_1_2, 'pdus'))
+        self.msg_connect((self.blocks_message_strobe_0, 'strobe'), (self.beamforming_CSI_feedback_adapter_py_0, 'read_file'))
         self.msg_connect((self.blocks_message_strobe_0, 'strobe'), (self.beamforming_payload_generator_cpp_0, 'generate'))
         self.connect((self.beamforming_matlab_file_payload_py_0, 0), (self.blocks_stream_mux_1, 0))
+        self.connect((self.beamforming_multiply_by_variable_py_cc_1, 0), (self.blocks_file_sink_0, 0))
         self.connect((self.beamforming_multiply_by_variable_py_cc_1, 0), (self.blocks_stream_mux_1, 2))
         self.connect((self.beamforming_multiply_by_variable_py_cc_1, 0), (self.qtgui_time_sink_x_0_0_1_1, 0))
         self.connect((self.blocks_multiply_const_vxx_0, 0), (self.beamforming_multiply_by_variable_py_cc_1, 0))

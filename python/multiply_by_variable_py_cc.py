@@ -44,6 +44,7 @@ class multiply_by_variable_py_cc(gr.sync_block):
 
     def update_multiple(self, msg):
         self.multiple = numpy.complex64(pmt.to_complex(msg))
+        # print(self.multiple)
 
     def work(self, input_items, output_items):
         in0 = input_items[0]

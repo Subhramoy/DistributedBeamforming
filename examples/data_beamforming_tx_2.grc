@@ -259,7 +259,7 @@
     </param>
     <param>
       <key>file_path</key>
-      <value>/home/gokhan/gnu-radio/gr-beamforming/examples/data/</value>
+      <value>/home/gokhan/gnu-radio/gr-beamforming/examples/data/weights_tx2.bin</value>
     </param>
     <param>
       <key>comment</key>
@@ -292,6 +292,10 @@
     <param>
       <key>minoutbuf</key>
       <value>0</value>
+    </param>
+    <param>
+      <key>number_of_tx_antennas</key>
+      <value>1</value>
     </param>
   </block>
   <block>
@@ -5108,6 +5112,12 @@ def get_points(modulation_name):
     <sink_block_id>blocks_pdu_to_tagged_stream_0_1</sink_block_id>
     <source_key>QPSK_pdu</source_key>
     <sink_key>pdus</sink_key>
+  </connection>
+  <connection>
+    <source_block_id>blocks_message_strobe_0</source_block_id>
+    <sink_block_id>beamforming_CSI_feedback_adapter_py_0</sink_block_id>
+    <source_key>strobe</source_key>
+    <sink_key>read_file</sink_key>
   </connection>
   <connection>
     <source_block_id>blocks_message_strobe_0</source_block_id>

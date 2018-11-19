@@ -3,7 +3,7 @@
 ##################################################
 # GNU Radio Python Flow Graph
 # Title: Data Beamforming Tx2
-# Generated: Mon Oct 29 12:36:02 2018
+# Generated: Mon Nov 19 12:22:17 2018
 ##################################################
 
 if __name__ == '__main__':
@@ -296,12 +296,12 @@ class data_beamforming_tx2(gr.top_block, Qt.QWidget):
         self.blocks_pdu_to_tagged_stream_0_1 = blocks.pdu_to_tagged_stream(blocks.byte_t, 'packet_len')
         self.blocks_pdu_to_tagged_stream_0_0 = blocks.pdu_to_tagged_stream(blocks.byte_t, 'packet_len')
         self.blocks_pdu_to_tagged_stream_0 = blocks.pdu_to_tagged_stream(blocks.byte_t, 'packet_len')
-        self.blocks_multiply_const_vxx_0 = blocks.multiply_const_vcc((1, ))
+        self.blocks_multiply_const_vxx_0 = blocks.multiply_const_vcc((((-1)/NFFT), ))
         self.blocks_message_strobe_0 = blocks.message_strobe(pmt.PMT_T, 200)
         self.beamforming_payload_generator_cpp_0 = beamforming.payload_generator_cpp('currently_not_used', 1)
         self.beamforming_multiply_by_variable_py_cc_1 = beamforming.multiply_by_variable_py_cc()
         self.beamforming_matlab_file_payload_py_0 = beamforming.matlab_file_payload_py('/home/gokhan/gnu-radio/gr-beamforming/examples/data/trainingSig1')
-        self.beamforming_CSI_feedback_adapter_py_0 = beamforming.CSI_feedback_adapter_py('/home/gokhan/gnu-radio/gr-beamforming/examples/data/')
+        self.beamforming_CSI_feedback_adapter_py_0 = beamforming.CSI_feedback_adapter_py('/home/gokhan/gnu-radio/gr-beamforming/examples/data/weights_tx2.bin', 1)
 
 
 
@@ -315,6 +315,7 @@ class data_beamforming_tx2(gr.top_block, Qt.QWidget):
         self.msg_connect((self.beamforming_payload_generator_cpp_0, 'BPSK_pdu'), (self.blocks_pdu_to_tagged_stream_0_1_0, 'pdus'))
         self.msg_connect((self.beamforming_payload_generator_cpp_0, '32QAM_pdu'), (self.blocks_pdu_to_tagged_stream_0_1_1, 'pdus'))
         self.msg_connect((self.beamforming_payload_generator_cpp_0, '64QAM_pdu'), (self.blocks_pdu_to_tagged_stream_0_1_2, 'pdus'))
+        self.msg_connect((self.blocks_message_strobe_0, 'strobe'), (self.beamforming_CSI_feedback_adapter_py_0, 'read_file'))
         self.msg_connect((self.blocks_message_strobe_0, 'strobe'), (self.beamforming_payload_generator_cpp_0, 'generate'))
         self.connect((self.beamforming_matlab_file_payload_py_0, 0), (self.blocks_stream_mux_1, 0))
         self.connect((self.beamforming_multiply_by_variable_py_cc_1, 0), (self.blocks_stream_mux_1, 2))
@@ -403,6 +404,7 @@ class data_beamforming_tx2(gr.top_block, Qt.QWidget):
         self.NFFT = NFFT
         self.qtgui_time_sink_x_0_0_1_1.set_samp_rate(self.NFFT*64)
         self.blocks_repeat_0_0_0.set_interpolation(self.NFFT - self.N_edge_zeros -self.num_active_mod)
+        self.blocks_multiply_const_vxx_0.set_k((((-1)/self.NFFT), ))
 
 
 def main(top_block_cls=data_beamforming_tx2, options=None):
