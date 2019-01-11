@@ -13,6 +13,7 @@ trainingSig2 = []
 trainingSig3 = []
 trainingSig4 = []
 
+output_file = open('trSig1.bin', 'wb')
 
 ##Real part of the training signal for antenna #1 read from file
 with open('trainingSig1_real.txt', 'r') as f:
@@ -28,6 +29,10 @@ with open('trainingSig1_imag.txt', 'r') as f1:
 for ii in range (length):
     pay_c = complex (float(pay_real[ii]), float(pay_imag[ii]))
     trainingSig1.append(pay_c)
+    output_file.write(pay_c.to_bytes())
+
+#trainingSig1.tofile(output_file)
+output_file.close()
 ################################################################################
 
 ##Real part of the training signal for antenna #2 read from file

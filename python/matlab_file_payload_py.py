@@ -17,13 +17,14 @@
 # along with this software; see the file COPYING.  If not, write to
 # the Free Software Foundation, Inc., 51 Franklin Street,
 # Boston, MA 02110-1301, USA.
-# 
+#
 
+import pmt
 import numpy
 from gnuradio import gr
 
 
-class matlab_file_payload_py(gr.basic_block):
+class matlab_file_payload_py(gr.sync_block):
     """
     docstring for block matlab_file_payload_py
     """
@@ -32,21 +33,22 @@ class matlab_file_payload_py(gr.basic_block):
     channel_est_antennas = []
     payload = []
 
-    bmwght_temp = []
-    bmfrm_pyld = []
-    beamform_payload = []
-    beamweights = []
-
     counter = 0
 
     file_path = ""
 
     def __init__(self, file_path):
-        gr.basic_block.__init__(self,
+        gr.sync_block.__init__(self,
                                 name="matlab_file_payload_py",
-                                in_sig=None,
+                                in_sig=[numpy.complex64],
                                 out_sig=[numpy.complex64])
         self.file_path = file_path
+
+        # Input and output message ports
+        self.message_port_register_in(pmt.intern("generate"))
+        self.message_port_register_out(pmt.intern("training_signal"))
+        self.set_msg_handler(pmt.intern("generate"), self.send_trainingSignal)
+
 
         # Real part of the payload read from 'payload_real.txt' file
         with open( self.file_path + '_real.txt', 'r') as f:
@@ -64,21 +66,57 @@ class matlab_file_payload_py(gr.basic_block):
             data = numpy.complex64(data_p_c)
             self.payload.append(data)
 
-    def forecast(self, noutput_items, ninput_items_required):
-        print("This function should not be called")
-        # setup size of input_items[i] for work call
-        for i in range(len(ninput_items_required)):
-            ninput_items_required[i] = noutput_items
+        print("Training Signal is successfully retrieved from the target file.")
 
-    def general_work(self, input_items, output_items):
 
+
+    def work(self, input_items, output_items):
+        in0 = input_items[0]
+        out = output_items[0]
         # print("Function CALLED without any input\n")
 
-        if (self.counter == len(self.payload)):
-            self.counter = 0
+        #if (self.counter == len(self.payload)):
+        #    print("END_OF_FILE")
+        #    self.counter = 0
 
-        data_send = self.payload[self.counter]
-        self.counter = self.counter + 1
+        # data_send = self.payload[self.counter]
+        # self.counter = self.counter + 1
 
-        output_items[0][:] = data_send
-        return len(output_items[0])
+        # print(self.counter)
+        # print("This is the data send:")
+
+        req_size = len(out)
+
+        end = self.counter + req_size
+        if end > len(self.payload):
+            residue_size = len(self.payload) - self.counter
+            remaining_req = req_size - residue_size
+
+            out[:] = numpy.append(
+                self.payload[self.counter: len(self.payload)],
+                self.payload[0: remaining_req]
+            )
+            self.counter = remaining_req
+
+            return len(output_items[0])
+
+        else:
+            out[:] = self.payload[self.counter:end]
+            return len(output_items[0])
+
+
+
+    def send_trainingSignal(self, msg):
+        print("Send PDU.")
+        print(len(self.payload))
+
+        vector = pmt.make_c32vector(len(self.payload), complex(-1.0))
+
+
+        # pmt::pmt_t vec_pmt(pmt::make_blob(&t_vec[0], t_vec.size()));
+        # pmt::pmt_t pdu(pmt::cons(pmt::PMT_NIL, vec_pmt));
+
+        #self.message_port_pub(pmt.intern("training_signal"), vector)
+
+
+

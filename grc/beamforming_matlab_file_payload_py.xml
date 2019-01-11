@@ -11,9 +11,23 @@
         <value>"./data"</value>
         <type>string</type>
   </param>
+    <sink>
+        <name>in</name>
+        <type>complex</type>
+    </sink>
+  <sink>
+        <name>generate</name>
+        <type>message</type>
+        <optional>1</optional>
+  </sink>
   <source>
         <name>payload</name>
         <type>complex</type>
         <vlen>1</vlen>
+  </source>
+  <source>
+        <name>training_signal</name>
+        <type>message</type>
+        <optional>1</optional>
   </source>
 </block>

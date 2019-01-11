@@ -35,7 +35,7 @@ class multiply_by_variable_py_cc(gr.sync_block):
             in_sig=[numpy.complex64],
             out_sig=[numpy.complex64])
 
-        self.multiple = numpy.complex64(complex(3, 2))
+        self.multiple = numpy.complex64(complex(1, 1))
 
         # Input message port
         self.message_port_register_in(pmt.intern("beamweight"))
