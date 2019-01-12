@@ -24,7 +24,7 @@ import numpy
 from gnuradio import gr
 
 
-class matlab_file_payload_py(gr.sync_block):
+class matlab_file_payload_py(gr.basic_block):
     """
     docstring for block matlab_file_payload_py
     """
@@ -38,16 +38,11 @@ class matlab_file_payload_py(gr.sync_block):
     file_path = ""
 
     def __init__(self, file_path):
-        gr.sync_block.__init__(self,
+        gr.basic_block.__init__(self,
                                 name="matlab_file_payload_py",
-                                in_sig=[numpy.complex64],
+                                in_sig=None,
                                 out_sig=[numpy.complex64])
         self.file_path = file_path
-
-        # Input and output message ports
-        self.message_port_register_in(pmt.intern("generate"))
-        self.message_port_register_out(pmt.intern("training_signal"))
-        self.set_msg_handler(pmt.intern("generate"), self.send_trainingSignal)
 
 
         # Real part of the payload read from 'payload_real.txt' file
@@ -71,20 +66,7 @@ class matlab_file_payload_py(gr.sync_block):
 
 
     def work(self, input_items, output_items):
-        in0 = input_items[0]
         out = output_items[0]
-        # print("Function CALLED without any input\n")
-
-        #if (self.counter == len(self.payload)):
-        #    print("END_OF_FILE")
-        #    self.counter = 0
-
-        # data_send = self.payload[self.counter]
-        # self.counter = self.counter + 1
-
-        # print(self.counter)
-        # print("This is the data send:")
-
         req_size = len(out)
 
         end = self.counter + req_size
@@ -103,20 +85,6 @@ class matlab_file_payload_py(gr.sync_block):
         else:
             out[:] = self.payload[self.counter:end]
             return len(output_items[0])
-
-
-
-    def send_trainingSignal(self, msg):
-        print("Send PDU.")
-        print(len(self.payload))
-
-        vector = pmt.make_c32vector(len(self.payload), complex(-1.0))
-
-
-        # pmt::pmt_t vec_pmt(pmt::make_blob(&t_vec[0], t_vec.size()));
-        # pmt::pmt_t pdu(pmt::cons(pmt::PMT_NIL, vec_pmt));
-
-        #self.message_port_pub(pmt.intern("training_signal"), vector)
 
 
 
