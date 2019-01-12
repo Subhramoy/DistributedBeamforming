@@ -44,7 +44,6 @@ class matlab_file_payload_py(gr.basic_block):
                                 out_sig=[numpy.complex64])
         self.file_path = file_path
 
-
         # Real part of the payload read from 'payload_real.txt' file
         with open( self.file_path + '_real.txt', 'r') as f:
             pay_real = [line.strip() for line in f]
@@ -63,9 +62,7 @@ class matlab_file_payload_py(gr.basic_block):
 
         print("Training Signal is successfully retrieved from the target file.")
 
-
-
-    def work(self, input_items, output_items):
+    def general_work(self, input_items, output_items):
         out = output_items[0]
         req_size = len(out)
 
