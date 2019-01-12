@@ -76,11 +76,11 @@ class matlab_file_payload_py(gr.basic_block):
                 self.payload[0: remaining_req]
             )
             self.counter = remaining_req
-
             return len(output_items[0])
 
         else:
             out[:] = self.payload[self.counter:end]
+            self.counter = end
             return len(output_items[0])
 
 
