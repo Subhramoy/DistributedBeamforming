@@ -4,7 +4,7 @@
   <key>beamforming_CSI_feedback_adapter_py</key>
   <category>[beamforming]</category>
   <import>import beamforming</import>
-  <make>beamforming.CSI_feedback_adapter_py($file_path, $number_of_tx_antennas)</make>
+  <make>beamforming.CSI_feedback_adapter_py($file_path, $number_of_tx_antennas, $multicast_IP, $multicast_port, $Tx_ID)</make>
   <param>
     <name>CSI File</name>
     <key>file_path</key>
@@ -17,14 +17,31 @@
     <value>1</value>
     <type>int</type>
   </param>
+  <param>
+    <name>Multicast IP</name>
+    <key>multicast_IP</key>
+    <value>224.3.29.71</value>
+    <type>string</type>
+  </param>
+  <param>
+    <name>UDP port</name>
+    <key>multicast_port</key>
+    <value>10000</value>
+    <type>int</type>
+  </param>
+  <param>
+    <name>Transmitter ID</name>
+    <key>Tx_ID</key>
+    <value>1</value>
+    <type>int</type>
+  </param>
   <sink>
-    <name>read_file</name>
+    <name>trigger</name>
     <type>message</type>
     <optional>1</optional>
   </sink>
   <source>
     <name>beamweight</name>
     <type>message</type>
-    <optional>1</optional>
   </source>
 </block>

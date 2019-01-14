@@ -66,6 +66,8 @@ class matlab_file_payload_py(gr.basic_block):
         out = output_items[0]
         req_size = len(out)
 
+        # print(self.counter)
+
         end = self.counter + req_size
         if end > len(self.payload):
             residue_size = len(self.payload) - self.counter

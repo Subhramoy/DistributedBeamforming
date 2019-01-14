@@ -321,6 +321,18 @@
       <value>0</value>
     </param>
     <param>
+      <key>Tx_ID</key>
+      <value>1</value>
+    </param>
+    <param>
+      <key>multicast_IP</key>
+      <value>224.3.29.71</value>
+    </param>
+    <param>
+      <key>multicast_port</key>
+      <value>10000</value>
+    </param>
+    <param>
       <key>number_of_tx_antennas</key>
       <value>1</value>
     </param>
@@ -427,7 +439,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(234, 202)</value>
+      <value>(232, 240)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -1818,7 +1830,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(565, 821)</value>
+      <value>(600, 812)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -4064,7 +4076,7 @@ def get_points(modulation_name):
     </param>
     <param>
       <key>name</key>
-      <value>"Time Plot"</value>
+      <value>"Payload"</value>
     </param>
     <param>
       <key>nconnections</key>
@@ -4431,7 +4443,7 @@ def get_points(modulation_name):
     </param>
     <param>
       <key>name</key>
-      <value>"Time Plot"</value>
+      <value>"Training+Payload"</value>
     </param>
     <param>
       <key>nconnections</key>
@@ -5248,7 +5260,7 @@ def get_points(modulation_name):
     <source_block_id>blocks_message_strobe_0</source_block_id>
     <sink_block_id>beamforming_CSI_feedback_adapter_py_0</sink_block_id>
     <source_key>strobe</source_key>
-    <sink_key>read_file</sink_key>
+    <sink_key>trigger</sink_key>
   </connection>
   <connection>
     <source_block_id>blocks_message_strobe_0</source_block_id>
