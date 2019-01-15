@@ -83,24 +83,35 @@ class CSI_feedback_adapter_py(gr.basic_block):
         length = len(de_serialized)
         if self.Tx_ID == 1 and de_serialized[0]['Tx_ID'] == 1:
             print 'For TX 1'
-            print de_serialized[0]['real']
-            print de_serialized[0]['imaginary']
+            real = de_serialized[0]['real']
+            imaginary = de_serialized[0]['imaginary']
         elif self.Tx_ID == 2 and de_serialized[1]['Tx_ID'] == 2:
             print 'For TX 2'
-            print de_serialized[1]['real']
-            print de_serialized[1]['imaginary']
+            real = de_serialized[1]['real']
+            imaginary = de_serialized[1]['imaginary']
         elif self.Tx_ID == 3 and de_serialized[2]['Tx_ID'] == 3:
             print 'For TX 3'
-            print de_serialized[2]['real']
-            print de_serialized[2]['imaginary']
+            real = de_serialized[2]['real']
+            imaginary = de_serialized[2]['imaginary']
         elif self.Tx_ID == 4 and de_serialized[3]['Tx_ID'] == 4:
             print 'For TX 4'
-            print de_serialized[3]['real']
-            print de_serialized[3]['imaginary']
+            real = de_serialized[3]['real']
+            imaginary = de_serialized[3]['imaginary']
 
+        # Reconstructing channel estimation value in complex format
+        # self.channel_est = [real, imaginary]
+        channel_est_complex = complex(real, imaginary)
+        print channel_est_complex
+        abs_channel_est_antennas = abs(channel_est_complex)
+        phase_correction = channel_est_complex / abs_channel_est_antennas
+
+        beamweight = 1/phase_correction
+        self.beamweight = beamweight
+        self.send_beamweight(self)
 
     def send_beamweight(self, msg):
         weight = pmt.from_complex(self.beamweight)
+        print weight
         self.message_port_pub(pmt.intern("beamweight"), weight)
 
 
