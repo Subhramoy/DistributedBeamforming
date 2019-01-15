@@ -3,7 +3,7 @@
 ##################################################
 # GNU Radio Python Flow Graph
 # Title: Data Beamforming Tx2
-# Generated: Mon Jan 14 12:31:38 2019
+# Generated: Tue Jan 15 17:37:53 2019
 ##################################################
 
 if __name__ == '__main__':
@@ -83,13 +83,12 @@ class data_beamforming_tx2(gr.top_block, Qt.QWidget):
         self.zero_padding_0_0 = analog.sig_source_c(0, analog.GR_CONST_WAVE, 0, 0, 0)
         self.zero_padding = analog.sig_source_c(0, analog.GR_CONST_WAVE, 0, 0, 0)
         self.uhd_usrp_sink_0 = uhd.usrp_sink(
-        	",".join(("serial=3123D65", "")),
+        	",".join(("serial=316E275", "")),
         	uhd.stream_args(
         		cpu_format="fc32",
         		channels=range(1),
         	),
         )
-        self.uhd_usrp_sink_0.set_clock_rate(200e6, uhd.ALL_MBOARDS)
         self.uhd_usrp_sink_0.set_clock_source('external', 0)
         self.uhd_usrp_sink_0.set_time_source('external', 0)
         self.uhd_usrp_sink_0.set_samp_rate(400e3)
@@ -320,7 +319,7 @@ class data_beamforming_tx2(gr.top_block, Qt.QWidget):
         self.beamforming_payload_generator_cpp_0 = beamforming.payload_generator_cpp('currently_not_used', 1)
         self.beamforming_multiply_by_variable_py_cc_1 = beamforming.multiply_by_variable_py_cc()
         self.beamforming_matlab_file_payload_py_0 = beamforming.matlab_file_payload_py('/home/subhramoy/Documents/BFInfocom/trainingSig1')
-        self.beamforming_CSI_feedback_adapter_py_0 = beamforming.CSI_feedback_adapter_py('/home/subhramoy/Documents/BFInfocom/weights_tx2.bin', 1, '224.3.29.71', '10000', '1')
+        self.beamforming_CSI_feedback_adapter_py_0 = beamforming.CSI_feedback_adapter_py('/home/subhramoy/Documents/BFInfocom/weights_tx2.bin', 1, '224.3.29.71', 10000, 1)
 
 
 

@@ -1,23 +1,23 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-# 
+#
 # Copyright 2018 GENESYS Lab..
-# 
+#
 # This is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
 # the Free Software Foundation; either version 3, or (at your option)
 # any later version.
-# 
+#
 # This software is distributed in the hope that it will be useful,
 # but WITHOUT ANY WARRANTY; without even the implied warranty of
 # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 # GNU General Public License for more details.
-# 
+#
 # You should have received a copy of the GNU General Public License
 # along with this software; see the file COPYING.  If not, write to
 # the Free Software Foundation, Inc., 51 Franklin Street,
 # Boston, MA 02110-1301, USA.
-# 
+#
 
 #############################
 # TO DO List:
@@ -33,6 +33,7 @@ import sys
 import math
 import cmath
 from gnuradio import gr
+import json
 
 
 # UDP related libraries
@@ -68,6 +69,8 @@ class CSI_feedback_adapter_py(gr.basic_block):
         self.set_msg_handler(pmt.intern("trigger"), self.send_beamweight)
 
         self.file_path = file_path
+        self.Tx_ID = Tx_ID
+        print Tx_ID
 
         address = multicast_IP, int(multicast_port)
         self.UDP_socket = UDPServer(address, self.udp_packet_handler)
@@ -75,7 +78,25 @@ class CSI_feedback_adapter_py(gr.basic_block):
 
 
     def udp_packet_handler(self, json_package):
-        print(json_package)
+        #print(json_package)
+        de_serialized = json.loads(json_package)
+        length = len(de_serialized)
+        if self.Tx_ID == 1 and de_serialized[0]['Tx_ID'] == 1:
+            print 'For TX 1'
+            print de_serialized[0]['real']
+            print de_serialized[0]['imaginary']
+        elif self.Tx_ID == 2 and de_serialized[1]['Tx_ID'] == 2:
+            print 'For TX 2'
+            print de_serialized[1]['real']
+            print de_serialized[1]['imaginary']
+        elif self.Tx_ID == 3 and de_serialized[2]['Tx_ID'] == 3:
+            print 'For TX 3'
+            print de_serialized[2]['real']
+            print de_serialized[2]['imaginary']
+        elif self.Tx_ID == 4 and de_serialized[3]['Tx_ID'] == 4:
+            print 'For TX 4'
+            print de_serialized[3]['real']
+            print de_serialized[3]['imaginary']
 
 
     def send_beamweight(self, msg):
@@ -159,5 +180,3 @@ class UDPServer(threading.Thread):
             else:
                 print('received "%s" from %s - time: %f ' % (data, address, time.time() ) )
                 self.udp_packet_handler(data)
-
-
