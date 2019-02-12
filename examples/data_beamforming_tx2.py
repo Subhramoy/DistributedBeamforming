@@ -3,7 +3,7 @@
 ##################################################
 # GNU Radio Python Flow Graph
 # Title: Data Beamforming Tx2
-# Generated: Fri Jan 18 17:32:17 2019
+# Generated: Tue Feb 12 14:47:44 2019
 ##################################################
 
 if __name__ == '__main__':
@@ -24,7 +24,6 @@ from gnuradio import eng_notation
 from gnuradio import fft
 from gnuradio import gr
 from gnuradio import qtgui
-from gnuradio import uhd
 from gnuradio.eng_option import eng_option
 from gnuradio.fft import window
 from gnuradio.filter import firdes
@@ -34,7 +33,6 @@ import cons_config  # embedded python module
 import pmt
 import sip
 import sys
-import time
 from gnuradio import qtgui
 
 
@@ -68,8 +66,10 @@ class data_beamforming_tx2(gr.top_block, Qt.QWidget):
         ##################################################
         # Variables
         ##################################################
+        self.tx_id = tx_id = 1
         self.trainingSignal_size = trainingSignal_size = 16456
         self.subcarrier_size = subcarrier_size = 1
+        self.samp_rate = samp_rate = 400e3
         self.num_active_mod = num_active_mod = 6
         self.numTxAntennas = numTxAntennas = 1
         self.N_edge_zeros = N_edge_zeros = 4
@@ -79,26 +79,10 @@ class data_beamforming_tx2(gr.top_block, Qt.QWidget):
         # Blocks
         ##################################################
         self.zero_padding_0_0_0 = analog.sig_source_c(0, analog.GR_CONST_WAVE, 0, 0, 0)
-        self.zero_padding_0_0 = analog.sig_source_c(0, analog.GR_CONST_WAVE, 0, 0, 0)
         self.zero_padding = analog.sig_source_c(0, analog.GR_CONST_WAVE, 0, 0, 0)
-        self.uhd_usrp_sink_0 = uhd.usrp_sink(
-        	",".join(("serial=30BC5F6", "")),
-        	uhd.stream_args(
-        		cpu_format="fc32",
-        		channels=range(1),
-        	),
-        )
-        self.uhd_usrp_sink_0.set_clock_source('gpsdo', 0)
-        self.uhd_usrp_sink_0.set_time_source('gpsdo', 0)
-        self.uhd_usrp_sink_0.set_samp_rate(400e3)
-        self.uhd_usrp_sink_0.set_time_unknown_pps(uhd.time_spec())
-        self.uhd_usrp_sink_0.set_center_freq(uhd.tune_request(900e6, -1e6), 0)
-        self.uhd_usrp_sink_0.set_gain(60, 0)
-        self.uhd_usrp_sink_0.set_antenna('TX/RX', 0)
-        self.uhd_usrp_sink_0.set_bandwidth(400e3, 0)
         self.qtgui_time_sink_x_0_0_1_1_0 = qtgui.time_sink_c(
         	1024*64, #size
-        	400000, #samp_rate
+        	samp_rate, #samp_rate
         	'Tx Signal', #name
         	1 #number of inputs
         )
@@ -202,7 +186,7 @@ class data_beamforming_tx2(gr.top_block, Qt.QWidget):
         	NFFT*8, #size
         	firdes.WIN_BLACKMAN_hARRIS, #wintype
         	900e6, #fc
-        	400000, #bw
+        	samp_rate, #bw
         	'Tx Signal', #name
         	1 #number of inputs
         )
@@ -292,13 +276,15 @@ class data_beamforming_tx2(gr.top_block, Qt.QWidget):
         self.digital_chunks_to_symbols_xx_0_0_0 = digital.chunks_to_symbols_bc((cons_config.get_points("16QAM")), 1)
         self.digital_chunks_to_symbols_xx_0_0 = digital.chunks_to_symbols_bc((cons_config.get_points("8QAM")), 1)
         self.blocks_vector_to_stream_0 = blocks.vector_to_stream(gr.sizeof_gr_complex*1, NFFT)
+        self.blocks_throttle_0 = blocks.throttle(gr.sizeof_gr_complex*1, samp_rate,True)
         self.blocks_stream_to_vector_0 = blocks.stream_to_vector(gr.sizeof_gr_complex*1, NFFT)
         self.blocks_stream_mux_1_0 = blocks.stream_mux(gr.sizeof_gr_complex*1, (N_edge_zeros, subcarrier_size*num_active_mod, NFFT -num_active_mod - N_edge_zeros))
         self.blocks_stream_mux_1 = blocks.stream_mux(gr.sizeof_gr_complex*1, (trainingSignal_size, 400 , NFFT * 64 , 100))
         self.blocks_stream_mux_0 = blocks.stream_mux(gr.sizeof_gr_complex*1, (1, 1, 1, 1, 1, 1))
         self.blocks_repeat_0_0_0_1_0 = blocks.repeat(gr.sizeof_gr_complex*1, 400* numTxAntennas)
         self.blocks_repeat_0_0_0_1 = blocks.repeat(gr.sizeof_gr_complex*1, 100 * numTxAntennas)
-        self.blocks_repeat_0_0_0 = blocks.repeat(gr.sizeof_gr_complex*1, NFFT - N_edge_zeros -num_active_mod)
+        self.blocks_repeat_0_0_0_0 = blocks.repeat(gr.sizeof_gr_complex*1, subcarrier_size)
+        self.blocks_repeat_0_0_0 = blocks.repeat(gr.sizeof_gr_complex*1, NFFT - N_edge_zeros - (num_active_mod*subcarrier_size))
         self.blocks_repeat_0_0 = blocks.repeat(gr.sizeof_gr_complex*1, N_edge_zeros)
         self.blocks_repack_bits_bb_0_1_1_0 = blocks.repack_bits_bb(8, 6, 'packet_len', False, gr.GR_MSB_FIRST)
         self.blocks_repack_bits_bb_0_1_1 = blocks.repack_bits_bb(8, 5, 'packet_len', False, gr.GR_MSB_FIRST)
@@ -316,8 +302,15 @@ class data_beamforming_tx2(gr.top_block, Qt.QWidget):
         self.blocks_message_strobe_0 = blocks.message_strobe(pmt.PMT_T, 50)
         self.beamforming_payload_generator_cpp_0 = beamforming.payload_generator_cpp('currently_not_used', 1)
         self.beamforming_multiply_by_variable_py_cc_1 = beamforming.multiply_by_variable_py_cc()
-        self.beamforming_matlab_file_payload_py_0 = beamforming.matlab_file_payload_py('/home/subhramoy/Documents/BFInfocom/trainingSig1')
-        self.beamforming_CSI_feedback_adapter_py_0 = beamforming.CSI_feedback_adapter_py('/home/subhramoy/Documents/BFInfocom/weights_tx2.bin', 1, '224.3.29.71', 10000, 1)
+        self.beamforming_matlab_file_payload_py_0 = beamforming.matlab_file_payload_py('/home/gokhan/gnu-radio/gr-beamforming/examples/data/trainingSig1')
+        self.beamforming_CSI_feedback_adapter_py_0 = beamforming.CSI_feedback_adapter_py(
+              0,
+              '/home/gokhan/gnu-radio/gr-beamforming/examples/data/weights_tx2.bin',
+              numTxAntennas,
+              '224.3.29.71',
+              10000,
+              tx_id)
+
 
 
 
@@ -331,6 +324,7 @@ class data_beamforming_tx2(gr.top_block, Qt.QWidget):
         self.msg_connect((self.beamforming_payload_generator_cpp_0, 'BPSK_pdu'), (self.blocks_pdu_to_tagged_stream_0_1_0, 'pdus'))
         self.msg_connect((self.beamforming_payload_generator_cpp_0, '32QAM_pdu'), (self.blocks_pdu_to_tagged_stream_0_1_1, 'pdus'))
         self.msg_connect((self.beamforming_payload_generator_cpp_0, '64QAM_pdu'), (self.blocks_pdu_to_tagged_stream_0_1_2, 'pdus'))
+        self.msg_connect((self.blocks_message_strobe_0, 'strobe'), (self.beamforming_CSI_feedback_adapter_py_0, 'trigger'))
         self.msg_connect((self.blocks_message_strobe_0, 'strobe'), (self.beamforming_payload_generator_cpp_0, 'generate'))
         self.connect((self.beamforming_matlab_file_payload_py_0, 0), (self.blocks_stream_mux_1, 0))
         self.connect((self.beamforming_multiply_by_variable_py_cc_1, 0), (self.blocks_stream_mux_1, 2))
@@ -351,14 +345,15 @@ class data_beamforming_tx2(gr.top_block, Qt.QWidget):
         self.connect((self.blocks_repack_bits_bb_0_1_1_0, 0), (self.digital_chunks_to_symbols_xx_0_0_1_0_1, 0))
         self.connect((self.blocks_repeat_0_0, 0), (self.blocks_stream_mux_1_0, 0))
         self.connect((self.blocks_repeat_0_0_0, 0), (self.blocks_stream_mux_1_0, 2))
+        self.connect((self.blocks_repeat_0_0_0_0, 0), (self.blocks_stream_mux_1_0, 1))
         self.connect((self.blocks_repeat_0_0_0_1, 0), (self.blocks_stream_mux_1, 3))
         self.connect((self.blocks_repeat_0_0_0_1_0, 0), (self.blocks_stream_mux_1, 1))
-        self.connect((self.blocks_stream_mux_0, 0), (self.blocks_stream_mux_1_0, 1))
-        self.connect((self.blocks_stream_mux_1, 0), (self.qtgui_freq_sink_x_0_0_0, 0))
-        self.connect((self.blocks_stream_mux_1, 0), (self.qtgui_time_sink_x_0_0_1_1_0, 0))
-        self.connect((self.blocks_stream_mux_1, 0), (self.uhd_usrp_sink_0, 0))
+        self.connect((self.blocks_stream_mux_0, 0), (self.blocks_repeat_0_0_0_0, 0))
+        self.connect((self.blocks_stream_mux_1, 0), (self.blocks_throttle_0, 0))
         self.connect((self.blocks_stream_mux_1_0, 0), (self.blocks_stream_to_vector_0, 0))
         self.connect((self.blocks_stream_to_vector_0, 0), (self.fft_vxx_0, 0))
+        self.connect((self.blocks_throttle_0, 0), (self.qtgui_freq_sink_x_0_0_0, 0))
+        self.connect((self.blocks_throttle_0, 0), (self.qtgui_time_sink_x_0_0_1_1_0, 0))
         self.connect((self.blocks_vector_to_stream_0, 0), (self.blocks_multiply_const_vxx_0, 0))
         self.connect((self.digital_chunks_to_symbols_xx_0_0, 0), (self.blocks_stream_mux_0, 3))
         self.connect((self.digital_chunks_to_symbols_xx_0_0_0, 0), (self.blocks_stream_mux_0, 2))
@@ -369,13 +364,19 @@ class data_beamforming_tx2(gr.top_block, Qt.QWidget):
         self.connect((self.fft_vxx_0, 0), (self.blocks_vector_to_stream_0, 0))
         self.connect((self.zero_padding, 0), (self.blocks_repeat_0_0, 0))
         self.connect((self.zero_padding, 0), (self.blocks_repeat_0_0_0, 0))
-        self.connect((self.zero_padding_0_0, 0), (self.blocks_repeat_0_0_0_1, 0))
+        self.connect((self.zero_padding_0_0_0, 0), (self.blocks_repeat_0_0_0_1, 0))
         self.connect((self.zero_padding_0_0_0, 0), (self.blocks_repeat_0_0_0_1_0, 0))
 
     def closeEvent(self, event):
         self.settings = Qt.QSettings("GNU Radio", "data_beamforming_tx2")
         self.settings.setValue("geometry", self.saveGeometry())
         event.accept()
+
+    def get_tx_id(self):
+        return self.tx_id
+
+    def set_tx_id(self, tx_id):
+        self.tx_id = tx_id
 
     def get_trainingSignal_size(self):
         return self.trainingSignal_size
@@ -388,13 +389,24 @@ class data_beamforming_tx2(gr.top_block, Qt.QWidget):
 
     def set_subcarrier_size(self, subcarrier_size):
         self.subcarrier_size = subcarrier_size
+        self.blocks_repeat_0_0_0_0.set_interpolation(self.subcarrier_size)
+        self.blocks_repeat_0_0_0.set_interpolation(self.NFFT - self.N_edge_zeros - (self.num_active_mod*self.subcarrier_size))
+
+    def get_samp_rate(self):
+        return self.samp_rate
+
+    def set_samp_rate(self, samp_rate):
+        self.samp_rate = samp_rate
+        self.qtgui_time_sink_x_0_0_1_1_0.set_samp_rate(self.samp_rate)
+        self.qtgui_freq_sink_x_0_0_0.set_frequency_range(900e6, self.samp_rate)
+        self.blocks_throttle_0.set_sample_rate(self.samp_rate)
 
     def get_num_active_mod(self):
         return self.num_active_mod
 
     def set_num_active_mod(self, num_active_mod):
         self.num_active_mod = num_active_mod
-        self.blocks_repeat_0_0_0.set_interpolation(self.NFFT - self.N_edge_zeros -self.num_active_mod)
+        self.blocks_repeat_0_0_0.set_interpolation(self.NFFT - self.N_edge_zeros - (self.num_active_mod*self.subcarrier_size))
 
     def get_numTxAntennas(self):
         return self.numTxAntennas
@@ -409,7 +421,7 @@ class data_beamforming_tx2(gr.top_block, Qt.QWidget):
 
     def set_N_edge_zeros(self, N_edge_zeros):
         self.N_edge_zeros = N_edge_zeros
-        self.blocks_repeat_0_0_0.set_interpolation(self.NFFT - self.N_edge_zeros -self.num_active_mod)
+        self.blocks_repeat_0_0_0.set_interpolation(self.NFFT - self.N_edge_zeros - (self.num_active_mod*self.subcarrier_size))
         self.blocks_repeat_0_0.set_interpolation(self.N_edge_zeros)
 
     def get_NFFT(self):
@@ -418,7 +430,7 @@ class data_beamforming_tx2(gr.top_block, Qt.QWidget):
     def set_NFFT(self, NFFT):
         self.NFFT = NFFT
         self.qtgui_time_sink_x_0_0_1_1.set_samp_rate(self.NFFT*64)
-        self.blocks_repeat_0_0_0.set_interpolation(self.NFFT - self.N_edge_zeros -self.num_active_mod)
+        self.blocks_repeat_0_0_0.set_interpolation(self.NFFT - self.N_edge_zeros - (self.num_active_mod*self.subcarrier_size))
 
 
 def main(top_block_cls=data_beamforming_tx2, options=None):

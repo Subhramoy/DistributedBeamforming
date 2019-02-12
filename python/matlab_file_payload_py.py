@@ -22,6 +22,7 @@
 import pmt
 import numpy
 from gnuradio import gr
+import os
 
 
 class matlab_file_payload_py(gr.basic_block):
@@ -43,6 +44,10 @@ class matlab_file_payload_py(gr.basic_block):
                                 in_sig=None,
                                 out_sig=[numpy.complex64])
         self.file_path = file_path
+
+        dir_path = os.path.dirname(os.path.realpath(__file__))
+
+        print dir_path
 
         # Real part of the payload read from 'payload_real.txt' file
         with open( self.file_path + '_real.txt', 'r') as f:
