@@ -3,7 +3,7 @@
 ##################################################
 # GNU Radio Python Flow Graph
 # Title: Data Beamforming Tx2
-# Generated: Tue Feb 12 14:47:44 2019
+# Generated: Wed Feb 13 18:24:29 2019
 ##################################################
 
 if __name__ == '__main__':
@@ -81,7 +81,7 @@ class data_beamforming_tx2(gr.top_block, Qt.QWidget):
         self.zero_padding_0_0_0 = analog.sig_source_c(0, analog.GR_CONST_WAVE, 0, 0, 0)
         self.zero_padding = analog.sig_source_c(0, analog.GR_CONST_WAVE, 0, 0, 0)
         self.qtgui_time_sink_x_0_0_1_1_0 = qtgui.time_sink_c(
-        	1024*64, #size
+        	400000, #size
         	samp_rate, #samp_rate
         	'Tx Signal', #name
         	1 #number of inputs
@@ -229,7 +229,7 @@ class data_beamforming_tx2(gr.top_block, Qt.QWidget):
         	NFFT*4, #size
         	firdes.WIN_FLATTOP, #wintype
         	900000000, #fc
-        	200e3, #bw
+        	samp_rate, #bw
         	'Payload', #name
         	1 #number of inputs
         )
@@ -268,7 +268,7 @@ class data_beamforming_tx2(gr.top_block, Qt.QWidget):
 
         self._qtgui_freq_sink_x_0_0_win = sip.wrapinstance(self.qtgui_freq_sink_x_0_0.pyqwidget(), Qt.QWidget)
         self.top_grid_layout.addWidget(self._qtgui_freq_sink_x_0_0_win)
-        self.fft_vxx_0 = fft.fft_vcc(NFFT, False, (()), True, 1)
+        self.fft_vxx_0 = fft.fft_vcc(NFFT, False, (()), False, 1)
         self.digital_chunks_to_symbols_xx_0_0_1_0_1 = digital.chunks_to_symbols_bc((cons_config.get_points("64QAM")), 1)
         self.digital_chunks_to_symbols_xx_0_0_1_0_0 = digital.chunks_to_symbols_bc((cons_config.get_points("32QAM")), 1)
         self.digital_chunks_to_symbols_xx_0_0_1_0 = digital.chunks_to_symbols_bc((cons_config.get_points("BPSK")), 1)
@@ -299,12 +299,12 @@ class data_beamforming_tx2(gr.top_block, Qt.QWidget):
         self.blocks_pdu_to_tagged_stream_0_0 = blocks.pdu_to_tagged_stream(blocks.byte_t, 'packet_len')
         self.blocks_pdu_to_tagged_stream_0 = blocks.pdu_to_tagged_stream(blocks.byte_t, 'packet_len')
         self.blocks_multiply_const_vxx_0 = blocks.multiply_const_vcc((-0.00390625, ))
-        self.blocks_message_strobe_0 = blocks.message_strobe(pmt.PMT_T, 50)
+        self.blocks_message_strobe_0 = blocks.message_strobe(pmt.PMT_T, 1e3 * (trainingSignal_size + 400 + NFFT * 64  + 100)/ samp_rate )
         self.beamforming_payload_generator_cpp_0 = beamforming.payload_generator_cpp('currently_not_used', 1)
         self.beamforming_multiply_by_variable_py_cc_1 = beamforming.multiply_by_variable_py_cc()
         self.beamforming_matlab_file_payload_py_0 = beamforming.matlab_file_payload_py('/home/gokhan/gnu-radio/gr-beamforming/examples/data/trainingSig1')
         self.beamforming_CSI_feedback_adapter_py_0 = beamforming.CSI_feedback_adapter_py(
-              0,
+              1,
               '/home/gokhan/gnu-radio/gr-beamforming/examples/data/weights_tx2.bin',
               numTxAntennas,
               '224.3.29.71',
@@ -383,6 +383,7 @@ class data_beamforming_tx2(gr.top_block, Qt.QWidget):
 
     def set_trainingSignal_size(self, trainingSignal_size):
         self.trainingSignal_size = trainingSignal_size
+        self.blocks_message_strobe_0.set_period(1e3 * (self.trainingSignal_size + 400 + self.NFFT * 64  + 100)/ self.samp_rate )
 
     def get_subcarrier_size(self):
         return self.subcarrier_size
@@ -399,7 +400,9 @@ class data_beamforming_tx2(gr.top_block, Qt.QWidget):
         self.samp_rate = samp_rate
         self.qtgui_time_sink_x_0_0_1_1_0.set_samp_rate(self.samp_rate)
         self.qtgui_freq_sink_x_0_0_0.set_frequency_range(900e6, self.samp_rate)
+        self.qtgui_freq_sink_x_0_0.set_frequency_range(900000000, self.samp_rate)
         self.blocks_throttle_0.set_sample_rate(self.samp_rate)
+        self.blocks_message_strobe_0.set_period(1e3 * (self.trainingSignal_size + 400 + self.NFFT * 64  + 100)/ self.samp_rate )
 
     def get_num_active_mod(self):
         return self.num_active_mod
@@ -431,6 +434,7 @@ class data_beamforming_tx2(gr.top_block, Qt.QWidget):
         self.NFFT = NFFT
         self.qtgui_time_sink_x_0_0_1_1.set_samp_rate(self.NFFT*64)
         self.blocks_repeat_0_0_0.set_interpolation(self.NFFT - self.N_edge_zeros - (self.num_active_mod*self.subcarrier_size))
+        self.blocks_message_strobe_0.set_period(1e3 * (self.trainingSignal_size + 400 + self.NFFT * 64  + 100)/ self.samp_rate )
 
 
 def main(top_block_cls=data_beamforming_tx2, options=None):
