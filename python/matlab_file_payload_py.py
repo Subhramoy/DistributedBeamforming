@@ -1,18 +1,18 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-# 
+#
 # Copyright 2018 GENESYS Lab..
-# 
+#
 # This is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
 # the Free Software Foundation; either version 3, or (at your option)
 # any later version.
-# 
+#
 # This software is distributed in the hope that it will be useful,
 # but WITHOUT ANY WARRANTY; without even the implied warranty of
 # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 # GNU General Public License for more details.
-# 
+#
 # You should have received a copy of the GNU General Public License
 # along with this software; see the file COPYING.  If not, write to
 # the Free Software Foundation, Inc., 51 Franklin Street,
@@ -31,8 +31,8 @@ class matlab_file_payload_py(gr.basic_block):
     """
     numTxAntennas = 1
     binary_byte_read = 8
-    channel_est_antennas = []
-    payload = []
+
+
 
     counter = 0
 
@@ -46,7 +46,7 @@ class matlab_file_payload_py(gr.basic_block):
         self.file_path = file_path
 
         dir_path = os.path.dirname(os.path.realpath(__file__))
-
+        self.payload = []
         print dir_path
 
         # Real part of the payload read from 'payload_real.txt' file
@@ -89,6 +89,3 @@ class matlab_file_payload_py(gr.basic_block):
             out[:] = self.payload[self.counter:end]
             self.counter = end
             return len(output_items[0])
-
-
-
