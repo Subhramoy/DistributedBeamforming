@@ -356,7 +356,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(1024, 796)</value>
+      <value>(1120, 796)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -419,7 +419,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(1264, 732)</value>
+      <value>(1344, 716)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -474,11 +474,11 @@
     </param>
     <param>
       <key>_enabled</key>
-      <value>0</value>
+      <value>1</value>
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(136, 1124)</value>
+      <value>(104, 1076)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -521,7 +521,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(176, 1372)</value>
+      <value>(112, 1292)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -564,7 +564,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(1400, 904)</value>
+      <value>(1480, 936)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -603,7 +603,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(1496, 1016)</value>
+      <value>(1480, 1016)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -697,7 +697,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(1400, 1356)</value>
+      <value>(1376, 1564)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -740,7 +740,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(1864, 1224)</value>
+      <value>(1840, 1432)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -1656,11 +1656,11 @@
     </param>
     <param>
       <key>_enabled</key>
-      <value>0</value>
+      <value>1</value>
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(416, 1220)</value>
+      <value>(384, 1172)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -1707,11 +1707,11 @@
     </param>
     <param>
       <key>_enabled</key>
-      <value>0</value>
+      <value>1</value>
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(416, 1156)</value>
+      <value>(384, 1108)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -1762,7 +1762,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(424, 1404)</value>
+      <value>(384, 1324)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -1813,7 +1813,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(424, 1468)</value>
+      <value>(384, 1388)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -1915,11 +1915,11 @@
     </param>
     <param>
       <key>_enabled</key>
-      <value>0</value>
+      <value>1</value>
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(584, 1128)</value>
+      <value>(576, 1080)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -2029,7 +2029,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(624, 1376)</value>
+      <value>(576, 1296)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -2084,7 +2084,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(1400, 1276)</value>
+      <value>(1376, 1484)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -2139,7 +2139,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(320, 932)</value>
+      <value>(368, 932)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -2190,7 +2190,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(1632, 1284)</value>
+      <value>(1608, 1492)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -2233,11 +2233,11 @@
     </param>
     <param>
       <key>_enabled</key>
-      <value>0</value>
+      <value>1</value>
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(824, 1236)</value>
+      <value>(808, 1084)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -2789,7 +2789,7 @@ def get_points(modulation_name):
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(584, 904)</value>
+      <value>(608, 900)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -3219,7 +3219,7 @@ def get_points(modulation_name):
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(1624, 688)</value>
+      <value>(1644, 664)</value>
     </param>
     <param>
       <key>gui_hint</key>
@@ -3510,7 +3510,7 @@ def get_points(modulation_name):
     </param>
     <param>
       <key>_enabled</key>
-      <value>0</value>
+      <value>1</value>
     </param>
     <param>
       <key>fftsize</key>
@@ -3518,7 +3518,7 @@ def get_points(modulation_name):
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(1052, 1560)</value>
+      <value>(1012, 1432)</value>
     </param>
     <param>
       <key>gui_hint</key>
@@ -3805,7 +3805,7 @@ def get_points(modulation_name):
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(1720, 704)</value>
+      <value>(1756, 680)</value>
     </param>
     <param>
       <key>gui_hint</key>
@@ -4168,11 +4168,11 @@ def get_points(modulation_name):
     </param>
     <param>
       <key>_enabled</key>
-      <value>0</value>
+      <value>1</value>
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(924, 1560)</value>
+      <value>(916, 1432)</value>
     </param>
     <param>
       <key>gui_hint</key>
@@ -4437,373 +4437,6 @@ def get_points(modulation_name):
     <param>
       <key>name</key>
       <value>Tx Signal 1 Time Sync</value>
-    </param>
-    <param>
-      <key>nconnections</key>
-      <value>2</value>
-    </param>
-    <param>
-      <key>size</key>
-      <value>1024*64</value>
-    </param>
-    <param>
-      <key>srate</key>
-      <value>samp_rate</value>
-    </param>
-    <param>
-      <key>stemplot</key>
-      <value>False</value>
-    </param>
-    <param>
-      <key>tr_chan</key>
-      <value>0</value>
-    </param>
-    <param>
-      <key>tr_delay</key>
-      <value>0</value>
-    </param>
-    <param>
-      <key>tr_level</key>
-      <value>0.0</value>
-    </param>
-    <param>
-      <key>tr_mode</key>
-      <value>qtgui.TRIG_MODE_FREE</value>
-    </param>
-    <param>
-      <key>tr_slope</key>
-      <value>qtgui.TRIG_SLOPE_POS</value>
-    </param>
-    <param>
-      <key>tr_tag</key>
-      <value>""</value>
-    </param>
-    <param>
-      <key>type</key>
-      <value>complex</value>
-    </param>
-    <param>
-      <key>update_time</key>
-      <value>0.10</value>
-    </param>
-    <param>
-      <key>ylabel</key>
-      <value>Amplitude</value>
-    </param>
-    <param>
-      <key>yunit</key>
-      <value>""</value>
-    </param>
-    <param>
-      <key>ymax</key>
-      <value>1</value>
-    </param>
-    <param>
-      <key>ymin</key>
-      <value>-1</value>
-    </param>
-  </block>
-  <block>
-    <key>qtgui_time_sink_x</key>
-    <param>
-      <key>autoscale</key>
-      <value>True</value>
-    </param>
-    <param>
-      <key>axislabels</key>
-      <value>True</value>
-    </param>
-    <param>
-      <key>alias</key>
-      <value></value>
-    </param>
-    <param>
-      <key>comment</key>
-      <value></value>
-    </param>
-    <param>
-      <key>ctrlpanel</key>
-      <value>False</value>
-    </param>
-    <param>
-      <key>affinity</key>
-      <value></value>
-    </param>
-    <param>
-      <key>entags</key>
-      <value>True</value>
-    </param>
-    <param>
-      <key>_enabled</key>
-      <value>0</value>
-    </param>
-    <param>
-      <key>_coordinate</key>
-      <value>(396, 1584)</value>
-    </param>
-    <param>
-      <key>gui_hint</key>
-      <value></value>
-    </param>
-    <param>
-      <key>_rotation</key>
-      <value>270</value>
-    </param>
-    <param>
-      <key>grid</key>
-      <value>False</value>
-    </param>
-    <param>
-      <key>id</key>
-      <value>qtgui_time_sink_x_0_0_1_1_0_0</value>
-    </param>
-    <param>
-      <key>legend</key>
-      <value>True</value>
-    </param>
-    <param>
-      <key>alpha1</key>
-      <value>1.0</value>
-    </param>
-    <param>
-      <key>color1</key>
-      <value>"blue"</value>
-    </param>
-    <param>
-      <key>label1</key>
-      <value></value>
-    </param>
-    <param>
-      <key>marker1</key>
-      <value>-1</value>
-    </param>
-    <param>
-      <key>style1</key>
-      <value>1</value>
-    </param>
-    <param>
-      <key>width1</key>
-      <value>1</value>
-    </param>
-    <param>
-      <key>alpha10</key>
-      <value>1.0</value>
-    </param>
-    <param>
-      <key>color10</key>
-      <value>"blue"</value>
-    </param>
-    <param>
-      <key>label10</key>
-      <value></value>
-    </param>
-    <param>
-      <key>marker10</key>
-      <value>-1</value>
-    </param>
-    <param>
-      <key>style10</key>
-      <value>1</value>
-    </param>
-    <param>
-      <key>width10</key>
-      <value>1</value>
-    </param>
-    <param>
-      <key>alpha2</key>
-      <value>1.0</value>
-    </param>
-    <param>
-      <key>color2</key>
-      <value>"red"</value>
-    </param>
-    <param>
-      <key>label2</key>
-      <value></value>
-    </param>
-    <param>
-      <key>marker2</key>
-      <value>-1</value>
-    </param>
-    <param>
-      <key>style2</key>
-      <value>1</value>
-    </param>
-    <param>
-      <key>width2</key>
-      <value>1</value>
-    </param>
-    <param>
-      <key>alpha3</key>
-      <value>1.0</value>
-    </param>
-    <param>
-      <key>color3</key>
-      <value>"green"</value>
-    </param>
-    <param>
-      <key>label3</key>
-      <value></value>
-    </param>
-    <param>
-      <key>marker3</key>
-      <value>-1</value>
-    </param>
-    <param>
-      <key>style3</key>
-      <value>1</value>
-    </param>
-    <param>
-      <key>width3</key>
-      <value>1</value>
-    </param>
-    <param>
-      <key>alpha4</key>
-      <value>1.0</value>
-    </param>
-    <param>
-      <key>color4</key>
-      <value>"yellow"</value>
-    </param>
-    <param>
-      <key>label4</key>
-      <value></value>
-    </param>
-    <param>
-      <key>marker4</key>
-      <value>-1</value>
-    </param>
-    <param>
-      <key>style4</key>
-      <value>1</value>
-    </param>
-    <param>
-      <key>width4</key>
-      <value>1</value>
-    </param>
-    <param>
-      <key>alpha5</key>
-      <value>1.0</value>
-    </param>
-    <param>
-      <key>color5</key>
-      <value>"cyan"</value>
-    </param>
-    <param>
-      <key>label5</key>
-      <value></value>
-    </param>
-    <param>
-      <key>marker5</key>
-      <value>-1</value>
-    </param>
-    <param>
-      <key>style5</key>
-      <value>1</value>
-    </param>
-    <param>
-      <key>width5</key>
-      <value>1</value>
-    </param>
-    <param>
-      <key>alpha6</key>
-      <value>1.0</value>
-    </param>
-    <param>
-      <key>color6</key>
-      <value>"magenta"</value>
-    </param>
-    <param>
-      <key>label6</key>
-      <value></value>
-    </param>
-    <param>
-      <key>marker6</key>
-      <value>-1</value>
-    </param>
-    <param>
-      <key>style6</key>
-      <value>1</value>
-    </param>
-    <param>
-      <key>width6</key>
-      <value>1</value>
-    </param>
-    <param>
-      <key>alpha7</key>
-      <value>1.0</value>
-    </param>
-    <param>
-      <key>color7</key>
-      <value>"yellow"</value>
-    </param>
-    <param>
-      <key>label7</key>
-      <value></value>
-    </param>
-    <param>
-      <key>marker7</key>
-      <value>-1</value>
-    </param>
-    <param>
-      <key>style7</key>
-      <value>1</value>
-    </param>
-    <param>
-      <key>width7</key>
-      <value>1</value>
-    </param>
-    <param>
-      <key>alpha8</key>
-      <value>1.0</value>
-    </param>
-    <param>
-      <key>color8</key>
-      <value>"dark red"</value>
-    </param>
-    <param>
-      <key>label8</key>
-      <value></value>
-    </param>
-    <param>
-      <key>marker8</key>
-      <value>-1</value>
-    </param>
-    <param>
-      <key>style8</key>
-      <value>1</value>
-    </param>
-    <param>
-      <key>width8</key>
-      <value>1</value>
-    </param>
-    <param>
-      <key>alpha9</key>
-      <value>1.0</value>
-    </param>
-    <param>
-      <key>color9</key>
-      <value>"dark green"</value>
-    </param>
-    <param>
-      <key>label9</key>
-      <value></value>
-    </param>
-    <param>
-      <key>marker9</key>
-      <value>-1</value>
-    </param>
-    <param>
-      <key>style9</key>
-      <value>1</value>
-    </param>
-    <param>
-      <key>width9</key>
-      <value>1</value>
-    </param>
-    <param>
-      <key>name</key>
-      <value>Just Training Signal</value>
     </param>
     <param>
       <key>nconnections</key>
@@ -5318,15 +4951,15 @@ def get_points(modulation_name):
     </param>
     <param>
       <key>ant2</key>
-      <value></value>
+      <value>TX/RX</value>
     </param>
     <param>
       <key>bw2</key>
-      <value>0</value>
+      <value>400e3</value>
     </param>
     <param>
       <key>center_freq2</key>
-      <value>0</value>
+      <value>uhd.tune_request(900e6, -1e6)</value>
     </param>
     <param>
       <key>norm_gain2</key>
@@ -5334,7 +4967,7 @@ def get_points(modulation_name):
     </param>
     <param>
       <key>gain2</key>
-      <value>0</value>
+      <value>70</value>
     </param>
     <param>
       <key>ant30</key>
@@ -5378,15 +5011,15 @@ def get_points(modulation_name):
     </param>
     <param>
       <key>ant3</key>
-      <value></value>
+      <value>TX/RX</value>
     </param>
     <param>
       <key>bw3</key>
-      <value>0</value>
+      <value>400e3</value>
     </param>
     <param>
       <key>center_freq3</key>
-      <value>0</value>
+      <value>uhd.tune_request(900e6, -1e6)</value>
     </param>
     <param>
       <key>norm_gain3</key>
@@ -5394,7 +5027,7 @@ def get_points(modulation_name):
     </param>
     <param>
       <key>gain3</key>
-      <value>0</value>
+      <value>70</value>
     </param>
     <param>
       <key>ant4</key>
@@ -5530,7 +5163,7 @@ def get_points(modulation_name):
     </param>
     <param>
       <key>dev_addr</key>
-      <value>"addr=192.168.110.2"</value>
+      <value>"addr0=192.168.10.2,addr1=192.168.110.2"</value>
     </param>
     <param>
       <key>dev_args</key>
@@ -5542,7 +5175,7 @@ def get_points(modulation_name):
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(1152, 996)</value>
+      <value>(1184, 1076)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -5654,11 +5287,11 @@ def get_points(modulation_name):
     </param>
     <param>
       <key>nchan</key>
-      <value>1</value>
+      <value>2</value>
     </param>
     <param>
       <key>num_mboards</key>
-      <value>1</value>
+      <value>2</value>
     </param>
     <param>
       <key>samp_rate</key>
@@ -5840,7 +5473,7 @@ def get_points(modulation_name):
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(1816, 916)</value>
+      <value>(1736, 980)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -6002,7 +5635,7 @@ def get_points(modulation_name):
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(88, 932)</value>
+      <value>(152, 932)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -6025,11 +5658,11 @@ def get_points(modulation_name):
     </param>
     <param>
       <key>_enabled</key>
-      <value>0</value>
+      <value>1</value>
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(160, 1188)</value>
+      <value>(152, 1140)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -6056,7 +5689,7 @@ def get_points(modulation_name):
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(224, 1436)</value>
+      <value>(160, 1356)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -6083,7 +5716,7 @@ def get_points(modulation_name):
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(1160, 1340)</value>
+      <value>(1136, 1548)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -6300,11 +5933,11 @@ def get_points(modulation_name):
     </param>
     <param>
       <key>_enabled</key>
-      <value>0</value>
+      <value>1</value>
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(200, 1060)</value>
+      <value>(160, 1028)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -6351,7 +5984,7 @@ def get_points(modulation_name):
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(232, 1300)</value>
+      <value>(168, 1244)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -6393,22 +6026,10 @@ def get_points(modulation_name):
     <sink_key>0</sink_key>
   </connection>
   <connection>
-    <source_block_id>beamforming_matlab_file_payload_py_0</source_block_id>
-    <sink_block_id>qtgui_time_sink_x_0_0_1_1_0_0</sink_block_id>
-    <source_key>0</source_key>
-    <sink_key>0</sink_key>
-  </connection>
-  <connection>
     <source_block_id>beamforming_matlab_file_payload_py_0_0</source_block_id>
     <sink_block_id>blocks_stream_mux_1_1</sink_block_id>
     <source_key>0</source_key>
     <sink_key>0</sink_key>
-  </connection>
-  <connection>
-    <source_block_id>beamforming_matlab_file_payload_py_0_0</source_block_id>
-    <sink_block_id>qtgui_time_sink_x_0_0_1_1_0_0</sink_block_id>
-    <source_key>0</source_key>
-    <sink_key>1</sink_key>
   </connection>
   <connection>
     <source_block_id>beamforming_multiply_by_variable_py_cc_1</source_block_id>
@@ -6627,6 +6248,12 @@ def get_points(modulation_name):
     <sink_key>0</sink_key>
   </connection>
   <connection>
+    <source_block_id>blocks_stream_mux_1</source_block_id>
+    <sink_block_id>uhd_usrp_sink_0</sink_block_id>
+    <source_key>0</source_key>
+    <sink_key>0</sink_key>
+  </connection>
+  <connection>
     <source_block_id>blocks_stream_mux_1_0</source_block_id>
     <sink_block_id>virtual_sink_0_1_0</sink_block_id>
     <source_key>0</source_key>
@@ -6648,7 +6275,7 @@ def get_points(modulation_name):
     <source_block_id>blocks_stream_mux_1_1</source_block_id>
     <sink_block_id>uhd_usrp_sink_0</sink_block_id>
     <source_key>0</source_key>
-    <sink_key>0</sink_key>
+    <sink_key>1</sink_key>
   </connection>
   <connection>
     <source_block_id>blocks_stream_to_tagged_stream_0</source_block_id>
