@@ -139,7 +139,7 @@ namespace gr {
     }
 
 
-    /* IMPORTANT! Following functions should be used, since this block is not supposed to get any inputs */
+    /* IMPORTANT! Following functions should not be used, since this block is not supposed to get any inputs */
     void
     payload_generator_cpp_impl::forecast (int noutput_items, gr_vector_int &ninput_items_required)
     {

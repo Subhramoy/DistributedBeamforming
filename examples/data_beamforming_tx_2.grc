@@ -357,7 +357,7 @@
     </param>
     <param>
       <key>source_type</key>
-      <value>0</value>
+      <value>1</value>
     </param>
     <param>
       <key>Tx_ID</key>
@@ -388,7 +388,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(136, 1124)</value>
+      <value>(128, 1124)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -625,7 +625,7 @@
     </param>
     <param>
       <key>period</key>
-      <value>50</value>
+      <value>1e3 * (trainingSignal_size + 400 + NFFT * 64  + 100)/ samp_rate </value>
     </param>
   </block>
   <block>
@@ -993,7 +993,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(944, 292)</value>
+      <value>(880, 292)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -1052,7 +1052,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(944, 236)</value>
+      <value>(880, 236)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -1111,7 +1111,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(944, 348)</value>
+      <value>(880, 348)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -1170,7 +1170,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(944, 404)</value>
+      <value>(880, 404)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -1229,7 +1229,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(944, 180)</value>
+      <value>(880, 180)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -1288,7 +1288,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(944, 124)</value>
+      <value>(880, 124)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -1633,7 +1633,8 @@
     </param>
     <param>
       <key>comment</key>
-      <value></value>
+      <value>Inputs are unsync. 
+Additional zeros are generated btwn input 2 and 3.</value>
     </param>
     <param>
       <key>affinity</key>
@@ -2102,7 +2103,7 @@ def get_points(modulation_name):
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(1232, 292)</value>
+      <value>(1168, 292)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -2161,7 +2162,7 @@ def get_points(modulation_name):
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(1232, 236)</value>
+      <value>(1168, 236)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -2220,7 +2221,7 @@ def get_points(modulation_name):
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(1232, 348)</value>
+      <value>(1168, 348)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -2279,7 +2280,7 @@ def get_points(modulation_name):
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(1232, 404)</value>
+      <value>(1168, 404)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -2338,7 +2339,7 @@ def get_points(modulation_name):
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(1232, 180)</value>
+      <value>(1168, 180)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -2397,7 +2398,7 @@ def get_points(modulation_name):
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(1232, 124)</value>
+      <value>(1168, 124)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -2523,7 +2524,7 @@ def get_points(modulation_name):
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(1608, 480)</value>
+      <value>(1432, 480)</value>
     </param>
     <param>
       <key>gui_hint</key>
@@ -4115,7 +4116,7 @@ def get_points(modulation_name):
     </param>
     <param>
       <key>size</key>
-      <value>1024*64</value>
+      <value>400000</value>
     </param>
     <param>
       <key>srate</key>
@@ -4846,7 +4847,11 @@ def get_points(modulation_name):
     </param>
     <param>
       <key>_coordinate</key>
+<<<<<<< HEAD
       <value>(1168, 1076)</value>
+=======
+      <value>(1216, 1092)</value>
+>>>>>>> 648c61c44520db7e164e8404bc098382b1fece5a
     </param>
     <param>
       <key>_rotation</key>
@@ -5009,7 +5014,7 @@ def get_points(modulation_name):
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(1904, 300)</value>
+      <value>(1728, 300)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -5036,7 +5041,7 @@ def get_points(modulation_name):
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(1904, 244)</value>
+      <value>(1728, 244)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -5063,7 +5068,7 @@ def get_points(modulation_name):
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(1904, 188)</value>
+      <value>(1728, 188)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -5090,7 +5095,7 @@ def get_points(modulation_name):
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(1904, 132)</value>
+      <value>(1728, 132)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -5117,7 +5122,7 @@ def get_points(modulation_name):
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(1912, 412)</value>
+      <value>(1736, 412)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -5171,7 +5176,7 @@ def get_points(modulation_name):
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(1749, 42)</value>
+      <value>(1576, 44)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -5198,7 +5203,7 @@ def get_points(modulation_name):
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(1912, 356)</value>
+      <value>(1736, 356)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -5306,7 +5311,7 @@ def get_points(modulation_name):
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(160, 1188)</value>
+      <value>(176, 1188)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -5441,7 +5446,7 @@ def get_points(modulation_name):
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(24, 596)</value>
+      <value>(24, 604)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -5468,7 +5473,7 @@ def get_points(modulation_name):
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(24, 556)</value>
+      <value>(24, 564)</value>
     </param>
     <param>
       <key>_rotation</key>

@@ -19,12 +19,6 @@
 # Boston, MA 02110-1301, USA.
 #
 
-#############################
-# TO DO List:
-# 1- Separate classes into different python files.
-# 2-
-#
-#############################
 
 import struct
 import pmt
@@ -47,6 +41,7 @@ class CSI_feedback_adapter_py(gr.basic_block):
     """
     docstring for block CSI_feedback_adapter_py
     @param1: source_type 0: File source, 1: UDP socket
+    TODO: <optional> Move UDP class to a different file
     """
 
     file_path = ""
