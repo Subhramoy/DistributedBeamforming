@@ -1,5 +1,8 @@
 # this module will be imported in the into your flowgraph
 # Configuration parameters for the device
+
+import os 
+
 modulations = [
     {
         "mod_name": "64QAM",
@@ -42,12 +45,16 @@ switcher = {
                "BPSK"  : 5
            }
 
+def get_local_path():
+	
+    dir_path = os.path.dirname(os.path.realpath(__file__))
+    print "Data Path at cons_config module: {}".format(dir_path)
+    return dir_path
 
 def get_points(modulation_name):
 
-
     index = switcher.get(modulation_name)
-    # print(index)
+    #print(index)
     # return modulations[index].get("sym_map"), modulations[index].get("cons_points")
     return modulations[index].get("cons_points")
 

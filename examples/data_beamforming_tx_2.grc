@@ -155,6 +155,33 @@
     </param>
     <param>
       <key>_coordinate</key>
+      <value>(8, 156)</value>
+    </param>
+    <param>
+      <key>_rotation</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>id</key>
+      <value>data_files_path</value>
+    </param>
+    <param>
+      <key>value</key>
+      <value>"/home/gokhan/gnu-radio/gr-beamforming/examples/data"</value>
+    </param>
+  </block>
+  <block>
+    <key>variable</key>
+    <param>
+      <key>comment</key>
+      <value></value>
+    </param>
+    <param>
+      <key>_enabled</key>
+      <value>True</value>
+    </param>
+    <param>
+      <key>_coordinate</key>
       <value>(490, 10)</value>
     </param>
     <param>
@@ -313,7 +340,7 @@
     </param>
     <param>
       <key>file_path</key>
-      <value>/home/gokhan/gnu-radio/gr-beamforming/examples/data/weights_tx2.bin</value>
+      <value>data_files_path</value>
     </param>
     <param>
       <key>comment</key>
@@ -408,7 +435,7 @@
     </param>
     <param>
       <key>file_path</key>
-      <value>/home/gokhan/gnu-radio/gr-beamforming/examples/data/trainingSig1</value>
+      <value>data_files_path</value>
     </param>
   </block>
   <block>
@@ -470,7 +497,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(234, 202)</value>
+      <value>(224, 200)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -1909,7 +1936,7 @@ Additional zeros are generated btwn input 2 and 3.</value>
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(832, 1204)</value>
+      <value>(840, 1204)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -2005,6 +2032,9 @@ Additional zeros are generated btwn input 2 and 3.</value>
       <key>source_code</key>
       <value># this module will be imported in the into your flowgraph
 # Configuration parameters for the device
+
+import os 
+
 modulations = [
     {
         "mod_name": "64QAM",
@@ -2047,12 +2077,16 @@ switcher = {
                "BPSK"  : 5
            }
 
+def get_local_path():
+	
+    dir_path = os.path.dirname(os.path.realpath(__file__))
+    print "Data Path at cons_config module: {}".format(dir_path)
+    return dir_path
 
 def get_points(modulation_name):
 
-
     index = switcher.get(modulation_name)
-    # print(index)
+    #print(index)
     # return modulations[index].get("sym_map"), modulations[index].get("cons_points")
     return modulations[index].get("cons_points")
 
@@ -4847,7 +4881,7 @@ def get_points(modulation_name):
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(1216, 1092)</value>
+      <value>(1360, 1092)</value>
     </param>
     <param>
       <key>_rotation</key>

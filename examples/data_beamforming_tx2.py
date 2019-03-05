@@ -3,7 +3,7 @@
 ##################################################
 # GNU Radio Python Flow Graph
 # Title: Data Beamforming Tx2
-# Generated: Wed Feb 13 18:24:29 2019
+# Generated: Fri Feb 15 12:09:30 2019
 ##################################################
 
 if __name__ == '__main__':
@@ -72,6 +72,7 @@ class data_beamforming_tx2(gr.top_block, Qt.QWidget):
         self.samp_rate = samp_rate = 400e3
         self.num_active_mod = num_active_mod = 6
         self.numTxAntennas = numTxAntennas = 1
+        self.data_files_path = data_files_path = "/home/gokhan/gnu-radio/gr-beamforming/examples/data"
         self.N_edge_zeros = N_edge_zeros = 4
         self.NFFT = NFFT = 256
 
@@ -302,10 +303,10 @@ class data_beamforming_tx2(gr.top_block, Qt.QWidget):
         self.blocks_message_strobe_0 = blocks.message_strobe(pmt.PMT_T, 1e3 * (trainingSignal_size + 400 + NFFT * 64  + 100)/ samp_rate )
         self.beamforming_payload_generator_cpp_0 = beamforming.payload_generator_cpp('currently_not_used', 1)
         self.beamforming_multiply_by_variable_py_cc_1 = beamforming.multiply_by_variable_py_cc()
-        self.beamforming_matlab_file_payload_py_0 = beamforming.matlab_file_payload_py('/home/gokhan/gnu-radio/gr-beamforming/examples/data/trainingSig1')
+        self.beamforming_matlab_file_payload_py_0 = beamforming.matlab_file_payload_py(data_files_path)
         self.beamforming_CSI_feedback_adapter_py_0 = beamforming.CSI_feedback_adapter_py(
               1,
-              '/home/gokhan/gnu-radio/gr-beamforming/examples/data/weights_tx2.bin',
+              data_files_path,
               numTxAntennas,
               '224.3.29.71',
               10000,
@@ -418,6 +419,12 @@ class data_beamforming_tx2(gr.top_block, Qt.QWidget):
         self.numTxAntennas = numTxAntennas
         self.blocks_repeat_0_0_0_1_0.set_interpolation(400* self.numTxAntennas)
         self.blocks_repeat_0_0_0_1.set_interpolation(100 * self.numTxAntennas)
+
+    def get_data_files_path(self):
+        return self.data_files_path
+
+    def set_data_files_path(self, data_files_path):
+        self.data_files_path = data_files_path
 
     def get_N_edge_zeros(self):
         return self.N_edge_zeros

@@ -31,12 +31,7 @@ class matlab_file_payload_py(gr.basic_block):
     """
     numTxAntennas = 1
     binary_byte_read = 8
-    channel_est_antennas = []
-    payload = []
-
     counter = 0
-
-    file_path = ""
 
     def __init__(self, file_path):
         gr.basic_block.__init__(self,
@@ -46,8 +41,10 @@ class matlab_file_payload_py(gr.basic_block):
         self.file_path = file_path
 
         dir_path = os.path.dirname(os.path.realpath(__file__))
+        print "Data Path at matlab_payload module: {}".format(dir_path)
 
-        print dir_path
+        self.payload = []
+
 
         # Real part of the payload read from 'payload_real.txt' file
         with open( self.file_path + '_real.txt', 'r') as f:
