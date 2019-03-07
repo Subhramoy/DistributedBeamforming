@@ -321,20 +321,24 @@
       <value>0</value>
     </param>
     <param>
-      <key>Tx_ID</key>
-      <value>1</value>
-    </param>
-    <param>
       <key>multicast_IP</key>
       <value>224.3.29.71</value>
     </param>
     <param>
-      <key>multicast_port</key>
-      <value>10000</value>
-    </param>
-    <param>
       <key>number_of_tx_antennas</key>
       <value>1</value>
+    </param>
+    <param>
+      <key>source_type</key>
+      <value></value>
+    </param>
+    <param>
+      <key>Tx_ID</key>
+      <value>1</value>
+    </param>
+    <param>
+      <key>multicast_port</key>
+      <value>10000</value>
     </param>
   </block>
   <block>

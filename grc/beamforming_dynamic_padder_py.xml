@@ -4,15 +4,21 @@
   <key>beamforming_dynamic_padder_py</key>
   <category>[beamforming]</category>
   <import>import beamforming</import>
-  <make>beamforming.dynamic_padder_py($iq_sample)</make>
+  <make>beamforming.dynamic_padder_py($imag, $real)</make>
   <param>
-    <name>IQ Sample to use Padding</name>
-    <key>iq_sample</key>
-    <type>complex</type>
+    <name>IQ Sample</name>
+    <key>imag</key>
+    <type>float</type>
+  </param>
+  <param>
+    <name>IQ Sample</name>
+    <key>real</key>
+    <type>float</type>
   </param>
   <sink>
     <name>trigger</name>
     <type>message</type>
+    <optional>1</optional>
   </sink>
   <sink>
     <name>in</name>
