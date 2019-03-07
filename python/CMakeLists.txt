@@ -37,7 +37,7 @@ GR_PYTHON_INSTALL(
     CSI_feedback_adapter_py.py
     multiply_by_variable_py_cc.py
     correlate_and_tag_py.py
-    DESTINATION ${GR_PYTHON_DIR}/beamforming
+    dynamic_padder_py.py DESTINATION ${GR_PYTHON_DIR}/beamforming
 )
 
 ########################################################################
@@ -53,3 +53,4 @@ GR_ADD_TEST(qa_matlab_file_payload_py ${PYTHON_EXECUTABLE} ${CMAKE_CURRENT_SOURC
 GR_ADD_TEST(qa_CSI_feedback_adapter_py ${PYTHON_EXECUTABLE} ${CMAKE_CURRENT_SOURCE_DIR}/qa_CSI_feedback_adapter_py.py)
 GR_ADD_TEST(qa_multiply_by_variable_py_cc ${PYTHON_EXECUTABLE} ${CMAKE_CURRENT_SOURCE_DIR}/qa_multiply_by_variable_py_cc.py)
 GR_ADD_TEST(qa_correlate_and_tag_py ${PYTHON_EXECUTABLE} ${CMAKE_CURRENT_SOURCE_DIR}/qa_correlate_and_tag_py.py)
+GR_ADD_TEST(qa_dynamic_padder_py ${PYTHON_EXECUTABLE} ${CMAKE_CURRENT_SOURCE_DIR}/qa_dynamic_padder_py.py)

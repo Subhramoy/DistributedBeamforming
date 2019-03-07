@@ -16,7 +16,6 @@
     <value>16000</value>
     <type>int</type>
   </param>
-
     <param>
         <name>Length of Frame</name>
         <key>frame_len</key>
@@ -35,8 +34,6 @@
         <value>"Enter folder path"</value>
         <type>string</type>
     </param>
-
-
   <!-- Make one 'sink' node per input. Sub-nodes:
        * name (an identifier for the GUI)
        * type

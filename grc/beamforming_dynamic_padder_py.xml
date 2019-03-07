@@ -1,0 +1,25 @@
+<?xml version="1.0"?>
+<block>
+  <name>dynamic_padder_py</name>
+  <key>beamforming_dynamic_padder_py</key>
+  <category>[beamforming]</category>
+  <import>import beamforming</import>
+  <make>beamforming.dynamic_padder_py($iq_sample)</make>
+  <param>
+    <name>IQ Sample to use Padding</name>
+    <key>iq_sample</key>
+    <type>complex</type>
+  </param>
+  <sink>
+    <name>trigger</name>
+    <type>message</type>
+  </sink>
+  <sink>
+    <name>in</name>
+    <type>complex</type>
+  </sink>
+  <source>
+    <name>out</name>
+    <type>complex</type>
+  </source>
+</block>
