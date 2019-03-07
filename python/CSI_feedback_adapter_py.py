@@ -47,6 +47,8 @@ class CSI_feedback_adapter_py(gr.basic_block):
     file_path = ""
     numTxAntennas = 1
     beamweight = complex(1.0, 1.0)
+    delay = 0
+
 
     # Static parameter used during binary file read operation
     binary_byte_read = 8
@@ -78,6 +80,7 @@ class CSI_feedback_adapter_py(gr.basic_block):
         self.message_port_register_in(pmt.intern("trigger"))
         self.message_port_register_out(pmt.intern("beamweight"))
 
+        self.message_port_register_out(pmt.intern("delay"))
 
         if source_type == 0:
             """ Bind file read to input message port """
@@ -86,6 +89,7 @@ class CSI_feedback_adapter_py(gr.basic_block):
         elif source_type == 1:
             """ Generate a thread waiting for incoming datagrams"""
 
+            ## @todo only triggers bw not delay, it should be included if neccessary.
             # Bind optional message handler to forward pre-stored bw
             self.set_msg_handler(pmt.intern("trigger"), self.send_beamweight)
 
@@ -101,6 +105,12 @@ class CSI_feedback_adapter_py(gr.basic_block):
         weight = pmt.from_complex(self.beamweight)
         self.message_port_pub(pmt.intern("beamweight"), weight)
         print "BW sent: {}".format(weight)
+
+
+    def send_delay(self, msg):
+        delay = pmt.from_string(self.beamweight)
+        self.message_port_pub(pmt.intern("delay"), delay)
+        print "Delay sent: {}".format(delay)
 
     def read_and_send_beamweight(self, msg):
         bw_from_file = self.read_bw_from_file()
@@ -119,9 +129,10 @@ class CSI_feedback_adapter_py(gr.basic_block):
         de_serialized = json.loads(json_package)
         length = len(de_serialized)
 
+        update_in_delay = False
         try:
-            """TODO: Following if/else statement should be revised. """
-            if self.Tx_ID == 1 and de_serialized[0]['Tx_ID'] == 1:
+            ## @TODO Following if/else statement should be revised.
+            """ if self.Tx_ID == 1 and de_serialized[0]['Tx_ID'] == 1:
                 print 'For TX 1'
                 real = de_serialized[0]['real']
                 imaginary = de_serialized[0]['imaginary']
@@ -136,13 +147,30 @@ class CSI_feedback_adapter_py(gr.basic_block):
             elif self.Tx_ID == 4 and de_serialized[3]['Tx_ID'] == 4:
                 print 'For TX 4'
                 real = de_serialized[3]['real']
-                imaginary = de_serialized[3]['imaginary']
+                imaginary = de_serialized[3]['imaginary']  """
+
+            target_object = de_serialized[self.Tx_ID-1]
+
+            if int (target_object['Tx_ID']) != self.Tx_ID:
+                raise Exception("Inconsistent Tx array from RX")
+            else:
+                print 'For TX {}'.format(self.Tx_ID)
+                real = target_object['real']
+                imaginary = target_object['imaginary']
+
+                ## Filter out the echos
+                if int (target_object['delay']) > 0 and \
+                        int (target_object['delay']) != self.delay:
+                    update_in_delay = True
+                    self.delay = int(target_object['delay'])
+
 
         except IndexError:
             print "Transmitter number is out of index. - Tx: {}".format(self.Tx_ID)
         except KeyError as format_error:
             print "Keys are not defined in the received packet:\n{}".format(format_error)
-
+        except Exception as e:
+            print e
 
         # Reconstructing channel estimation value in complex format
         # self.channel_est = [real, imaginary]
@@ -153,7 +181,11 @@ class CSI_feedback_adapter_py(gr.basic_block):
 
         beamweight = 1/phase_correction
         self.beamweight = beamweight
+
         self.send_beamweight(self)
+
+        if update_in_delay:
+            self.send_delay(self)
 
 
     def read_bw_from_file(self):
@@ -176,7 +208,7 @@ class CSI_feedback_adapter_py(gr.basic_block):
 
 
         try:
-            """TODO: Following if/else statement should be revised. """
+            """ @TODO Following if/else statement should be revised. """
             if self.Tx_ID == 1:
                 real = struct.unpack('d', real_data[0:self.binary_byte_read])[0]
                 imaginary = struct.unpack('d', imag_data[0:self.binary_byte_read])[0]
