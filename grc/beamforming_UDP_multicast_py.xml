@@ -11,28 +11,30 @@
        * key (makes the value accessible as $keyname, e.g. in the make node)
        * type -->
   <param>
-    <name>...</name>
-    <key>...</key>
-    <type>...</type>
+    <name>Multicast IP</name>
+    <key>IP</key>
+    <value>224.3.29.71</value>
+    <type>string</type>
+  </param>
+  <param>
+    <name>UDP port</name>
+    <key>port</key>
+    <value>10000</value>
+    <type>int</type>
   </param>
 
-  <!-- Make one 'sink' node per input. Sub-nodes:
-       * name (an identifier for the GUI)
-       * type
-       * vlen
-       * optional (set to 1 for optional inputs) -->
   <sink>
-    <name>in</name>
-    <type><!-- e.g. int, float, complex, byte, short, xxx_vector, ...--></type>
+    <name>fb_message</name>
+    <type>message</type>
   </sink>
 
   <!-- Make one 'source' node per output. Sub-nodes:
        * name (an identifier for the GUI)
        * type
        * vlen
-       * optional (set to 1 for optional inputs) -->
+       * optional (set to 1 for optional inputs)
   <source>
     <name>out</name>
-    <type><!-- e.g. int, float, complex, byte, short, xxx_vector, ...--></type>
-  </source>
+    <type></type>
+  </source>-->
 </block>

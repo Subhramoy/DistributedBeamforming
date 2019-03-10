@@ -29,8 +29,8 @@ class UDP_multicast_py(gr.basic_block):
     def __init__(self, IP, port):
         gr.basic_block.__init__(self,
             name="UDP_multicast_py",
-            in_sig=[<+numpy.float32+>],
-            out_sig=[<+numpy.float32+>])
+            in_sig=None,
+            out_sig=None)
 
     def forecast(self, noutput_items, ninput_items_required):
         #setup size of input_items[i] for work call

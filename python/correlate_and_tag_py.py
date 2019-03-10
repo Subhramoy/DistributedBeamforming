@@ -19,6 +19,7 @@
 # Boston, MA 02110-1301, USA.
 # 
 
+import logging
 import numpy, os
 from gnuradio import gr
 #import queue
@@ -129,10 +130,13 @@ class correlate_and_tag_py(gr.sync_block):
             )
 
             ## Run xcorrelation
-            x_cor_result = numpy.correlate(self.correlation_window, self.gold_sequences, mode="same")
-            print "XCOR output type: {} \t size: {}".format(
+            x_cor_result = numpy.correlate(self.correlation_window,
+                                           self.gold_sequences,
+                                           mode="same")
+
+            logging.debug( "XCOR output type: {} \t size: {}".format(
                 type(x_cor_result),
-                len(x_cor_result))
+                len(x_cor_result)))
 
 
             ## MATLAB CODE
