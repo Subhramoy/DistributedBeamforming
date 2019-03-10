@@ -7,8 +7,8 @@ import time
 
 
 
-
-
+## This class should not be in use,
+#  customized version of this is defined in CSI_fb_adapter module
 class UDPServer(threading.Thread):
     def __init__(self, udp_packet_handler):
         print("UDP server generated.")

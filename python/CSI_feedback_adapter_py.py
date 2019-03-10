@@ -40,8 +40,7 @@ import time
 class CSI_feedback_adapter_py(gr.basic_block):
     """
     docstring for block CSI_feedback_adapter_py
-    @param1: source_type 0: File source, 1: UDP socket
-    TODO: <optional> Move UDP class to a different file
+
     """
 
     file_path = ""
@@ -53,6 +52,11 @@ class CSI_feedback_adapter_py(gr.basic_block):
     # Static parameter used during binary file read operation
     binary_byte_read = 8
 
+    ## Constructor of CSI_feedback_adapter_py class
+    #  @param source_type 0: File source, 1: UDP socket
+    #  @param file_path
+    #  TBD ...
+    #  @TODO <optional> Move UDP class to a different file
     def __init__(self,
                  source_type,
                  file_path,

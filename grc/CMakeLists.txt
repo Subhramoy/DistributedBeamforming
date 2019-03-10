@@ -24,5 +24,8 @@ install(FILES
     beamforming_CSI_feedback_adapter_py.xml
     beamforming_multiply_by_variable_py_cc.xml
     beamforming_correlate_and_tag_py.xml
-    beamforming_dynamic_padder_py.xml DESTINATION share/gnuradio/grc/blocks
+    beamforming_dynamic_padder_py.xml
+    beamforming_feedback_calculation_py.xml
+    beamforming_UDP_multicast_py.xml
+    beamforming_BER_calculation_py.xml DESTINATION share/gnuradio/grc/blocks
 )

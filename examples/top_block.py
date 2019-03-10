@@ -3,7 +3,7 @@
 ##################################################
 # GNU Radio Python Flow Graph
 # Title: Top Block
-# Generated: Wed Mar  6 21:48:28 2019
+# Generated: Sun Mar 10 13:20:01 2019
 ##################################################
 
 if __name__ == '__main__':
@@ -26,7 +26,6 @@ from gnuradio.eng_option import eng_option
 from gnuradio.filter import firdes
 from optparse import OptionParser
 import beamforming
-import pmt
 import sip
 import sys
 from gnuradio import qtgui
@@ -62,14 +61,64 @@ class top_block(gr.top_block, Qt.QWidget):
         ##################################################
         # Variables
         ##################################################
-        self.samp_rate_0 = samp_rate_0 = 32000
+        self.trainingSignal_size = trainingSignal_size = 16456
         self.samp_rate = samp_rate = 32000
+        self.data_files_path = data_files_path = "/home/gokhan/gnu-radio/gr-beamforming/examples/data"
 
         ##################################################
         # Blocks
         ##################################################
+        self.zero_padding_0_0_0 = analog.sig_source_c(0, analog.GR_CONST_WAVE, 0, 0, 0)
+        self.qtgui_time_sink_x_0_0_1_1_0_0_0 = qtgui.time_sink_f(
+        	200000, #size
+        	samp_rate, #samp_rate
+        	'XCor', #name
+        	1 #number of inputs
+        )
+        self.qtgui_time_sink_x_0_0_1_1_0_0_0.set_update_time(0.10)
+        self.qtgui_time_sink_x_0_0_1_1_0_0_0.set_y_axis(-1, 1)
+
+        self.qtgui_time_sink_x_0_0_1_1_0_0_0.set_y_label('Amplitude', "")
+
+        self.qtgui_time_sink_x_0_0_1_1_0_0_0.enable_tags(-1, True)
+        self.qtgui_time_sink_x_0_0_1_1_0_0_0.set_trigger_mode(qtgui.TRIG_MODE_FREE, qtgui.TRIG_SLOPE_POS, 0.0, 0, 0, "")
+        self.qtgui_time_sink_x_0_0_1_1_0_0_0.enable_autoscale(True)
+        self.qtgui_time_sink_x_0_0_1_1_0_0_0.enable_grid(False)
+        self.qtgui_time_sink_x_0_0_1_1_0_0_0.enable_axis_labels(True)
+        self.qtgui_time_sink_x_0_0_1_1_0_0_0.enable_control_panel(False)
+        self.qtgui_time_sink_x_0_0_1_1_0_0_0.enable_stem_plot(False)
+
+        if not True:
+          self.qtgui_time_sink_x_0_0_1_1_0_0_0.disable_legend()
+
+        labels = ['IQ', 'Corr Output', '', '', '',
+                  '', '', '', '', '']
+        widths = [1, 1, 1, 1, 1,
+                  1, 1, 1, 1, 1]
+        colors = ["blue", "red", "green", "black", "cyan",
+                  "magenta", "yellow", "dark red", "dark green", "blue"]
+        styles = [1, 1, 1, 1, 1,
+                  1, 1, 1, 1, 1]
+        markers = [-1, -1, -1, -1, -1,
+                   -1, -1, -1, -1, -1]
+        alphas = [1.0, 1.0, 1.0, 1.0, 1.0,
+                  1.0, 1.0, 1.0, 1.0, 1.0]
+
+        for i in xrange(1):
+            if len(labels[i]) == 0:
+                self.qtgui_time_sink_x_0_0_1_1_0_0_0.set_line_label(i, "Data {0}".format(i))
+            else:
+                self.qtgui_time_sink_x_0_0_1_1_0_0_0.set_line_label(i, labels[i])
+            self.qtgui_time_sink_x_0_0_1_1_0_0_0.set_line_width(i, widths[i])
+            self.qtgui_time_sink_x_0_0_1_1_0_0_0.set_line_color(i, colors[i])
+            self.qtgui_time_sink_x_0_0_1_1_0_0_0.set_line_style(i, styles[i])
+            self.qtgui_time_sink_x_0_0_1_1_0_0_0.set_line_marker(i, markers[i])
+            self.qtgui_time_sink_x_0_0_1_1_0_0_0.set_line_alpha(i, alphas[i])
+
+        self._qtgui_time_sink_x_0_0_1_1_0_0_0_win = sip.wrapinstance(self.qtgui_time_sink_x_0_0_1_1_0_0_0.pyqwidget(), Qt.QWidget)
+        self.top_grid_layout.addWidget(self._qtgui_time_sink_x_0_0_1_1_0_0_0_win)
         self.qtgui_time_sink_x_0_0_1_1_0_0 = qtgui.time_sink_c(
-        	20000, #size
+        	200000, #size
         	samp_rate, #samp_rate
         	'Tx Signal', #name
         	1 #number of inputs
@@ -163,41 +212,59 @@ class top_block(gr.top_block, Qt.QWidget):
         self._qtgui_freq_sink_x_0_0_0_0_win = sip.wrapinstance(self.qtgui_freq_sink_x_0_0_0_0.pyqwidget(), Qt.QWidget)
         self.top_grid_layout.addWidget(self._qtgui_freq_sink_x_0_0_0_0_win)
         self.blocks_throttle_0 = blocks.throttle(gr.sizeof_gr_complex*1, samp_rate,True)
-        self.blocks_message_strobe_0 = blocks.message_strobe(pmt.intern("3000"), 1000)
-        self.beamforming_dynamic_padder_py_0 = beamforming.dynamic_padder_py(1, 1)
-        self.analog_sig_source_x_0 = analog.sig_source_c(samp_rate, analog.GR_COS_WAVE, 10, 1, 0)
+        self.blocks_stream_mux_1 = blocks.stream_mux(gr.sizeof_gr_complex*1, (trainingSignal_size, 400 , 256* 64 , 100))
+        self.blocks_repeat_0_1 = blocks.repeat(gr.sizeof_gr_complex*1, 100)
+        self.blocks_repeat_0_0 = blocks.repeat(gr.sizeof_gr_complex*1, 256*64)
+        self.blocks_repeat_0 = blocks.repeat(gr.sizeof_gr_complex*1, 400)
+        self.blocks_complex_to_mag_0 = blocks.complex_to_mag(1)
+        self.beamforming_matlab_file_payload_py_0 = beamforming.matlab_file_payload_py(data_files_path + "/trainingSig1")
+        self.beamforming_correlate_and_tag_py_0 = beamforming.correlate_and_tag_py(trainingSignal_size, trainingSignal_size + 400 + 256* 64 + 100, 4, data_files_path + "/trainingSig")
 
 
 
         ##################################################
         # Connections
         ##################################################
-        self.msg_connect((self.blocks_message_strobe_0, 'strobe'), (self.beamforming_dynamic_padder_py_0, 'trigger'))
-        self.connect((self.analog_sig_source_x_0, 0), (self.beamforming_dynamic_padder_py_0, 0))
-        self.connect((self.beamforming_dynamic_padder_py_0, 0), (self.blocks_throttle_0, 0))
+        self.connect((self.beamforming_correlate_and_tag_py_0, 1), (self.blocks_complex_to_mag_0, 0))
+        self.connect((self.beamforming_correlate_and_tag_py_0, 0), (self.blocks_throttle_0, 0))
+        self.connect((self.beamforming_matlab_file_payload_py_0, 0), (self.blocks_stream_mux_1, 0))
+        self.connect((self.blocks_complex_to_mag_0, 0), (self.qtgui_time_sink_x_0_0_1_1_0_0_0, 0))
+        self.connect((self.blocks_repeat_0, 0), (self.blocks_stream_mux_1, 1))
+        self.connect((self.blocks_repeat_0_0, 0), (self.blocks_stream_mux_1, 2))
+        self.connect((self.blocks_repeat_0_1, 0), (self.blocks_stream_mux_1, 3))
+        self.connect((self.blocks_stream_mux_1, 0), (self.beamforming_correlate_and_tag_py_0, 0))
         self.connect((self.blocks_throttle_0, 0), (self.qtgui_freq_sink_x_0_0_0_0, 0))
         self.connect((self.blocks_throttle_0, 0), (self.qtgui_time_sink_x_0_0_1_1_0_0, 0))
+        self.connect((self.zero_padding_0_0_0, 0), (self.blocks_repeat_0, 0))
+        self.connect((self.zero_padding_0_0_0, 0), (self.blocks_repeat_0_0, 0))
+        self.connect((self.zero_padding_0_0_0, 0), (self.blocks_repeat_0_1, 0))
 
     def closeEvent(self, event):
         self.settings = Qt.QSettings("GNU Radio", "top_block")
         self.settings.setValue("geometry", self.saveGeometry())
         event.accept()
 
-    def get_samp_rate_0(self):
-        return self.samp_rate_0
+    def get_trainingSignal_size(self):
+        return self.trainingSignal_size
 
-    def set_samp_rate_0(self, samp_rate_0):
-        self.samp_rate_0 = samp_rate_0
+    def set_trainingSignal_size(self, trainingSignal_size):
+        self.trainingSignal_size = trainingSignal_size
 
     def get_samp_rate(self):
         return self.samp_rate
 
     def set_samp_rate(self, samp_rate):
         self.samp_rate = samp_rate
+        self.qtgui_time_sink_x_0_0_1_1_0_0_0.set_samp_rate(self.samp_rate)
         self.qtgui_time_sink_x_0_0_1_1_0_0.set_samp_rate(self.samp_rate)
         self.qtgui_freq_sink_x_0_0_0_0.set_frequency_range(900e6, self.samp_rate)
         self.blocks_throttle_0.set_sample_rate(self.samp_rate)
-        self.analog_sig_source_x_0.set_sampling_freq(self.samp_rate)
+
+    def get_data_files_path(self):
+        return self.data_files_path
+
+    def set_data_files_path(self, data_files_path):
+        self.data_files_path = data_files_path
 
 
 def main(top_block_cls=top_block, options=None):

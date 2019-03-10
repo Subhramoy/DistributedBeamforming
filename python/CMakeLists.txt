@@ -37,7 +37,10 @@ GR_PYTHON_INSTALL(
     CSI_feedback_adapter_py.py
     multiply_by_variable_py_cc.py
     correlate_and_tag_py.py
-    dynamic_padder_py.py DESTINATION ${GR_PYTHON_DIR}/beamforming
+    dynamic_padder_py.py
+    feedback_calculation_py.py
+    UDP_multicast_py.py
+    BER_calculation_py.py DESTINATION ${GR_PYTHON_DIR}/beamforming
 )
 
 ########################################################################
@@ -54,3 +57,6 @@ GR_ADD_TEST(qa_CSI_feedback_adapter_py ${PYTHON_EXECUTABLE} ${CMAKE_CURRENT_SOUR
 GR_ADD_TEST(qa_multiply_by_variable_py_cc ${PYTHON_EXECUTABLE} ${CMAKE_CURRENT_SOURCE_DIR}/qa_multiply_by_variable_py_cc.py)
 GR_ADD_TEST(qa_correlate_and_tag_py ${PYTHON_EXECUTABLE} ${CMAKE_CURRENT_SOURCE_DIR}/qa_correlate_and_tag_py.py)
 GR_ADD_TEST(qa_dynamic_padder_py ${PYTHON_EXECUTABLE} ${CMAKE_CURRENT_SOURCE_DIR}/qa_dynamic_padder_py.py)
+GR_ADD_TEST(qa_feedback_calculation_py ${PYTHON_EXECUTABLE} ${CMAKE_CURRENT_SOURCE_DIR}/qa_feedback_calculation_py.py)
+GR_ADD_TEST(qa_UDP_multicast_py ${PYTHON_EXECUTABLE} ${CMAKE_CURRENT_SOURCE_DIR}/qa_UDP_multicast_py.py)
+GR_ADD_TEST(qa_BER_calculation_py ${PYTHON_EXECUTABLE} ${CMAKE_CURRENT_SOURCE_DIR}/qa_BER_calculation_py.py)
