@@ -38,7 +38,7 @@
     </param>
     <param>
       <key>generate_options</key>
-      <value>qt_gui</value>
+      <value>no_gui</value>
     </param>
     <param>
       <key>hier_block_src_path</key>
@@ -384,7 +384,7 @@
     </param>
     <param>
       <key>source_type</key>
-      <value>0</value>
+      <value>1</value>
     </param>
     <param>
       <key>Tx_ID</key>
@@ -415,7 +415,7 @@
     </param>
     <param>
       <key>_enabled</key>
-      <value>True</value>
+      <value>0</value>
     </param>
     <param>
       <key>_coordinate</key>
@@ -459,6 +459,53 @@
     </param>
   </block>
   <block>
+    <key>beamforming_dynamic_padder_py</key>
+    <param>
+      <key>alias</key>
+      <value></value>
+    </param>
+    <param>
+      <key>comment</key>
+      <value></value>
+    </param>
+    <param>
+      <key>affinity</key>
+      <value></value>
+    </param>
+    <param>
+      <key>_enabled</key>
+      <value>True</value>
+    </param>
+    <param>
+      <key>_coordinate</key>
+      <value>(1152, 1160)</value>
+    </param>
+    <param>
+      <key>_rotation</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>id</key>
+      <value>beamforming_dynamic_padder_py_0</value>
+    </param>
+    <param>
+      <key>imag</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>real</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>maxoutbuf</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>minoutbuf</key>
+      <value>0</value>
+    </param>
+  </block>
+  <block>
     <key>beamforming_matlab_file_payload_py</key>
     <param>
       <key>alias</key>
@@ -498,7 +545,7 @@
     </param>
     <param>
       <key>file_path</key>
-      <value>/home/subhramoy/Documents/BFInfocom/trainingSig1</value>
+      <value>/home/nvidia/workarea-gnuradio/gnuradio/gr-beamforming/examples/data/trainingSig1</value>
     </param>
   </block>
   <block>
@@ -517,7 +564,7 @@
     </param>
     <param>
       <key>_enabled</key>
-      <value>1</value>
+      <value>0</value>
     </param>
     <param>
       <key>_coordinate</key>
@@ -599,7 +646,7 @@
     </param>
     <param>
       <key>_enabled</key>
-      <value>True</value>
+      <value>0</value>
     </param>
     <param>
       <key>_coordinate</key>
@@ -1758,7 +1805,7 @@
     </param>
     <param>
       <key>_enabled</key>
-      <value>1</value>
+      <value>0</value>
     </param>
     <param>
       <key>_coordinate</key>
@@ -1809,7 +1856,7 @@
     </param>
     <param>
       <key>_enabled</key>
-      <value>1</value>
+      <value>0</value>
     </param>
     <param>
       <key>_coordinate</key>
@@ -2025,7 +2072,7 @@
     </param>
     <param>
       <key>_enabled</key>
-      <value>1</value>
+      <value>0</value>
     </param>
     <param>
       <key>_coordinate</key>
@@ -2233,7 +2280,7 @@
     </param>
     <param>
       <key>_enabled</key>
-      <value>1</value>
+      <value>0</value>
     </param>
     <param>
       <key>_coordinate</key>
@@ -3211,7 +3258,7 @@ def get_points(modulation_name):
     </param>
     <param>
       <key>_enabled</key>
-      <value>1</value>
+      <value>0</value>
     </param>
     <param>
       <key>fftsize</key>
@@ -3510,7 +3557,7 @@ def get_points(modulation_name):
     </param>
     <param>
       <key>_enabled</key>
-      <value>1</value>
+      <value>0</value>
     </param>
     <param>
       <key>fftsize</key>
@@ -3801,7 +3848,7 @@ def get_points(modulation_name):
     </param>
     <param>
       <key>_enabled</key>
-      <value>1</value>
+      <value>0</value>
     </param>
     <param>
       <key>_coordinate</key>
@@ -4168,7 +4215,7 @@ def get_points(modulation_name):
     </param>
     <param>
       <key>_enabled</key>
-      <value>1</value>
+      <value>0</value>
     </param>
     <param>
       <key>_coordinate</key>
@@ -5151,7 +5198,7 @@ def get_points(modulation_name):
     </param>
     <param>
       <key>clock_rate</key>
-      <value>200e6</value>
+      <value>0.0</value>
     </param>
     <param>
       <key>comment</key>
@@ -5163,7 +5210,7 @@ def get_points(modulation_name):
     </param>
     <param>
       <key>dev_addr</key>
-      <value>"addr0=192.168.10.2,addr1=192.168.110.2"</value>
+      <value>"serial=30BC5C4"</value>
     </param>
     <param>
       <key>dev_args</key>
@@ -5175,7 +5222,7 @@ def get_points(modulation_name):
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(1184, 1076)</value>
+      <value>(1400, 1092)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -5195,7 +5242,7 @@ def get_points(modulation_name):
     </param>
     <param>
       <key>sd_spec0</key>
-      <value>"A:0"</value>
+      <value></value>
     </param>
     <param>
       <key>time_source0</key>
@@ -5287,11 +5334,11 @@ def get_points(modulation_name):
     </param>
     <param>
       <key>nchan</key>
-      <value>2</value>
+      <value>1</value>
     </param>
     <param>
       <key>num_mboards</key>
-      <value>2</value>
+      <value>1</value>
     </param>
     <param>
       <key>samp_rate</key>
@@ -5523,7 +5570,7 @@ def get_points(modulation_name):
     </param>
     <param>
       <key>_enabled</key>
-      <value>1</value>
+      <value>0</value>
     </param>
     <param>
       <key>_coordinate</key>
@@ -5685,7 +5732,7 @@ def get_points(modulation_name):
     </param>
     <param>
       <key>_enabled</key>
-      <value>1</value>
+      <value>0</value>
     </param>
     <param>
       <key>_coordinate</key>
@@ -5980,7 +6027,7 @@ def get_points(modulation_name):
     </param>
     <param>
       <key>_enabled</key>
-      <value>1</value>
+      <value>0</value>
     </param>
     <param>
       <key>_coordinate</key>
@@ -6014,10 +6061,22 @@ def get_points(modulation_name):
     <sink_key>beamweight</sink_key>
   </connection>
   <connection>
+    <source_block_id>beamforming_CSI_feedback_adapter_py_0</source_block_id>
+    <sink_block_id>beamforming_dynamic_padder_py_0</sink_block_id>
+    <source_key>delay</source_key>
+    <sink_key>trigger</sink_key>
+  </connection>
+  <connection>
     <source_block_id>beamforming_CSI_feedback_adapter_py_0_0</source_block_id>
     <sink_block_id>beamforming_multiply_by_variable_py_cc_1_0</sink_block_id>
     <source_key>beamweight</source_key>
     <sink_key>beamweight</sink_key>
+  </connection>
+  <connection>
+    <source_block_id>beamforming_dynamic_padder_py_0</source_block_id>
+    <sink_block_id>uhd_usrp_sink_0</sink_block_id>
+    <source_key>0</source_key>
+    <sink_key>0</sink_key>
   </connection>
   <connection>
     <source_block_id>beamforming_matlab_file_payload_py_0</source_block_id>
@@ -6243,13 +6302,13 @@ def get_points(modulation_name):
   </connection>
   <connection>
     <source_block_id>blocks_stream_mux_1</source_block_id>
-    <sink_block_id>blocks_throttle_0</sink_block_id>
+    <sink_block_id>beamforming_dynamic_padder_py_0</sink_block_id>
     <source_key>0</source_key>
     <sink_key>0</sink_key>
   </connection>
   <connection>
     <source_block_id>blocks_stream_mux_1</source_block_id>
-    <sink_block_id>uhd_usrp_sink_0</sink_block_id>
+    <sink_block_id>blocks_throttle_0</sink_block_id>
     <source_key>0</source_key>
     <sink_key>0</sink_key>
   </connection>
@@ -6268,12 +6327,6 @@ def get_points(modulation_name):
   <connection>
     <source_block_id>blocks_stream_mux_1_1</source_block_id>
     <sink_block_id>qtgui_time_sink_x_0_0_1_1_0</sink_block_id>
-    <source_key>0</source_key>
-    <sink_key>1</sink_key>
-  </connection>
-  <connection>
-    <source_block_id>blocks_stream_mux_1_1</source_block_id>
-    <sink_block_id>uhd_usrp_sink_0</sink_block_id>
     <source_key>0</source_key>
     <sink_key>1</sink_key>
   </connection>

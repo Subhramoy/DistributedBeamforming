@@ -21,7 +21,8 @@
 
 import numpy, os
 from gnuradio import gr
-import queue
+#import queue
+import Queue as queue
 import pmt
 ## https://wiki.gnuradio.org/index.php/Types_of_Blocks
 #

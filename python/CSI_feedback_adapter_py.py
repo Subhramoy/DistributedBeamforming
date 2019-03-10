@@ -104,11 +104,14 @@ class CSI_feedback_adapter_py(gr.basic_block):
     def send_beamweight(self, msg):
         weight = pmt.from_complex(self.beamweight)
         self.message_port_pub(pmt.intern("beamweight"), weight)
-        print "BW sent: {}".format(weight)
+        #print "BW sent: {}".format(weight)
 
 
     def send_delay(self, msg):
-        delay = pmt.from_string(self.beamweight)
+        #delay = pmt.from_string(self.beamweight)
+	#delay = pmt.from_double(self.beamweight)
+	delay = pmt.string_to_symbol(str(self.delay))
+	#print type(delay)
         self.message_port_pub(pmt.intern("delay"), delay)
         print "Delay sent: {}".format(delay)
 
@@ -154,7 +157,7 @@ class CSI_feedback_adapter_py(gr.basic_block):
             if int (target_object['Tx_ID']) != self.Tx_ID:
                 raise Exception("Inconsistent Tx array from RX")
             else:
-                print 'For TX {}'.format(self.Tx_ID)
+                #print 'For TX {}'.format(self.Tx_ID)
                 real = target_object['real']
                 imaginary = target_object['imaginary']
 
@@ -175,17 +178,17 @@ class CSI_feedback_adapter_py(gr.basic_block):
         # Reconstructing channel estimation value in complex format
         # self.channel_est = [real, imaginary]
         channel_est_complex = complex(real, imaginary)
-        print channel_est_complex
+        #print channel_est_complex
         abs_channel_est_antennas = abs(channel_est_complex)
         phase_correction = channel_est_complex / abs_channel_est_antennas
 
         beamweight = 1/phase_correction
         self.beamweight = beamweight
 
-        self.send_beamweight(self)
+        self.send_beamweight(None)
 
         if update_in_delay:
-            self.send_delay(self)
+            self.send_delay(None)
 
 
     def read_bw_from_file(self):
@@ -298,5 +301,5 @@ class UDPServer(threading.Thread):
                 print('timed out, no incoming CSI feedback')
                 break
             else:
-                print('received "%s" from %s - time: %f ' % (data, address, time.time() ) )
+                #print('received "%s" from %s - time: %f ' % (data, address, time.time() ) )
                 self.udp_packet_handler(data)

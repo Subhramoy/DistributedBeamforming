@@ -46,13 +46,13 @@ class dynamic_padder_py(gr.basic_block):
         self.set_msg_handler(pmt.intern("trigger"), self.set_padding)
 
     def forecast(self, noutput_items, ninput_items_required):
-        print "forecast called noutput_items:{}".format(noutput_items)
+        #print "forecast called noutput_items:{}".format(noutput_items)
         #setup size of input_items[i] for work call
         for i in range(len(ninput_items_required)):
             ninput_items_required[i] = noutput_items
 
     def general_work(self, input_items, output_items):
-        print "General work called in:{} - out:{}".format(len(input_items[0]), len(output_items[0]))
+        #print "General work called in:{} - out:{}".format(len(input_items[0]), len(output_items[0]))
 
         if self.padding is True:
             sub_input = input_items[0][:len(output_items[0]) -self.length ]
@@ -78,9 +78,11 @@ class dynamic_padder_py(gr.basic_block):
     def set_padding(self, msg):
 
         self.length = int(pmt.symbol_to_string(msg))
+	if self.length < 2000:
+		self.padding = True
 
         print(self.length)
-        self.padding = True
+        #self.padding = True
 
 
     def get_padding_array(self, length):

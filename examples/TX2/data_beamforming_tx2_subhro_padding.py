@@ -21,7 +21,11 @@ import beamforming
 import cons_config  # embedded python module
 import pmt
 import time
-
+import sys
+import wx
+import os, threading
+import ntplib
+import subprocess
 
 class data_beamforming_tx2(gr.top_block):
 
@@ -157,6 +161,44 @@ class data_beamforming_tx2(gr.top_block):
         self.connect((self.zero_padding, 0), (self.blocks_repeat_0_0_0, 0))
         self.connect((self.zero_padding_0_0_0, 0), (self.blocks_repeat_0_0_0_1, 0))
         self.connect((self.zero_padding_0_0_0, 0), (self.blocks_repeat_0_0_0_1_0, 0))
+
+
+
+	##################################################
+	# Adding line for time sync purpose
+	##################################################
+#	try:
+	lock = threading.Lock()
+	lock.acquire()
+
+	client = ntplib.NTPClient()
+	response = client.request('pool.ntp.org')
+	os.system('date ' + time.strftime('%m%d%H%M%Y.%S',time.localtime(response.tx_time)))
+	
+	#os.system(time.strftime('%m%d%H%M%Y.%S',time.localtime(response.tx_time)))
+	system_time_min = int(time.strftime('%M'))
+	system_time_min = (system_time_min*60)
+        
+	print (system_time_min)
+        system_time_sec = int(time.strftime('%S'))
+        print (system_time_sec)
+        system_time_str = (system_time_min + system_time_sec)
+	wait_time = 60 - system_time_sec
+	print "Tranmission will start after {} seconds".format(wait_time)
+	print(system_time_str) 
+        system_time = int(system_time_str)
+	#self.uhd_usrp_sink_0.set_time_unknown_pps(uhd.time_spec_t(system_time +1))
+	self.uhd_usrp_sink_0.set_time_next_pps(uhd.time_spec_t(system_time +1))
+	self.uhd_usrp_sink_0.set_start_time(uhd.time_spec_t(system_time + wait_time))
+	print "wait over"
+	lock.release()
+	time.sleep(wait_time-2)
+
+
+	##################################################
+	# Other functions
+	##################################################
+
 
     def get_tx_id_1(self):
         return self.tx_id_1
