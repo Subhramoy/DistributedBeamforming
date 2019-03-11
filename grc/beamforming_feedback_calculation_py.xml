@@ -4,21 +4,33 @@
   <key>beamforming_feedback_calculation_py</key>
   <category>[beamforming]</category>
   <import>import beamforming</import>
-  <make>beamforming.feedback_calculation_py($number_of_Tx, $data_path)</make>
+  <make>beamforming.feedback_calculation_py($seq_len, $frame_len, $number_of_Tx, $data_path)</make>
   <!-- Make one 'param' node for every Parameter you want settable from the GUI.
        Sub-nodes:
        * name
        * key (makes the value accessible as $keyname, e.g. in the make node)
        * type -->
   <param>
-    <name>Number of Tx Antennas</name>
-    <key>$number_of_Tx</key>
+    <name>Length of Gold Seq.</name>
+    <key>seq_len</key>
+    <value>16000</value>
+    <type>int</type>
+  </param>
+  <param>
+    <name>Length of Frame</name>
+    <key>frame_len</key>
+    <value>32000</value>
+    <type>int</type>
+  </param>
+  <param>
+    <name>Number of Active TXs</name>
+    <key>number_of_Tx</key>
     <value>1</value>
     <type>int</type>
   </param>
   <param>
     <name>Data File Path</name>
-    <key>$data_path</key>
+    <key>data_path</key>
     <type>string</type>
   </param>
 

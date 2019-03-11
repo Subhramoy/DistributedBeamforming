@@ -3,7 +3,7 @@
 ##################################################
 # GNU Radio Python Flow Graph
 # Title: Top Block
-# Generated: Sun Mar 10 13:20:01 2019
+# Generated: Sun Mar 10 19:14:14 2019
 ##################################################
 
 if __name__ == '__main__':
@@ -216,15 +216,19 @@ class top_block(gr.top_block, Qt.QWidget):
         self.blocks_repeat_0_1 = blocks.repeat(gr.sizeof_gr_complex*1, 100)
         self.blocks_repeat_0_0 = blocks.repeat(gr.sizeof_gr_complex*1, 256*64)
         self.blocks_repeat_0 = blocks.repeat(gr.sizeof_gr_complex*1, 400)
+        self.blocks_message_debug_0 = blocks.message_debug()
         self.blocks_complex_to_mag_0 = blocks.complex_to_mag(1)
         self.beamforming_matlab_file_payload_py_0 = beamforming.matlab_file_payload_py(data_files_path + "/trainingSig1")
-        self.beamforming_correlate_and_tag_py_0 = beamforming.correlate_and_tag_py(trainingSignal_size, trainingSignal_size + 400 + 256* 64 + 100, 4, data_files_path + "/trainingSig")
+        self.beamforming_feedback_calculation_py_0 = beamforming.feedback_calculation_py(trainingSignal_size, trainingSignal_size + 400 + 256* 64 + 100, 1, data_files_path + "/trainingSig")
+        self.beamforming_correlate_and_tag_py_0 = beamforming.correlate_and_tag_py(trainingSignal_size, trainingSignal_size + 400 + 256* 64 + 100, 1, data_files_path + "/trainingSig")
 
 
 
         ##################################################
         # Connections
         ##################################################
+        self.msg_connect((self.beamforming_feedback_calculation_py_0, 'out'), (self.blocks_message_debug_0, 'print_pdu'))
+        self.connect((self.beamforming_correlate_and_tag_py_0, 0), (self.beamforming_feedback_calculation_py_0, 0))
         self.connect((self.beamforming_correlate_and_tag_py_0, 1), (self.blocks_complex_to_mag_0, 0))
         self.connect((self.beamforming_correlate_and_tag_py_0, 0), (self.blocks_throttle_0, 0))
         self.connect((self.beamforming_matlab_file_payload_py_0, 0), (self.blocks_stream_mux_1, 0))
