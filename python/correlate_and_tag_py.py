@@ -308,7 +308,7 @@ class correlate_and_tag_py(gr.sync_block):
     def get_training_signal(self, file_path, number_Tx):
         """ @todo Define 2D array and return all gold sequence
                streams dynamically w.r.t. given number_Tx parameter.
-               @note curently only returns TX1 gold sequence """
+               @note currently only returns TX1 gold sequence """
         gold_sequence = []
 
         # Enumeration starts with 1 in files
