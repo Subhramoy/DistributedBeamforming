@@ -90,7 +90,7 @@ class feedback_calculation_py(gr.basic_block):
         # Send it to next block
 
         # output_items[0][:] = input_items[0]
-        self.log.debug("Size of input buffer: {}".format(len(input_items[0])))
+        # self.log.debug("Size of input buffer: {}".format(len(input_items[0])))
         self.consume(0, len(input_items[0]))
 
         #self.consume_each(len(input_items[0]))

@@ -4,7 +4,7 @@
   <key>beamforming_correlate_and_tag_py</key>
   <category>[beamforming]</category>
   <import>import beamforming</import>
-  <make>beamforming.correlate_and_tag_py($seq_len, $frame_len, $num_Tx, $file_path)</make>
+  <make>beamforming.correlate_and_tag_py($seq_len, $frame_len, $num_Tx, $file_path, $cor_method)</make>
   <!-- Make one 'param' node for every Parameter you want settable from the GUI.
        Sub-nodes:
        * name
@@ -29,9 +29,15 @@
     <type>int</type>
   </param>
     <param>
-        <name>Payload File</name>
+        <name>Payload Files</name>
         <key>file_path</key>
         <value>"Enter folder path"</value>
+        <type>string</type>
+    </param>
+    <param>
+        <name>Correlation Method</name>
+        <key>cor_method</key>
+        <value>""</value>
         <type>string</type>
     </param>
   <!-- Make one 'sink' node per input. Sub-nodes:

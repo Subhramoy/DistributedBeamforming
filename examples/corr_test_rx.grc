@@ -185,6 +185,10 @@
       <value></value>
     </param>
     <param>
+      <key>cor_method</key>
+      <value>""</value>
+    </param>
+    <param>
       <key>_enabled</key>
       <value>True</value>
     </param>
@@ -218,7 +222,7 @@
     </param>
     <param>
       <key>num_Tx</key>
-      <value>1</value>
+      <value>2</value>
     </param>
     <param>
       <key>file_path</key>

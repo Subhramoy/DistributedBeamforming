@@ -21,6 +21,10 @@
 
 import logging
 import numpy, os
+try:
+    from scipy import signal
+except:
+    print ("WARNING: Scipy module is not loaded. FFT-based cor. cannot be used.")
 import pmt
 from gnuradio import gr
 import time
@@ -39,7 +43,7 @@ class correlate_and_tag_py(gr.sync_block):
     """
     docstring for block correlate_and_tag_py
     """
-    def __init__(self, seq_len, frame_len, num_Tx, file_path):
+    def __init__(self, seq_len, frame_len, num_Tx, file_path, cor_method):
         gr.sync_block.__init__(self,
             name="correlate_and_tag_py",
             in_sig=[numpy.complex64],
@@ -67,10 +71,9 @@ class correlate_and_tag_py(gr.sync_block):
                                           numpy.complex64)
         print self.gold_sequences
 
-        tx_index = 0
-        while tx_index < num_Tx:
+
+        for tx_index in range(num_Tx):
             self.gold_sequences[tx_index,:] = numpy.array(self.get_training_signal(file_path, tx_index))
-            tx_index = tx_index + 1
 
 
         """Internal Buffers"""
@@ -84,43 +87,19 @@ class correlate_and_tag_py(gr.sync_block):
 
         self.correlation_window = []
 
+        # Use fft based correlation
+        if cor_method == "fft":
+            self.log.info("FFT-based correlation init.")
+            self.correlate = self.signal_fft_correllation
+        else: # Default correlation function
+            self.log.info("Default correlation init.")
+            self.correlate = self.numpy_correlation
 
-
-
-    def forecast(self, noutput_items, ninput_items_required):
-        if self.debug:
-            self.log.debug( "forecast noutput_items: {} \t " \
-                        "ninput_items_required: {}"\
-                        .format(    noutput_items,
-                                    len(ninput_items_required)))
-
-        #setup size of input_items[i] for work call
-        for i in range(len(ninput_items_required)):
-            ninput_items_required[i] = 6000
-
-        if self.debug:
-            self.log.debug( "end of forecast " \
-                        "ninput_items_required: {}" \
-                        .format( ninput_items_required[0]))
-
-    def general_work(self, input_items, output_items):
-        in0 = input_items[0][:len(output_items[0])]
-        out = output_items[0]
-        # output_items[0][:] = input_items[0]
-        if self.debug:
-            self.log.debug( "Size of input: {} buffer".format(len(input_items[0])))
-            self.log.debug( "Size of input: {} \t output: {} buffers".format(len(in0), len(out)))
-
-        out[:] = in0
-
-        if self.debug:
-            self.log.debug( "Call for consume function with parameter {}".format(len(input_items[0])))
-        self.consume(0, len(input_items[0]))
-        #self.consume_each(len(input_items[0]))
-        return len(output_items[0])
 
 
     def work(self, input_items, output_items):
+        self.debug = False
+
         in0 = input_items[0]
         out = output_items[0]
         corr_out = output_items[1]
@@ -131,82 +110,97 @@ class correlate_and_tag_py(gr.sync_block):
         # print str(in0.shape)
         # print str(in0.dtype)
         # print str(in0.flags)
+
         if self.debug:
             self.log.debug( "Size of input: {} \t output: {}-{} buffers".format(len(in0), len(out), len(corr_out)))
 
+        """ Fill the internal buffer with incoming items """
         for indx, sample in enumerate(input_items[0]):
             self.buffer.put(sample)
 
         if self.debug:
-            self.log.debug( "Size of internal buffer: {}".format(self.buffer.qsize()))
+            self.log.debug( "2Size of internal buffer: {}".format(self.buffer.qsize()))
 
         # print "Size of output buffer: {}".format(len(out))
 
         """ Buffer has enough samples to run XCOR"""
+        # buffer : internal buffer
+        # correlation_window : items might be left after previous correlation
+        # gold_seq_length
+        # frame_length
         if self.buffer.qsize() + len(self.correlation_window) > self.gold_seq_length + self.frame_length:
             output_head = self.nitems_written(0)
             corr_output_head = self.nitems_written(1)
 
             read_index = 0
             initial_size = len(self.correlation_window)
+            # Push items (samples) to correlation window
+            #   until its size equals gold_seq_length+frame_length
             while read_index < self.gold_seq_length + self.frame_length - initial_size:
                 self.correlation_window.append(self.buffer.get())
                 read_index = read_index + 1
 
-            if self.debug:
+            """
+            if self.debug:      
                 self.log.debug(     "Remaining inputs in buffer: {} \n" \
-                                "Number of samples in Cor. window: {}\n"
+                                     "Number of samples in Cor. window: {}\n"
                                 .format(
                                         self.buffer.qsize(),
                                         len(self.correlation_window)
                                         )
                             )
+            """
+
+
 
             ## @todo a loop should be implemented for all active transmitters
-            s_time = time.time()
+            push_index = 0
+            for tx_index in range(2):
+                print(tx_index)
+                s_time = time.time()
+                x_cor_result = self.correlate(self.correlation_window, self.gold_sequences[tx_index])
+                e_time = time.time()
 
-            ## Run xcorrelation
-            x_cor_result = numpy.correlate(self.correlation_window,
-                                           self.gold_sequences[0],
-                                           mode="same")
-            e_time = time.time()
-
-            self.log.info("Xcorr calculation time: {} seconds".format(e_time - s_time))
-            if self.debug:
-                self.log.debug( "XCOR output type: {} \t size: {}".format(
-                                    type(x_cor_result),
-                                    len(x_cor_result)))
+                self.log.info("Xcorr calculation time: {} seconds".format(e_time - s_time))
+                if self.debug:
+                    self.log.debug( "XCOR output type: {} \t size: {}".format(
+                                        type(x_cor_result),
+                                        len(x_cor_result)))
 
 
-            ## MATLAB CODE
-            # peakIntervals1 = find(abs(crossCorr{1})>(0.8*max(abs(crossCorr{1}))));
+                ## MATLAB CODE
+                # peakIntervals1 = find(abs(crossCorr{1})>(0.8*max(abs(crossCorr{1}))));
 
-            tag_index = numpy.argmax(numpy.absolute(x_cor_result))
-            peak_indices = self.get_peaks(x_cor_result)
+                tag_index = numpy.argmax(numpy.absolute(x_cor_result))
+                peak_indices = self.get_peaks(x_cor_result)
 
-            # print "tag_index: {}, peak_index: {}".format(tag_index, peak_indices[0] )
+                self.log.debug("Tx: {} - Max item index: {}, First Peak index: {}".format(tx_index+1, tag_index, peak_indices[0] ))
 
-            key_flow = pmt.intern("training_Sig_{}".format(1))
-            value_flow = pmt.intern(str(self.gold_seq_length))
-            # srcid = pmt.intern("sourceID")
+                if peak_indices[0] > push_index:
+                    push_index = peak_indices[0]
 
-            key_xcor = pmt.intern("training_Sig_{}".format(1))
-            value_xcor  = pmt.intern(str(peak_indices[0]))
+                key_flow = pmt.intern("training_Sig_{}".format(tx_index+1))
+                value_flow = pmt.intern(str(self.gold_seq_length))
+                # srcid = pmt.intern("sourceID")
 
-            self.add_item_tag(0,
-                              output_head
-                              + self.output.qsize() # Items waiting in output queue
-                              + peak_indices[0]
-                              - self.gold_seq_length/2
-                              , key_flow, value_flow)
+                key_xcor = pmt.intern("training_Sig_{}".format(tx_index+1))
+                value_xcor  = pmt.intern(str(peak_indices[0]))
 
-            self.add_item_tag(1, corr_output_head
-                              + self.corr_output.qsize() # Items waiting in output queue
-                              + peak_indices[0]
-                              , key_xcor, value_xcor)
+                self.add_item_tag(0,
+                                  output_head
+                                  + self.output.qsize() # Items waiting in output queue
+                                  + peak_indices[0]
+                                  - self.gold_seq_length/2
+                                  , key_flow, value_flow)
+
+                self.add_item_tag(1, corr_output_head
+                                  + self.corr_output.qsize() # Items waiting in output queue
+                                  + peak_indices[0]
+                                  , key_xcor, value_xcor)
+
 
             # Push one frame
-            push_size = peak_indices[0] + self.frame_length - self.gold_seq_length/2
+            push_size = push_index + self.frame_length - self.gold_seq_length/2
 
             if self.debug: self.log.debug( "Sample size pushed to output buffers: {}".format(push_size))
             self.push_data(self.correlation_window[:push_size], "output")
@@ -271,14 +265,19 @@ class correlate_and_tag_py(gr.sync_block):
         #                     buffer=data_array,
         #                     dtype=numpy.complex64)[:length]
 
+
+    ## MATLAB CODE
+    # peakIntervals1 = find(abs(crossCorr{1})>(0.8*max(abs(crossCorr{1}))));
+    #
     def get_peaks(self, correlation_output):
+
         self.debug = True
-        expected_distance = 100
+        expected_distance = 100 # If the dist is greater than this, interpret as another cluster
 
         filtered_candidates = []
-        max = numpy.absolute(correlation_output).max()
+        max_samp = numpy.absolute(correlation_output).max()
 
-        peak_candidates = numpy.nonzero(numpy.absolute(correlation_output) > max*0.80)[0]
+        peak_candidates = numpy.nonzero(numpy.absolute(correlation_output) > max_samp*0.80)[0]
         if self.debug:
             print("Values bigger than max*0.80 =", numpy.absolute(correlation_output)[numpy.absolute(correlation_output) > max*0.95])
             print("Their indices are ", peak_candidates)
@@ -300,15 +299,13 @@ class correlate_and_tag_py(gr.sync_block):
         # push the head of last cluster
         filtered_candidates.append(t_peak)
 
-        if self.debug:
-            print("Candidates: {}", filtered_candidates)
-        self.debug = True
+        if self.debug:            print("Candidates: {}", filtered_candidates)
+
         return filtered_candidates
 
+
     def get_training_signal(self, file_path, number_Tx):
-        """ @todo Define 2D array and return all gold sequence
-               streams dynamically w.r.t. given number_Tx parameter.
-               @note currently only returns TX1 gold sequence """
+
         gold_sequence = []
 
         # Enumeration starts with 1 in files
@@ -320,7 +317,6 @@ class correlate_and_tag_py(gr.sync_block):
             print "Data Path at cor_and_tag block: {}".format(dir_path)
 
 
-        ## @todo define the loop here ...
         # Real part of the payload read from 'payload_real.txt' file
         with open( file_path + str(Tx_index) + '_real.txt', 'r') as f:
             pay_real = [line.strip() for line in f]
@@ -342,3 +338,50 @@ class correlate_and_tag_py(gr.sync_block):
               .format(Tx_index))
 
         return gold_sequence
+
+    # Correlation adapter functions
+    def numpy_correlation(self, in1, in2):
+        return  numpy.correlate(in1, in2, mode='same')
+
+    def signal_fft_correllation(self,in1, in2):
+        return signal.correlate(in1, in2, mode='same',method='fft')
+
+
+
+"""
+    def forecast(self, noutput_items, ninput_items_required):
+        
+        if self.debug:
+            self.log.debug( "forecast noutput_items: {} \t " \
+                        "ninput_items_required: {}"\
+                        .format(    noutput_items,
+                                    len(ninput_items_required)))
+
+        #setup size of input_items[i] for work call
+        for i in range(len(ninput_items_required)):
+            ninput_items_required[i] = 6000
+        
+        if self.debug:
+            self.log.debug( "end of forecast " \
+                        "ninput_items_required: {}" \
+                        .format( ninput_items_required[0]))
+
+    def general_work(self, input_items, output_items):
+        self.log.error("This functu")
+        in0 = input_items[0][:len(output_items[0])]
+        out = output_items[0]
+        # output_items[0][:] = input_items[0]
+
+        self.debug = False
+        if self.debug:
+            self.log.debug( "Size of input: {} buffer".format(len(input_items[0])))
+            self.log.debug( "Size of input: {} \t output: {} buffers".format(len(in0), len(out)))
+
+        out[:] = in0
+
+        if self.debug:
+            self.log.debug( "Call for consume function with parameter {}".format(len(input_items[0])))
+        self.consume(0, len(input_items[0]))
+        #self.consume_each(len(input_items[0]))
+        return len(output_items[0])
+"""
