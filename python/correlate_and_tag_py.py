@@ -56,6 +56,8 @@ class correlate_and_tag_py(gr.sync_block):
         self.gold_seq_length = seq_len
         self.frame_length = frame_len
 
+	self.num_active_Tx = num_Tx
+
         """Logger init"""
         ##  @todo gr-logger is not working as expected, update in CMAKE files might be required.
         #
@@ -155,13 +157,14 @@ class correlate_and_tag_py(gr.sync_block):
 
             ## @todo a loop should be implemented for all active transmitters
             push_index = 0
-            for tx_index in range(2):
+            for tx_index in range(self.num_active_Tx):
                 print(tx_index)
                 s_time = time.time()
                 x_cor_result = self.correlate(self.correlation_window, self.gold_sequences[tx_index])
                 e_time = time.time()
 
                 self.log.info("Xcorr calculation time: {} seconds".format(e_time - s_time))
+		print ("Xcorr calculation time: {} seconds".format(e_time - s_time))
                 if self.debug:
                     self.log.debug( "XCOR output type: {} \t size: {}".format(
                                         type(x_cor_result),
@@ -279,7 +282,7 @@ class correlate_and_tag_py(gr.sync_block):
 
         peak_candidates = numpy.nonzero(numpy.absolute(correlation_output) > max_samp*0.80)[0]
         if self.debug:
-            print("Values bigger than max*0.80 =", numpy.absolute(correlation_output)[numpy.absolute(correlation_output) > max*0.95])
+            print("Values bigger than max*0.80 =", numpy.absolute(correlation_output)[numpy.absolute(correlation_output) > max_samp*0.95])
             print("Their indices are ", peak_candidates)
 
         t_peak = None
