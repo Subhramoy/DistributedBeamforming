@@ -283,23 +283,15 @@ class correlate_and_tag_py(gr.sync_block):
                 channel_estimations.append(
                     {
                         "Tx_ID": tx_index+1,
-                        "real": numpy.real(channel_state[tx_index]),
-                        "imaginary": numpy.imag(channel_state[tx_index]),
+                        "real": float(numpy.real(channel_state[tx_index])),
+                        "imaginary": float(numpy.imag(channel_state[tx_index])),
                         "delay": delays[tx_index]
                     }
-                )
-
-            channel_estimations.append(
-                {
-                    "Tx_ID": tx_index+1,
-                    "real": numpy.real(channel_state[tx_index]),
-                    "imaginary": numpy.imag(channel_state[tx_index]),
-                    "delay": delays[tx_index]
-                }
-            )
-
+                )            
+            
             print channel_estimations
-            serialized = json.dumps(str(channel_estimations), indent=4)
+            print type(channel_estimations)
+            serialized = json.dumps(channel_estimations, indent=4)
             self.sock.sendto(serialized, self.multicast_group)
 
             # Push one frame
