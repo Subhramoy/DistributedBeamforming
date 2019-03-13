@@ -3,7 +3,7 @@
 ##################################################
 # GNU Radio Python Flow Graph
 # Title: Top Block
-# Generated: Tue Mar 12 23:31:04 2019
+# Generated: Wed Mar 13 09:48:17 2019
 ##################################################
 
 if __name__ == '__main__':
@@ -17,18 +17,18 @@ if __name__ == '__main__':
             print "Warning: failed to XInitThreads()"
 
 from PyQt4 import Qt
+from gnuradio import analog
 from gnuradio import blocks
 from gnuradio import eng_notation
 from gnuradio import gr
 from gnuradio import qtgui
-from gnuradio import uhd
 from gnuradio.eng_option import eng_option
 from gnuradio.filter import firdes
 from optparse import OptionParser
 import beamforming
 import sip
 import sys
-import time
+from gnuradio import qtgui
 
 
 class top_block(gr.top_block, Qt.QWidget):
@@ -37,6 +37,7 @@ class top_block(gr.top_block, Qt.QWidget):
         gr.top_block.__init__(self, "Top Block")
         Qt.QWidget.__init__(self)
         self.setWindowTitle("Top Block")
+        qtgui.util.check_set_qss()
         try:
             self.setWindowIcon(Qt.QIcon.fromTheme('gnuradio-grc'))
         except:
@@ -56,52 +57,42 @@ class top_block(gr.top_block, Qt.QWidget):
         self.settings = Qt.QSettings("GNU Radio", "top_block")
         self.restoreGeometry(self.settings.value("geometry").toByteArray())
 
+
         ##################################################
         # Variables
         ##################################################
         self.trainingSignal_size = trainingSignal_size = 16456
-        self.samp_rate = samp_rate = 400e3
-        self.data_files_path = data_files_path = "/home/genesys/Documents/gnuradio/gr-beamforming/examples/data"
+        self.samp_rate = samp_rate = 32000
+        self.data_files_path = data_files_path = "/home/gokhan/gnu-radio/gr-beamforming/examples/data"
 
         ##################################################
         # Blocks
         ##################################################
-        self.uhd_usrp_source_0 = uhd.usrp_source(
-        	",".join(("serial=316E259", "")),
-        	uhd.stream_args(
-        		cpu_format="fc32",
-        		channels=range(1),
-        	),
-        )
-        self.uhd_usrp_source_0.set_clock_source("external", 0)
-        self.uhd_usrp_source_0.set_time_source("external", 0)
-        self.uhd_usrp_source_0.set_samp_rate(samp_rate)
-        self.uhd_usrp_source_0.set_center_freq(900e6, 0)
-        self.uhd_usrp_source_0.set_gain(70, 0)
-        self.uhd_usrp_source_0.set_antenna("RX2", 0)
-        self.uhd_usrp_source_0.set_bandwidth(400e3, 0)
+        self.zero_padding_0_0_0 = analog.sig_source_c(0, analog.GR_CONST_WAVE, 0, 0, 0)
         self.qtgui_time_sink_x_0_0_1_1_0_0_0 = qtgui.time_sink_f(
         	200000, #size
         	samp_rate, #samp_rate
-        	"XCor", #name
+        	'XCor', #name
         	1 #number of inputs
         )
         self.qtgui_time_sink_x_0_0_1_1_0_0_0.set_update_time(0.10)
         self.qtgui_time_sink_x_0_0_1_1_0_0_0.set_y_axis(-1, 1)
-        
-        self.qtgui_time_sink_x_0_0_1_1_0_0_0.set_y_label("Amplitude", "")
-        
+
+        self.qtgui_time_sink_x_0_0_1_1_0_0_0.set_y_label('Amplitude', "")
+
         self.qtgui_time_sink_x_0_0_1_1_0_0_0.enable_tags(-1, True)
         self.qtgui_time_sink_x_0_0_1_1_0_0_0.set_trigger_mode(qtgui.TRIG_MODE_FREE, qtgui.TRIG_SLOPE_POS, 0.0, 0, 0, "")
         self.qtgui_time_sink_x_0_0_1_1_0_0_0.enable_autoscale(True)
         self.qtgui_time_sink_x_0_0_1_1_0_0_0.enable_grid(False)
+        self.qtgui_time_sink_x_0_0_1_1_0_0_0.enable_axis_labels(True)
         self.qtgui_time_sink_x_0_0_1_1_0_0_0.enable_control_panel(False)
-        
+        self.qtgui_time_sink_x_0_0_1_1_0_0_0.enable_stem_plot(False)
+
         if not True:
           self.qtgui_time_sink_x_0_0_1_1_0_0_0.disable_legend()
-        
-        labels = ["IQ", "Corr Output", "", "", "",
-                  "", "", "", "", ""]
+
+        labels = ['IQ', 'Corr Output', '', '', '',
+                  '', '', '', '', '']
         widths = [1, 1, 1, 1, 1,
                   1, 1, 1, 1, 1]
         colors = ["blue", "red", "green", "black", "cyan",
@@ -112,7 +103,7 @@ class top_block(gr.top_block, Qt.QWidget):
                    -1, -1, -1, -1, -1]
         alphas = [1.0, 1.0, 1.0, 1.0, 1.0,
                   1.0, 1.0, 1.0, 1.0, 1.0]
-        
+
         for i in xrange(1):
             if len(labels[i]) == 0:
                 self.qtgui_time_sink_x_0_0_1_1_0_0_0.set_line_label(i, "Data {0}".format(i))
@@ -123,31 +114,33 @@ class top_block(gr.top_block, Qt.QWidget):
             self.qtgui_time_sink_x_0_0_1_1_0_0_0.set_line_style(i, styles[i])
             self.qtgui_time_sink_x_0_0_1_1_0_0_0.set_line_marker(i, markers[i])
             self.qtgui_time_sink_x_0_0_1_1_0_0_0.set_line_alpha(i, alphas[i])
-        
+
         self._qtgui_time_sink_x_0_0_1_1_0_0_0_win = sip.wrapinstance(self.qtgui_time_sink_x_0_0_1_1_0_0_0.pyqwidget(), Qt.QWidget)
-        self.top_layout.addWidget(self._qtgui_time_sink_x_0_0_1_1_0_0_0_win)
+        self.top_grid_layout.addWidget(self._qtgui_time_sink_x_0_0_1_1_0_0_0_win)
         self.qtgui_time_sink_x_0_0_1_1_0_0 = qtgui.time_sink_c(
         	200000, #size
         	samp_rate, #samp_rate
-        	"Tx Signal", #name
+        	'Tx Signal', #name
         	1 #number of inputs
         )
         self.qtgui_time_sink_x_0_0_1_1_0_0.set_update_time(0.10)
         self.qtgui_time_sink_x_0_0_1_1_0_0.set_y_axis(-1, 1)
-        
-        self.qtgui_time_sink_x_0_0_1_1_0_0.set_y_label("Amplitude", "")
-        
+
+        self.qtgui_time_sink_x_0_0_1_1_0_0.set_y_label('Amplitude', "")
+
         self.qtgui_time_sink_x_0_0_1_1_0_0.enable_tags(-1, True)
         self.qtgui_time_sink_x_0_0_1_1_0_0.set_trigger_mode(qtgui.TRIG_MODE_FREE, qtgui.TRIG_SLOPE_POS, 0.0, 0, 0, "")
         self.qtgui_time_sink_x_0_0_1_1_0_0.enable_autoscale(True)
         self.qtgui_time_sink_x_0_0_1_1_0_0.enable_grid(False)
+        self.qtgui_time_sink_x_0_0_1_1_0_0.enable_axis_labels(True)
         self.qtgui_time_sink_x_0_0_1_1_0_0.enable_control_panel(False)
-        
+        self.qtgui_time_sink_x_0_0_1_1_0_0.enable_stem_plot(False)
+
         if not True:
           self.qtgui_time_sink_x_0_0_1_1_0_0.disable_legend()
-        
-        labels = ["IQ", "Corr Output", "", "", "",
-                  "", "", "", "", ""]
+
+        labels = ['IQ', 'Corr Output', '', '', '',
+                  '', '', '', '', '']
         widths = [1, 1, 1, 1, 1,
                   1, 1, 1, 1, 1]
         colors = ["blue", "red", "green", "black", "cyan",
@@ -158,8 +151,8 @@ class top_block(gr.top_block, Qt.QWidget):
                    -1, -1, -1, -1, -1]
         alphas = [1.0, 1.0, 1.0, 1.0, 1.0,
                   1.0, 1.0, 1.0, 1.0, 1.0]
-        
-        for i in xrange(2*1):
+
+        for i in xrange(2):
             if len(labels[i]) == 0:
                 if(i % 2 == 0):
                     self.qtgui_time_sink_x_0_0_1_1_0_0.set_line_label(i, "Re{{Data {0}}}".format(i/2))
@@ -172,33 +165,35 @@ class top_block(gr.top_block, Qt.QWidget):
             self.qtgui_time_sink_x_0_0_1_1_0_0.set_line_style(i, styles[i])
             self.qtgui_time_sink_x_0_0_1_1_0_0.set_line_marker(i, markers[i])
             self.qtgui_time_sink_x_0_0_1_1_0_0.set_line_alpha(i, alphas[i])
-        
+
         self._qtgui_time_sink_x_0_0_1_1_0_0_win = sip.wrapinstance(self.qtgui_time_sink_x_0_0_1_1_0_0.pyqwidget(), Qt.QWidget)
-        self.top_layout.addWidget(self._qtgui_time_sink_x_0_0_1_1_0_0_win)
+        self.top_grid_layout.addWidget(self._qtgui_time_sink_x_0_0_1_1_0_0_win)
         self.qtgui_freq_sink_x_0_0_0_0 = qtgui.freq_sink_c(
         	256*8, #size
         	firdes.WIN_BLACKMAN_hARRIS, #wintype
         	900e6, #fc
         	samp_rate, #bw
-        	"Tx Signal", #name
+        	'Tx Signal', #name
         	1 #number of inputs
         )
         self.qtgui_freq_sink_x_0_0_0_0.set_update_time(0.10)
         self.qtgui_freq_sink_x_0_0_0_0.set_y_axis(-140, 10)
+        self.qtgui_freq_sink_x_0_0_0_0.set_y_label('Relative Gain', 'dB')
         self.qtgui_freq_sink_x_0_0_0_0.set_trigger_mode(qtgui.TRIG_MODE_FREE, 0.0, 0, "")
         self.qtgui_freq_sink_x_0_0_0_0.enable_autoscale(False)
         self.qtgui_freq_sink_x_0_0_0_0.enable_grid(False)
         self.qtgui_freq_sink_x_0_0_0_0.set_fft_average(1.0)
+        self.qtgui_freq_sink_x_0_0_0_0.enable_axis_labels(True)
         self.qtgui_freq_sink_x_0_0_0_0.enable_control_panel(False)
-        
+
         if not True:
           self.qtgui_freq_sink_x_0_0_0_0.disable_legend()
-        
+
         if "complex" == "float" or "complex" == "msg_float":
           self.qtgui_freq_sink_x_0_0_0_0.set_plot_pos_half(not True)
-        
-        labels = ["", "", "", "", "",
-                  "", "", "", "", ""]
+
+        labels = ['', '', '', '', '',
+                  '', '', '', '', '']
         widths = [1, 1, 1, 1, 1,
                   1, 1, 1, 1, 1]
         colors = ["blue", "red", "green", "black", "cyan",
@@ -213,30 +208,41 @@ class top_block(gr.top_block, Qt.QWidget):
             self.qtgui_freq_sink_x_0_0_0_0.set_line_width(i, widths[i])
             self.qtgui_freq_sink_x_0_0_0_0.set_line_color(i, colors[i])
             self.qtgui_freq_sink_x_0_0_0_0.set_line_alpha(i, alphas[i])
-        
+
         self._qtgui_freq_sink_x_0_0_0_0_win = sip.wrapinstance(self.qtgui_freq_sink_x_0_0_0_0.pyqwidget(), Qt.QWidget)
-        self.top_layout.addWidget(self._qtgui_freq_sink_x_0_0_0_0_win)
-        self.blocks_message_debug_0 = blocks.message_debug()
+        self.top_grid_layout.addWidget(self._qtgui_freq_sink_x_0_0_0_0_win)
+        self.blocks_throttle_0 = blocks.throttle(gr.sizeof_gr_complex*1, samp_rate,True)
+        self.blocks_stream_mux_1 = blocks.stream_mux(gr.sizeof_gr_complex*1, (trainingSignal_size, 400 , 256* 64 , 100))
+        self.blocks_repeat_0_1 = blocks.repeat(gr.sizeof_gr_complex*1, 100)
+        self.blocks_repeat_0_0 = blocks.repeat(gr.sizeof_gr_complex*1, 256*64)
+        self.blocks_repeat_0 = blocks.repeat(gr.sizeof_gr_complex*1, 400)
         self.blocks_complex_to_mag_0 = blocks.complex_to_mag(1)
-        self.beamforming_feedback_calculation_py_0 = beamforming.feedback_calculation_py(trainingSignal_size, trainingSignal_size + 400 + 256* 64 + 100, 1, data_files_path + "/trainingSig")
-        self.beamforming_correlate_and_tag_py_0 = beamforming.correlate_and_tag_py(trainingSignal_size, trainingSignal_size + 400 + 256* 64 + 100, 2, data_files_path + "/trainingSig", "fft")
+        self.beamforming_matlab_file_payload_py_0 = beamforming.matlab_file_payload_py(data_files_path + "/trainingSig1")
+        self.beamforming_correlate_and_tag_py_0 = beamforming.correlate_and_tag_py(trainingSignal_size, trainingSignal_size + 400 + 256* 64 + 100, 2, data_files_path + "/trainingSig", "")
+
+
 
         ##################################################
         # Connections
         ##################################################
-        self.msg_connect((self.beamforming_feedback_calculation_py_0, 'out'), (self.blocks_message_debug_0, 'print_pdu'))    
-        self.connect((self.beamforming_correlate_and_tag_py_0, 0), (self.beamforming_feedback_calculation_py_0, 0))    
-        self.connect((self.beamforming_correlate_and_tag_py_0, 1), (self.blocks_complex_to_mag_0, 0))    
-        self.connect((self.beamforming_correlate_and_tag_py_0, 0), (self.qtgui_freq_sink_x_0_0_0_0, 0))    
-        self.connect((self.beamforming_correlate_and_tag_py_0, 0), (self.qtgui_time_sink_x_0_0_1_1_0_0, 0))    
-        self.connect((self.blocks_complex_to_mag_0, 0), (self.qtgui_time_sink_x_0_0_1_1_0_0_0, 0))    
-        self.connect((self.uhd_usrp_source_0, 0), (self.beamforming_correlate_and_tag_py_0, 0))    
+        self.connect((self.beamforming_correlate_and_tag_py_0, 1), (self.blocks_complex_to_mag_0, 0))
+        self.connect((self.beamforming_correlate_and_tag_py_0, 0), (self.blocks_throttle_0, 0))
+        self.connect((self.beamforming_matlab_file_payload_py_0, 0), (self.blocks_stream_mux_1, 0))
+        self.connect((self.blocks_complex_to_mag_0, 0), (self.qtgui_time_sink_x_0_0_1_1_0_0_0, 0))
+        self.connect((self.blocks_repeat_0, 0), (self.blocks_stream_mux_1, 1))
+        self.connect((self.blocks_repeat_0_0, 0), (self.blocks_stream_mux_1, 2))
+        self.connect((self.blocks_repeat_0_1, 0), (self.blocks_stream_mux_1, 3))
+        self.connect((self.blocks_stream_mux_1, 0), (self.beamforming_correlate_and_tag_py_0, 0))
+        self.connect((self.blocks_throttle_0, 0), (self.qtgui_freq_sink_x_0_0_0_0, 0))
+        self.connect((self.blocks_throttle_0, 0), (self.qtgui_time_sink_x_0_0_1_1_0_0, 0))
+        self.connect((self.zero_padding_0_0_0, 0), (self.blocks_repeat_0, 0))
+        self.connect((self.zero_padding_0_0_0, 0), (self.blocks_repeat_0_0, 0))
+        self.connect((self.zero_padding_0_0_0, 0), (self.blocks_repeat_0_1, 0))
 
     def closeEvent(self, event):
         self.settings = Qt.QSettings("GNU Radio", "top_block")
         self.settings.setValue("geometry", self.saveGeometry())
         event.accept()
-
 
     def get_trainingSignal_size(self):
         return self.trainingSignal_size
@@ -249,10 +255,10 @@ class top_block(gr.top_block, Qt.QWidget):
 
     def set_samp_rate(self, samp_rate):
         self.samp_rate = samp_rate
-        self.qtgui_freq_sink_x_0_0_0_0.set_frequency_range(900e6, self.samp_rate)
-        self.qtgui_time_sink_x_0_0_1_1_0_0.set_samp_rate(self.samp_rate)
         self.qtgui_time_sink_x_0_0_1_1_0_0_0.set_samp_rate(self.samp_rate)
-        self.uhd_usrp_source_0.set_samp_rate(self.samp_rate)
+        self.qtgui_time_sink_x_0_0_1_1_0_0.set_samp_rate(self.samp_rate)
+        self.qtgui_freq_sink_x_0_0_0_0.set_frequency_range(900e6, self.samp_rate)
+        self.blocks_throttle_0.set_sample_rate(self.samp_rate)
 
     def get_data_files_path(self):
         return self.data_files_path

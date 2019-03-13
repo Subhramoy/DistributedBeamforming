@@ -233,18 +233,20 @@ class correlate_and_tag_py(gr.sync_block):
                     )           )
                     """
 
+                    self.debug = True
+
                     ## Channel state
                     # @todo assign value to channel_state[tx_index]
                     # @todo if it is zero make it one
-                    print numpy.nanmean(   numpy.divide(
+                    channel_state[tx_index] = numpy.nanmean(   numpy.divide(
                         self.correlation_window[s_index_of_gold_seq:e_index_of_gold_seq],
                         self.gold_sequences[tx_index]
                     )           )
-
+                    self.log.debug("Tx: {} CSI: {}".format(tx_index+1, channel_state[tx_index] ))
 
                 else:
                     found_flags[tx_index] = 0
-                    print "Could not correlate training signal {}".format(tx_index+1)
+                    self.log.debug("Could not correlate training signal {}".format(tx_index+1))
 
                 # Create the TAGS
                 key_flow = pmt.intern("training_Sig_{}".format(tx_index+1))
@@ -268,14 +270,14 @@ class correlate_and_tag_py(gr.sync_block):
                                   , key_xcor, value_xcor)
 
 
-            max_index = numpy.argmax(corr_indices)
+            max_index = numpy.max(corr_indices)
 
             # Calculate the individual delay values
             for tx_index in range(self.num_active_Tx):
                 if found_flags[tx_index] == 1:
-                    ## @todo instead of 0,
-                    # delays[tx_index] = max_index - corr_indices[tx_index]
-                    delays[tx_index] = 0
+                    delays[tx_index] = max_index - corr_indices[tx_index]
+                    self.log.debug("Tx: {} Delay: {}".format(tx_index+1,  delays[tx_index]))
+                    #delays[tx_index] = 0
 
             channel_estimations = []
             # Fill out feedback dictionary
@@ -287,12 +289,13 @@ class correlate_and_tag_py(gr.sync_block):
                         "imaginary": float(numpy.imag(channel_state[tx_index])),
                         "delay": delays[tx_index]
                     }
-                )            
-            
-            print channel_estimations
-            print type(channel_estimations)
+                )
+
+            self.log.debug(str(channel_estimations))
             serialized = json.dumps(channel_estimations, indent=4)
             self.sock.sendto(serialized, self.multicast_group)
+
+            self.debug = False
 
             # Push one frame
             push_size = push_index + self.frame_length - self.gold_seq_length/2
