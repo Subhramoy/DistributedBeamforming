@@ -17,9 +17,12 @@
 # along with this software; see the file COPYING.  If not, write to
 # the Free Software Foundation, Inc., 51 Franklin Street,
 # Boston, MA 02110-1301, USA.
-# 
+#
 
+import socket
+import struct
 import logging
+import json
 import numpy, os
 try:
     from scipy import signal
@@ -55,8 +58,7 @@ class correlate_and_tag_py(gr.sync_block):
 
         self.gold_seq_length = seq_len
         self.frame_length = frame_len
-
-	self.num_active_Tx = num_Tx
+        self.num_active_Tx = num_Tx
 
         """Logger init"""
         ##  @todo gr-logger is not working as expected, update in CMAKE files might be required.
@@ -66,12 +68,32 @@ class correlate_and_tag_py(gr.sync_block):
 
         self.debug = False
 
+        """Set UDP SERVER"""
+        self.multicast_group = ('224.3.29.71', 10000)
+        #self.server_address = ('', 10000)
+
+        # Create the socket
+        self.sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+
+        # Bind to the server address
+        # sock.bind(server_address)
+
+        # Tell the operating system to add the socket to the multicast group
+        # on all interfaces.
+        try:
+
+            group = socket.inet_aton('224.3.29.71')
+            mreq = struct.pack('4sL', group, socket.INADDR_ANY)
+            self.sock.setsockopt(socket.IPPROTO_IP, socket.IP_ADD_MEMBERSHIP, mreq)
+        except Exception as e:
+            logging.exception("Cannot init multicast UDP socket: {}".format(e))
+
 
         """Get Gold Sequences"""
         self.log.info("Receiver is initiated for {} active transmitters.".format(num_Tx))
         self.gold_sequences = numpy.empty((num_Tx, self.gold_seq_length),
                                           numpy.complex64)
-        print self.gold_sequences
+        # print self.gold_sequences
 
 
         for tx_index in range(num_Tx):
@@ -155,8 +177,19 @@ class correlate_and_tag_py(gr.sync_block):
 
 
 
-            ## @todo a loop should be implemented for all active transmitters
+            ## Variables which construct feedback
+            channel_state = numpy.ones(self.num_active_Tx, dtype=numpy.complex64)
+            delays = numpy.zeros(self.num_active_Tx, dtype=numpy.int)
+            corr_indices = numpy.zeros(self.num_active_Tx, dtype=numpy.int)
+            found_flags = numpy.zeros(self.num_active_Tx, dtype=numpy.int)
+
+            # index to push samples to output buffer,
+            # not related with the feedback
             push_index = 0
+
+            ## a loop implemented for all active transmitters
+            # run cross correlation to detect peaks and
+            # calculate CSI
             for tx_index in range(self.num_active_Tx):
                 print(tx_index)
                 s_time = time.time()
@@ -164,7 +197,7 @@ class correlate_and_tag_py(gr.sync_block):
                 e_time = time.time()
 
                 self.log.info("Xcorr calculation time: {} seconds".format(e_time - s_time))
-		print ("Xcorr calculation time: {} seconds".format(e_time - s_time))
+                print ("Xcorr calculation time: {} seconds".format(e_time - s_time))
                 if self.debug:
                     self.log.debug( "XCOR output type: {} \t size: {}".format(
                                         type(x_cor_result),
@@ -182,6 +215,38 @@ class correlate_and_tag_py(gr.sync_block):
                 if peak_indices[0] > push_index:
                     push_index = peak_indices[0]
 
+                # Calculate CSI
+                s_index_of_gold_seq = peak_indices[0] - self.gold_seq_length/2
+                e_index_of_gold_seq = s_index_of_gold_seq +  self.gold_seq_length
+
+                if s_index_of_gold_seq >= 0 and e_index_of_gold_seq <= len(self.correlation_window):
+                    corr_indices[tx_index] = s_index_of_gold_seq
+                    found_flags[tx_index] = 1
+                    print ("Training Signal starts :{} ends {}".format(s_index_of_gold_seq, e_index_of_gold_seq ))
+                    """print    numpy.divide(
+                            self.correlation_window[s_index_of_gold_seq:e_index_of_gold_seq],
+                            self.gold_sequences[tx_index], out=numpy.zeros_like(self.correlation_window[s_index_of_gold_seq:e_index_of_gold_seq]), where=self.gold_sequences[tx_index]!=0
+                        )
+                    print numpy.mean(   numpy.divide(
+                        self.correlation_window[s_index_of_gold_seq:e_index_of_gold_seq],
+                        self.gold_sequences[tx_index], out=numpy.zeros_like(self.correlation_window[s_index_of_gold_seq:e_index_of_gold_seq]), where=self.gold_sequences[tx_index]!=0
+                    )           )
+                    """
+
+                    ## Channel state
+                    # @todo assign value to channel_state[tx_index]
+                    # @todo if it is zero make it one
+                    print numpy.nanmean(   numpy.divide(
+                        self.correlation_window[s_index_of_gold_seq:e_index_of_gold_seq],
+                        self.gold_sequences[tx_index]
+                    )           )
+
+
+                else:
+                    found_flags[tx_index] = 0
+                    print "Could not correlate training signal {}".format(tx_index+1)
+
+                # Create the TAGS
                 key_flow = pmt.intern("training_Sig_{}".format(tx_index+1))
                 value_flow = pmt.intern(str(self.gold_seq_length))
                 # srcid = pmt.intern("sourceID")
@@ -189,6 +254,7 @@ class correlate_and_tag_py(gr.sync_block):
                 key_xcor = pmt.intern("training_Sig_{}".format(tx_index+1))
                 value_xcor  = pmt.intern(str(peak_indices[0]))
 
+                # attach TAGS to the output streams
                 self.add_item_tag(0,
                                   output_head
                                   + self.output.qsize() # Items waiting in output queue
@@ -201,6 +267,40 @@ class correlate_and_tag_py(gr.sync_block):
                                   + peak_indices[0]
                                   , key_xcor, value_xcor)
 
+
+            max_index = numpy.argmax(corr_indices)
+
+            # Calculate the individual delay values
+            for tx_index in range(self.num_active_Tx):
+                if found_flags[tx_index] == 1:
+                    ## @todo instead of 0,
+                    # delays[tx_index] = max_index - corr_indices[tx_index]
+                    delays[tx_index] = 0
+
+            channel_estimations = []
+            # Fill out feedback dictionary
+            for tx_index in range(self.num_active_Tx):
+                channel_estimations.append(
+                    {
+                        "Tx_ID": tx_index+1,
+                        "real": numpy.real(channel_state[tx_index]),
+                        "imaginary": numpy.imag(channel_state[tx_index]),
+                        "delay": delays[tx_index]
+                    }
+                )
+
+            channel_estimations.append(
+                {
+                    "Tx_ID": tx_index+1,
+                    "real": numpy.real(channel_state[tx_index]),
+                    "imaginary": numpy.imag(channel_state[tx_index]),
+                    "delay": delays[tx_index]
+                }
+            )
+
+            print channel_estimations
+            serialized = json.dumps(str(channel_estimations), indent=4)
+            self.sock.sendto(serialized, self.multicast_group)
 
             # Push one frame
             push_size = push_index + self.frame_length - self.gold_seq_length/2
@@ -274,7 +374,7 @@ class correlate_and_tag_py(gr.sync_block):
     #
     def get_peaks(self, correlation_output):
 
-        self.debug = True
+        self.debug = False
         expected_distance = 100 # If the dist is greater than this, interpret as another cluster
 
         filtered_candidates = []
