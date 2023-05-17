@@ -1,6 +1,6 @@
 Beamforming Transmitter: 
-Execute the below script to run the transmitter on a host PC connected to SDR
-beamforming_code/beamforming_transmitter/gr-beamformer/examples/TX2/data_beamforming_tx2_subhro_padding_ID2.py
+Execute the below script to run the transmitter on a host PC connected to SDR:
+examples/TX2/data_beamforming_tx2_subhro_padding_ID2.py
 
 Important lines to update/edit:
 
