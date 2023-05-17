@@ -1,11 +1,50 @@
-This is the beamforming-write-a-block package meant as a guide to building
-out-of-tree packages. To use the beamforming blocks, the Python namespaces
-is in 'beamforming', which is imported as:
+Beamforming Transmitter: 
+Execute the below script to run the transmitter on a host PC connected to SDR
+beamforming_code/beamforming_transmitter/gr-beamformer/examples/TX2/data_beamforming_tx2_subhro_padding_ID2.py
 
-    import beamforming
+Important lines to update/edit:
 
-See the Doxygen documentation for details about the blocks available
-in this package. A quick listing of the details can be found in Python
-after importing by using:
+Line #38-39:
+        self.tx_id_1 = tx_id_1 = 2
+        self.tx_id_0 = tx_id_0 = 1
 
-    help(beamforming)
+Setting IDs for transmitter radios. Add more in sequential numbers in the same pattern if you have more than 2 transmitter radios. This code currently supports up to 4 transmitter radios.
+
+Line #54:
+        	",".join(("serial=316E275", "")),
+
+Assign the correct serial number of the usrp radio connected to the host machine running this code
+execute <uhd_find_devices> in terminal to get the correct serial numbering
+
+Line #60-61:
+        self.uhd_usrp_sink_0.set_clock_source('external', 0)
+        self.uhd_usrp_sink_0.set_time_source('external', 0)
+
+Make sure the clock and time source are set to external in order for the SDRs to get 10MHz and PPS reference from Octoclock or RFClock
+
+Line #64:
+        self.uhd_usrp_sink_0.set_center_freq(uhd.tune_request(925e6, -1e6), 0)
+
+change transmit frequency here. Currently set to 925MHz. Users can use any frequency of their choosing, within the range of the SDR.
+
+Line #101:
+        self.beamforming_matlab_file_payload_py_0_0 = beamforming.matlab_file_payload_py('/home/nvidia/workarea-gnuradio/gnuradio/gr-beamforming/examples/data/trainingSig2')
+
+→ Change the directory where you have kept the gr-beamforming folder (Here it is /home/nvidia/workarea-gnuradio/)
+
+→ Change the name of  trainingSig2 to  trainingSig1/trainingSig3/trainingSig4 based on the ID of your transmitter SDR connected to the host PC
+
+Line #109:
+	If transmitter ID  = 1, then this should be  tx_id_0
+	If transmitter ID  = 2, then this should be  tx_id_1
+	If transmitter ID  = 3, then this should be  tx_id_2
+	If transmitter ID  = 4, then this should be  tx_id_3
+
+Line #174:
+	response = client.request('192.168.1.98')
+
+We use a local NTP server on a ubuntu PC. 
+The transmitters and receivers run the NTP client code (line #170-195) for time alignment of the transmitted symbols. 
+Here in line #174 the address of the local NTP server is given. Update it with the correct one. 
+Also, make sure that the host PCs are properly set up for NTP client-server communication. 
+Run <sudo ufw allow 123> in terminal for any firewall issue.
