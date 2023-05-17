@@ -51,7 +51,7 @@ class data_beamforming_tx2(gr.top_block):
         self.zero_padding_0_0_0 = analog.sig_source_c(0, analog.GR_CONST_WAVE, 0, 0, 0)
         self.zero_padding = analog.sig_source_c(0, analog.GR_CONST_WAVE, 0, 0, 0)
         self.uhd_usrp_sink_0 = uhd.usrp_sink(
-        	",".join(("serial=30BC5C4", "")),
+        	",".join(("serial=30BC5F6", "")),
         	uhd.stream_args(
         		cpu_format="fc32",
         		channels=range(1),
@@ -101,12 +101,12 @@ class data_beamforming_tx2(gr.top_block):
         self.beamforming_matlab_file_payload_py_0 = beamforming.matlab_file_payload_py('/home/nvidia/workarea-gnuradio/gnuradio/gr-beamforming/examples/data/trainingSig1')
         self.beamforming_dynamic_padder_py_0 = beamforming.dynamic_padder_py(0, 0)
         self.beamforming_CSI_feedback_adapter_py_0 = beamforming.CSI_feedback_adapter_py(
-              1,
+              2,
               '/home/subhramoy/Documents/test_BF/',
               numTxAntennas,
               '224.3.29.71',
               10000,
-              tx_id_0)
+              tx_id_1)
 
 
 
