@@ -48,3 +48,36 @@ The transmitters and receivers run the NTP client code (line #170-195) for time 
 Here in line #174 the address of the local NTP server is given. Update it with the correct one. 
 Also, make sure that the host PCs are properly set up for NTP client-server communication. 
 Run <sudo ufw allow 123> in terminal for any firewall issue.
+
+Also, check out my Distributed beamforming Receiver repository for setting up the receiver for this beamforming experiment:
+https://github.com/Subhramoy/DistributedBeamforming-Receiver
+
+
+# Paper
+If you use this code in your research, please cite our AirBeam and SABRE papers:
+
+```
+@INPROCEEDINGS{9077393,
+  author={Mohanti, Subhramoy and Bocanegra, Carlos and Meyer, Jason and Secinti, Gokhan and Diddi, Mithun and Singh, Hanumant and Chowdhury, Kaushik},
+  booktitle={2019 IEEE 16th International Conference on Mobile Ad Hoc and Sensor Systems (MASS)}, 
+  title={AirBeam: Experimental Demonstration of Distributed Beamforming by a Swarm of UAVs}, 
+  year={2019},
+  volume={},
+  number={},
+  pages={162-170},
+  keywords={Unmanned Aerial Vehicle;Distributed beamforming;Software Defined Radio;FPGA},
+  doi={10.1109/MASS.2019.00028}}
+```
+
+```
+@ARTICLE{9738441,
+  author={Mohanti, Subhramoy and Bocanegra, Carlos and Sanchez, Sara Garcia and Alemdar, Kubra and Chowdhury, Kaushik Roy},
+  journal={IEEE Transactions on Wireless Communications}, 
+  title={SABRE: Swarm-Based Aerial Beamforming Radios: Experimentation and Emulation}, 
+  year={2022},
+  volume={21},
+  number={9},
+  pages={7460-7475},
+  keywords={Array signal processing;Receivers;Autonomous aerial vehicles;Synchronization;Channel estimation;Signal to noise ratio;Radio transmitters;Unamanned aerial vehicle;distributed aerial beamforming;coordinated beamforming;resource allocation;IEEE 80211be;WiFi 7;5G;multi-transmitter coordination},
+  doi={10.1109/TWC.2022.3158866}}
+```
