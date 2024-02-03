@@ -1,6 +1,0 @@
-<testsuite errors="0" failures="0" name="unittest.suite.TestSuite" tests="2" time="5.235">
-  <testcase classname="__main__.qa_payloadSource" name="test_001_t" time="0.0003"></testcase>
-  <testcase classname="__main__.qa_payloadSource" name="test_002_t" time="5.2344"></testcase>
-  <system-out><![CDATA[]]></system-out>
-  <system-err><![CDATA[]]></system-err>
-</testsuite>
